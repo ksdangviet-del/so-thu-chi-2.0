@@ -32,7 +32,7 @@
       overflow-x: hidden;
       font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #F8FAFC;
-      color: #0F172A;
+      color: #1E293B;
     }
     .safe-top {
       padding-top: calc(var(--sat) + 10px);
@@ -49,15 +49,15 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 select-none">
+<body class="bg-slate-50 text-slate-800 select-none">
   <div id="app-shell" class="min-h-[100dvh] max-w-[480px] mx-auto bg-slate-50 flex flex-col relative pb-28">
-    <!-- HEADER CAM CHUẨN NGÂN HÀNG SỐ -->
-    <header class="bg-gradient-to-br from-orange-600 via-orange-600 to-amber-500 text-white safe-top px-4 pb-3.5 rounded-b-[28px] shadow-md sticky top-0 z-30">
+    <!-- HEADER CAM CHUẨN NGÂN HÀNG SỐ (KHÔI PHỤC PHONG CÁCH v1.52 - v1.65) -->
+    <header class="bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 text-white safe-top px-4 pb-3.5 rounded-b-[28px] shadow-md sticky top-0 z-30">
       <div class="flex items-center justify-between gap-2">
         <div class="min-w-0 flex-1">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-xl bg-white/15 border border-white/25 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
                 <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
               </svg>
@@ -71,18 +71,18 @@
         </div>
 
         <div class="flex items-center gap-1.5 shrink-0">
-          <button type="button" id="btn-version-badge" onclick="openVersionModal()" class="px-2.5 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/25 text-[11px] font-semibold tracking-tight transition">
-            v1.71
+          <button type="button" id="btn-version-badge" onclick="openVersionModal()" class="px-2.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[11px] font-semibold tracking-tight transition">
+            v1.72
           </button>
-          <button type="button" onclick="openGmailModal()" class="px-2.5 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/25 text-[11px] font-semibold flex items-center gap-1 transition">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" onclick="openGmailModal()" class="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[11px] font-semibold flex items-center gap-1 transition">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
               <rect width="20" height="16" x="2" y="4" rx="2" />
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
             </svg>
             <span>Gmail</span>
           </button>
-          <button type="button" onclick="openSyncModal()" class="px-2.5 py-1.5 rounded-xl bg-white text-orange-700 hover:bg-orange-50 text-[11px] font-semibold flex items-center gap-1 shadow-sm transition">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" onclick="openSyncModal()" class="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[11px] font-semibold flex items-center gap-1 transition">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
               <path d="M3 3v5h5" />
               <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
@@ -94,17 +94,17 @@
       </div>
 
       <!-- THANH CHỌN KỲ THỜI GIAN -->
-      <div class="mt-3 bg-black/15 p-1 rounded-2xl flex items-center justify-between gap-1">
+      <div class="mt-3 bg-black/15 p-1 rounded-full flex items-center justify-between gap-1">
         <div class="flex items-center gap-1">
-          <button type="button" data-period="day" onclick="setPeriodMode('day')" class="period-btn px-2.5 py-1 rounded-xl text-[11px] font-medium text-orange-100">Ngày</button>
-          <button type="button" data-period="month" onclick="setPeriodMode('month')" class="period-btn px-2.5 py-1 rounded-xl text-[11px] font-semibold bg-white text-orange-700 shadow-sm">Tháng</button>
-          <button type="button" data-period="year" onclick="setPeriodMode('year')" class="period-btn px-2.5 py-1 rounded-xl text-[11px] font-medium text-orange-100">Năm</button>
-          <button type="button" data-period="all" onclick="setPeriodMode('all')" class="period-btn px-2.5 py-1 rounded-xl text-[11px] font-medium text-orange-100">Tất cả</button>
+          <button type="button" data-period="day" onclick="setPeriodMode('day')" class="period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100">Ngày</button>
+          <button type="button" data-period="month" onclick="setPeriodMode('month')" class="period-btn px-3 py-1 rounded-full text-[11px] font-semibold bg-white text-orange-700 shadow-sm">Tháng</button>
+          <button type="button" data-period="year" onclick="setPeriodMode('year')" class="period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100">Năm</button>
+          <button type="button" data-period="all" onclick="setPeriodMode('all')" class="period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100">Tất cả</button>
         </div>
-        <div class="flex items-center gap-1 pr-1">
-          <button type="button" onclick="shiftPeriod(-1)" class="w-6 h-6 rounded-lg bg-white/15 hover:bg-white/25 flex items-center justify-center text-xs font-bold">◀</button>
-          <span id="period-label" class="text-[11px] font-semibold min-w-[68px] text-center">T11/2026</span>
-          <button type="button" onclick="shiftPeriod(1)" class="w-6 h-6 rounded-lg bg-white/15 hover:bg-white/25 flex items-center justify-center text-xs font-bold">▶</button>
+        <div class="flex items-center gap-1 pr-1.5">
+          <button type="button" onclick="shiftPeriod(-1)" class="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-[10px] font-bold">◀</button>
+          <span id="period-label" class="text-[11px] font-semibold min-w-[66px] text-center">T11/2026</span>
+          <button type="button" onclick="shiftPeriod(1)" class="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-[10px] font-bold">▶</button>
         </div>
       </div>
     </header>
@@ -118,8 +118,8 @@
       <section class="space-y-2.5">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-sm">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <span class="w-6 h-6 rounded-lg bg-white border border-slate-200/90 flex items-center justify-center text-slate-700 shadow-sm">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
                 <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
                 <path d="M12 17.5v-11" />
@@ -128,7 +128,7 @@
             <h2 class="text-[14px] font-bold text-slate-800">Lịch sử giao dịch</h2>
             <span id="tx-count-badge" class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[11px] font-semibold">0</span>
           </div>
-          <button type="button" onclick="openAnalyticsModal()" class="px-3 py-1.5 rounded-xl bg-white hover:bg-orange-50 border border-slate-200 text-slate-800 text-[11px] font-semibold flex items-center gap-1.5 shadow-sm transition">
+          <button type="button" onclick="openAnalyticsModal()" class="px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200/90 text-slate-800 text-[11px] font-semibold flex items-center gap-1.5 shadow-sm transition">
             <svg class="w-3.5 h-3.5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" x2="18" y1="20" y2="10" />
               <line x1="12" x2="12" y1="20" y2="4" />
@@ -138,40 +138,40 @@
           </button>
         </div>
 
-        <!-- THANH LỌC 1 HÀNG TRONG THẺ TRẮNG BO TRÒN -->
-        <div class="bg-white rounded-2xl p-2 border border-slate-200/90 shadow-sm flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <button type="button" onclick="resetFilters()" class="shrink-0 px-3 py-1.5 rounded-xl bg-orange-600 text-white text-[11px] font-semibold shadow-sm">Tất cả</button>
+        <!-- THANH LỌC 1 HÀNG DẠNG VIÊN THUỐC TRONG THẺ TRẮNG BO TRÒN -->
+        <div class="bg-white rounded-2xl p-2 border border-slate-200/80 shadow-sm flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <button type="button" onclick="resetFilters()" class="shrink-0 px-3 py-1.5 rounded-full bg-orange-600 text-white text-[11px] font-semibold shadow-sm">Tất cả</button>
           <div class="relative shrink-0">
-            <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.3-4.3" />
             </svg>
-            <input id="filter-search" type="text" oninput="renderTransactionList()" placeholder="Tìm kiếm" class="w-24 rounded-xl border border-slate-200 bg-slate-50 pl-7 pr-2 py-1.5 text-[11px] text-slate-700 focus:outline-none focus:border-orange-500" />
+            <input id="filter-search" type="text" oninput="renderTransactionList()" placeholder="Tìm kiếm" class="w-24 rounded-full border border-slate-200 bg-slate-50 pl-7 pr-2.5 py-1.5 text-[11px] text-slate-700 focus:outline-none focus:border-orange-500" />
           </div>
-          <select id="filter-type" onchange="onFilterTypeChange()" class="shrink-0 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-[11px] font-medium text-slate-700">
+          <select id="filter-type" onchange="onFilterTypeChange()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium text-slate-700">
             <option value="all">Loại</option>
             <option value="expense">Chi</option>
             <option value="income">Thu</option>
             <option value="debt">Vay / Nợ</option>
           </select>
-          <select id="filter-major" onchange="onFilterMajorChange()" class="shrink-0 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-[11px] font-medium text-slate-700 max-w-[105px]">
+          <select id="filter-major" onchange="onFilterMajorChange()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium text-slate-700 max-w-[105px]">
             <option value="all">Mục lớn</option>
           </select>
-          <select id="filter-minor" onchange="renderTransactionList()" class="shrink-0 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-[11px] font-medium text-slate-700 max-w-[105px]">
+          <select id="filter-minor" onchange="renderTransactionList()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium text-slate-700 max-w-[105px]">
             <option value="all">Mục nhỏ</option>
           </select>
         </div>
 
         <!-- DANH SÁCH GIAO DỊCH -->
-        <div id="transaction-list" class="space-y-2"></div>
+        <div id="transaction-list" class="space-y-2.5"></div>
       </section>
     </main>
 
     <!-- THANH ĐIỀU HƯỚNG VIÊN THUỐC NỔI DƯỚI ĐÁY -->
     <nav class="fixed bottom-0 left-0 right-0 z-30 pointer-events-none safe-bottom px-4">
-      <div class="max-w-[440px] mx-auto bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_8px_30px_rgba(15,23,42,0.12)] rounded-full px-5 py-2 flex items-center justify-between pointer-events-auto">
-        <button type="button" onclick="openBillModal()" class="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-2xl hover:bg-slate-100 text-slate-700 transition">
-          <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <div class="max-w-[440px] mx-auto bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.10)] rounded-full px-6 py-2 flex items-center justify-between pointer-events-auto">
+        <button type="button" onclick="openBillModal()" class="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-full hover:bg-slate-100 text-slate-700 transition">
+          <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 7V5a2 2 0 0 1 2-2h2" />
             <path d="M17 3h2a2 2 0 0 1 2 2v2" />
             <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
@@ -181,8 +181,8 @@
           <span class="text-[11px] font-semibold">Ảnh Bill</span>
         </button>
 
-        <button type="button" onclick="openVoiceModal()" class="-mt-6 w-14 h-14 rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-lg shadow-orange-600/35 border-4 border-white flex flex-col items-center justify-center active:scale-95 transition">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" onclick="openVoiceModal()" class="-mt-6 w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-600/35 border-4 border-white flex flex-col items-center justify-center active:scale-95 transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
             <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
             <line x1="12" x2="12" y1="19" y2="22" />
@@ -190,8 +190,8 @@
           <span class="text-[9px] font-bold leading-none mt-0.5">Nói AI</span>
         </button>
 
-        <button type="button" onclick="openManualModal()" class="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-2xl hover:bg-slate-100 text-slate-700 transition">
-          <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" onclick="openManualModal()" class="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-full hover:bg-slate-100 text-slate-700 transition">
+          <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
           </svg>
           <span class="text-[11px] font-semibold">Nhập tay</span>
@@ -624,33 +624,39 @@
       label: "CHI BƠ & PU",
       majors: ["Bơ (Việt Anh - 9t)", "Pu (Quỳnh Anh - 2t)"]
     };
-
+    const LATEST_APP_VERSION = "v1.72";
+    let activeAppVersion = LATEST_APP_VERSION;
     let CATEGORY_TREE = JSON.parse(JSON.stringify(DEFAULT_CATEGORY_TREE));
     let spotlightConfig = JSON.parse(JSON.stringify(DEFAULT_SPOTLIGHT_CONFIG));
-    let currentCategoryCustomizerTab = "expense";
-
-    const LATEST_APP_VERSION = "v1.71";
-    let activeAppVersion = LATEST_APP_VERSION;
     let transactions = [];
     let processedGmailIds = {};
     let gmailCandidates = [];
     let currentPeriodMode = "month";
-    let currentPeriodDate = new Date();
+    let currentAnchorDate = new Date();
+    let visibleTxLimit = 80;
     let currentManualType = "expense";
     let currentAnalyticsTab = "overview";
+    let currentCategoryCustomizerTab = "expense";
     let latestJpgDataUrl = "";
+    let voiceParsedItems = [];
     let speechRecognition = null;
     let isRecording = false;
-    let visibleTxLimit = 80;
-    let voiceParsedItems = [];
-
+    let toastTimer = null;
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.72",
+        date: "22/11/2026",
+        title: "Khôi phục trọn vẹn phong cách thiết kế v1.50 – v1.65 (Icon nét mảnh & nút viên thuốc)",
+        changes: [
+          "Khôi phục nút viên thuốc trong mờ trên Header, thanh lọc bo tròn (rounded-full), bộ icon SVG nét mảnh 2 tông màu đồng nhất (loại bỏ emoji) và con số lớn thanh thoát trên 4 thẻ tổng quan."
+        ]
+      },
       {
         version: "v1.71",
         date: "22/11/2026",
-        title: "Khôi phục giao diện chuẩn v1.65, OCR Ảnh Bill & Nói AI đa giao dịch",
+        title: "Khôi phục OCR Ảnh Bill, Nói AI đa giao dịch & nút Khôi phục phiên bản",
         changes: [
-          "Khôi phục khung thẻ trắng bộ lọc Lịch sử giao dịch, icon đầu mục, quét chữ tự động OCR trên Ảnh Bill, tách nhiều giao dịch trong 1 câu Nói AI và nút Khôi phục phiên bản."
+          "Khôi phục quét chữ tự động OCR trên Ảnh Bill, tách nhiều giao dịch trong 1 câu Nói AI và nút Khôi phục phiên bản."
         ]
       },
       {
@@ -694,19 +700,27 @@
         ]
       },
       {
-        version: "v1.63",
-        date: "22/11/2026",
-        title: "Quét Gmail thông minh (ẩn thư cũ đã lưu & chuẩn hóa đơn Shopee)",
-        changes: [
-          "Tự động ẩn email Gmail đã lưu, phân loại đúng đơn Shopee/MoMo là Khoản Chi và thêm nút Bỏ qua."
-        ]
-      },
-      {
         version: "v1.58",
         date: "22/11/2026",
         title: "Đồng bộ gia tăng (Delta Sync) & tự động đẩy ngầm lên Sheets",
         changes: [
           "Tự động thêm, sửa hoặc xóa đúng dòng giao dịch trên Google Sheets trong 0,2 giây mà không xóa trắng bảng."
+        ]
+      },
+      {
+        version: "v1.52",
+        date: "20/11/2026",
+        title: "Thiết kế giao diện chuẩn ngân hàng số (Cam – Trắng & Icon nét mảnh)",
+        changes: [
+          "Áp dụng phông Be Vietnam Pro, hệ thống icon SVG nét mảnh 2 tông màu, thanh điều hướng viên thuốc nổi và Icon Ví Cam – Trắng."
+        ]
+      },
+      {
+        version: "v1.50",
+        date: "20/11/2026",
+        title: "Khung Sổ Thu Chi Gia Đình hoàn chỉnh (Bố, Mẹ, Bơ, Pu & Báo cáo JPG)",
+        changes: [
+          "Thiết lập cấu trúc danh mục chi tiết cho từng thành viên, thống kê tỷ trọng Chi Bơ & Pu, công nợ ròng và xuất ảnh báo cáo JPG."
         ]
       }
     ];
@@ -877,8 +891,13 @@
       return n.toLocaleString("vi-VN") + " ₫";
     }
 
+    function formatVNDStyled(num) {
+      const n = Math.round(Number(num) || 0);
+      return `${n.toLocaleString("vi-VN")} <span class="underline decoration-1 underline-offset-2 text-[13px] font-semibold">₫</span>`;
+    }
+
     function formatCurrencyInput(input) {
-      const digits = (input.value || "").replace(/[^\d]/g, "");
+      const digits = String(input.value || "").replace(/[^\d]/g, "");
       input.value = digits ? Number(digits).toLocaleString("vi-VN") : "";
     }
 
@@ -894,15 +913,13 @@
       return `${y}-${m}-${day}`;
     }
 
-    function formatDisplayDate(iso) {
-      if (!iso) return "";
-      const parts = String(iso).slice(0, 10).split("-");
-      if (parts.length !== 3) return iso;
-      const formatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
-      if (String(iso).slice(0, 10) === todayISO()) {
-        return `Hôm nay • ${formatted}`;
-      }
-      return formatted;
+    function formatDisplayDate(isoStr) {
+      const clean = String(isoStr || "").slice(0, 10);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(clean)) return clean;
+      const [y, m, d] = clean.split("-");
+      const today = todayISO();
+      if (clean === today) return `Hôm nay • ${d}/${m}/${y}`;
+      return `${d}/${m}/${y}`;
     }
 
     function escapeHtml(str) {
@@ -912,45 +929,6 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
-    }
-
-    function updateSyncStatusIndicator(state, text) {
-      const dot = document.getElementById("sync-status-dot");
-      const label = document.getElementById("sync-status-text");
-      if (!dot || !label) return;
-      if (state === "synced") {
-        dot.className = "w-2 h-2 rounded-full bg-emerald-300 shrink-0";
-      } else if (state === "syncing") {
-        dot.className = "w-2 h-2 rounded-full bg-sky-300 animate-pulse shrink-0";
-      } else if (state === "error") {
-        dot.className = "w-2 h-2 rounded-full bg-rose-300 shrink-0";
-      } else {
-        dot.className = "w-2 h-2 rounded-full bg-amber-300 shrink-0";
-      }
-      label.textContent = text;
-    }
-
-    function showToast(msg, isError = false) {
-      const el = document.getElementById("toast");
-      const icon = document.getElementById("toast-icon");
-      const txt = document.getElementById("toast-text");
-      if (!el || !txt) return;
-      txt.textContent = msg;
-      icon.textContent = isError ? "!" : "✓";
-      icon.className = isError ? "text-rose-400 font-bold" : "text-emerald-400 font-bold";
-      el.classList.remove("hidden");
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => el.classList.add("hidden"), 2800);
-    }
-
-    async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
-      try {
-        return await fetch(url, { ...options, signal: controller.signal });
-      } finally {
-        clearTimeout(timer);
-      }
     }
 
     function drawRoundRect(ctx, x, y, w, h, r) {
@@ -964,6 +942,33 @@
       ctx.closePath();
     }
 
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function updateSyncStatusIndicator(state, text) {
+      const dot = document.getElementById("sync-status-dot");
+      const label = document.getElementById("sync-status-text");
+      if (label) label.textContent = text;
+      if (dot) {
+        if (state === "synced") {
+          dot.className = "w-2 h-2 rounded-full bg-emerald-300 shrink-0";
+        } else if (state === "syncing") {
+          dot.className = "w-2 h-2 rounded-full bg-sky-300 animate-pulse shrink-0";
+        } else if (state === "error") {
+          dot.className = "w-2 h-2 rounded-full bg-rose-300 shrink-0";
+        } else {
+          dot.className = "w-2 h-2 rounded-full bg-amber-300 shrink-0";
+        }
+      }
+    }
+
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.remove("hidden");
@@ -974,8 +979,23 @@
       if (el) el.classList.add("hidden");
     }
 
-    function openCustomDialog({ title, messageHtml, confirmText = "Đồng ý", isDanger = false, onConfirm }) {
-      document.getElementById("dialog-title").textContent = title || "Xác nhận";
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("toast");
+      const icon = document.getElementById("toast-icon");
+      const text = document.getElementById("toast-text");
+      if (!toast || !text) return;
+      text.textContent = msg;
+      if (icon) {
+        icon.textContent = isError ? "!" : "✓";
+        icon.className = isError ? "text-rose-400 font-bold" : "text-emerald-400 font-bold";
+      }
+      toast.classList.remove("hidden");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add("hidden"), 2600);
+    }
+
+    function openCustomDialog({ title, messageHtml, confirmText = "Xác nhận", isDanger = false, onConfirm }) {
+      document.getElementById("dialog-title").textContent = title || "Thông báo";
       document.getElementById("dialog-message").innerHTML = messageHtml || "";
       const actions = document.getElementById("dialog-actions");
       actions.innerHTML = "";
@@ -998,7 +1018,6 @@
         if (typeof onConfirm === "function") onConfirm();
       };
       actions.appendChild(okBtn);
-
       openModal("modal-dialog");
     }
 
@@ -1009,8 +1028,8 @@
       document.querySelectorAll(".period-btn").forEach((btn) => {
         const active = btn.dataset.period === mode;
         btn.className = active
-          ? "period-btn px-2.5 py-1 rounded-xl text-[11px] font-semibold bg-white text-orange-700 shadow-sm"
-          : "period-btn px-2.5 py-1 rounded-xl text-[11px] font-medium text-orange-100";
+          ? "period-btn px-3 py-1 rounded-full text-[11px] font-semibold bg-white text-orange-700 shadow-sm"
+          : "period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100";
       });
       updatePeriodLabel();
       refreshDashboard();
@@ -1018,15 +1037,12 @@
 
     function shiftPeriod(delta) {
       if (currentPeriodMode === "all") return;
-      const d = new Date(currentPeriodDate);
-      if (currentPeriodMode === "day") {
-        d.setDate(d.getDate() + delta);
-      } else if (currentPeriodMode === "month") {
-        d.setMonth(d.getMonth() + delta);
-      } else if (currentPeriodMode === "year") {
-        d.setFullYear(d.getFullYear() + delta);
-      }
-      currentPeriodDate = d;
+      const d = new Date(currentAnchorDate);
+      if (currentPeriodMode === "day") d.setDate(d.getDate() + delta);
+      else if (currentPeriodMode === "month") d.setMonth(d.getMonth() + delta);
+      else if (currentPeriodMode === "year") d.setFullYear(d.getFullYear() + delta);
+      currentAnchorDate = d;
+      visibleTxLimit = 80;
       updatePeriodLabel();
       refreshDashboard();
     }
@@ -1034,30 +1050,27 @@
     function updatePeriodLabel() {
       const el = document.getElementById("period-label");
       if (!el) return;
-      const d = currentPeriodDate;
-      if (currentPeriodMode === "day") {
-        el.textContent = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
-      } else if (currentPeriodMode === "month") {
-        el.textContent = `T${d.getMonth() + 1}/${d.getFullYear()}`;
-      } else if (currentPeriodMode === "year") {
-        el.textContent = `Năm ${d.getFullYear()}`;
-      } else {
-        el.textContent = "Tất cả";
-      }
+      const d = currentAnchorDate;
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      if (currentPeriodMode === "day") el.textContent = `${day}/${month}/${year}`;
+      else if (currentPeriodMode === "month") el.textContent = `T${month}/${year}`;
+      else if (currentPeriodMode === "year") el.textContent = `Năm ${year}`;
+      else el.textContent = "Tất cả";
     }
 
     function getTransactionsInCurrentPeriod() {
-      const d = currentPeriodDate;
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
+      const d = currentAnchorDate;
+      const y = String(d.getFullYear());
+      const ym = `${y}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const ymd = `${ym}-${String(d.getDate()).padStart(2, "0")}`;
 
       return transactions.filter((t) => {
-        if (!t || !t.date) return false;
-        const iso = String(t.date).slice(0, 10);
-        if (currentPeriodMode === "day") return iso === `${y}-${m}-${day}`;
-        if (currentPeriodMode === "month") return iso.startsWith(`${y}-${m}`);
-        if (currentPeriodMode === "year") return iso.startsWith(`${y}`);
+        const dt = String(t.date || "").slice(0, 10);
+        if (currentPeriodMode === "day") return dt === ymd;
+        if (currentPeriodMode === "month") return dt.startsWith(ym);
+        if (currentPeriodMode === "year") return dt.startsWith(y);
         return true;
       });
     }
@@ -1078,11 +1091,8 @@
             spotlightExpense += amt;
           }
         } else if (t.type === "debt") {
-          if (t.debtDirection === "borrow") {
-            netDebt -= amt;
-          } else {
-            netDebt += amt;
-          }
+          if (t.debtDirection === "borrow") netDebt -= amt;
+          else netDebt += amt;
         }
       });
 
@@ -1098,42 +1108,57 @@
       const m = computePeriodMetrics(list);
       const debtText = m.netDebt === 0
         ? "Không phát sinh nợ"
-        : `Nợ ròng: ${m.netDebt > 0 ? "+" : "-"}${formatVND(Math.abs(m.netDebt))}`;
+        : `Nợ ròng: <span class="font-semibold ${m.netDebt >= 0 ? "text-emerald-600" : "text-rose-600"}">${m.netDebt > 0 ? "+" : "-"}${formatVND(Math.abs(m.netDebt))}</span>`;
 
       mount.innerHTML = `
-        <div class="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-sm">
+        <div class="bg-white rounded-[22px] p-3.5 border border-slate-200/80 shadow-sm">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">TỔNG THU</span>
-            <span class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs font-bold">↗</span>
+            <span class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </span>
           </div>
-          <p class="text-[16px] font-bold text-emerald-600 mt-1.5 truncate">${formatVND(m.totalIncome)}</p>
+          <p class="text-[17px] font-bold text-emerald-600 mt-1.5 truncate">${formatVNDStyled(m.totalIncome)}</p>
           <p class="text-[10px] text-slate-400 mt-0.5">Tiền vào trong kỳ</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-sm">
+        <div class="bg-white rounded-[22px] p-3.5 border border-slate-200/80 shadow-sm">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">TỔNG CHI</span>
-            <span class="w-6 h-6 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center text-xs font-bold">↘</span>
+            <span class="w-6 h-6 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m7 7 10 10" />
+                <path d="M17 7v10H7" />
+              </svg>
+            </span>
           </div>
-          <p class="text-[16px] font-bold text-rose-600 mt-1.5 truncate">${formatVND(m.totalExpense)}</p>
+          <p class="text-[17px] font-bold text-rose-600 mt-1.5 truncate">${formatVNDStyled(m.totalExpense)}</p>
           <p class="text-[10px] text-slate-400 mt-0.5">Tiền ra trong kỳ</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-sm">
+        <div class="bg-white rounded-[22px] p-3.5 border border-slate-200/80 shadow-sm">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">SỐ DƯ KỲ</span>
-            <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs">💳</span>
+            <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+                <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+              </svg>
+            </span>
           </div>
-          <p class="text-[16px] font-bold text-slate-900 mt-1.5 truncate">${formatVND(m.balance)}</p>
-          <p class="text-[10px] font-medium ${m.netDebt >= 0 ? "text-emerald-600" : "text-rose-600"} mt-0.5 truncate">${debtText}</p>
+          <p class="text-[17px] font-bold text-slate-800 mt-1.5 truncate">${formatVNDStyled(m.balance)}</p>
+          <p class="text-[10px] text-slate-500 mt-0.5 truncate">${debtText}</p>
         </div>
 
-        <div onclick="openCategoryCustomizerModal()" class="bg-white rounded-2xl p-3 border border-orange-200 shadow-sm cursor-pointer active:scale-[0.99] transition">
+        <div onclick="openCategoryCustomizerModal()" class="bg-gradient-to-br from-orange-50/90 to-amber-50/60 rounded-[22px] p-3.5 border border-orange-200/90 shadow-sm cursor-pointer active:scale-[0.99] transition">
           <div class="flex items-center justify-between gap-1">
             <span class="text-[11px] font-semibold text-slate-600 uppercase tracking-wide truncate">${escapeHtml(spotlightConfig.label)}</span>
-            <span class="px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-bold shrink-0">${m.spotlightPct}%</span>
+            <span class="px-2 py-0.5 rounded-full bg-orange-100/90 border border-orange-200 text-orange-700 text-[10px] font-bold shrink-0">${m.spotlightPct}%</span>
           </div>
-          <p class="text-[16px] font-bold text-orange-600 mt-1.5 truncate">${formatVND(m.spotlightExpense)}</p>
+          <p class="text-[17px] font-bold text-orange-600 mt-1.5 truncate">${formatVNDStyled(m.spotlightExpense)}</p>
           <p class="text-[10px] text-slate-400 mt-0.5">Tỷ trọng trên tổng chi</p>
         </div>
       `;
@@ -1143,7 +1168,7 @@
     function onFilterTypeChange() {
       const typeVal = document.getElementById("filter-type").value;
       const majSel = document.getElementById("filter-major");
-      const minSel = document.getElementById("filter-minor");
+      const prevMaj = majSel.value;
 
       let majors = [];
       if (typeVal === "all") {
@@ -1152,36 +1177,39 @@
           ...Object.keys(CATEGORY_TREE.income),
           ...Object.keys(CATEGORY_TREE.debt)
         ];
-      } else if (CATEGORY_TREE[typeVal]) {
-        majors = Object.keys(CATEGORY_TREE[typeVal]);
+      } else {
+        majors = Object.keys(CATEGORY_TREE[typeVal] || {});
       }
 
-      majSel.innerHTML = `<option value="all">Mục lớn</option>` +
-        Array.from(new Set(majors)).map((m) => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
-      minSel.innerHTML = `<option value="all">Mục nhỏ</option>`;
-      renderTransactionList();
+      majSel.innerHTML = `<option value="all">Mục lớn</option>` + majors.map((m) => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+      if (majors.includes(prevMaj)) majSel.value = prevMaj;
+      onFilterMajorChange();
     }
 
     function onFilterMajorChange() {
       const typeVal = document.getElementById("filter-type").value;
       const majVal = document.getElementById("filter-major").value;
       const minSel = document.getElementById("filter-minor");
+      const prevMin = minSel.value;
 
-      let minors = [];
-      if (majVal !== "all") {
-        ["expense", "income", "debt"].forEach((tp) => {
-          if ((typeVal === "all" || typeVal === tp) && CATEGORY_TREE[tp] && CATEGORY_TREE[tp][majVal]) {
-            minors.push(...CATEGORY_TREE[tp][majVal]);
-          }
-        });
-      }
-      minSel.innerHTML = `<option value="all">Mục nhỏ</option>` +
-        Array.from(new Set(minors)).map((mn) => `<option value="${escapeHtml(mn)}">${escapeHtml(mn)}</option>`).join("");
+      const minorSet = new Set();
+      const typesToScan = typeVal === "all" ? ["expense", "income", "debt"] : [typeVal];
+      typesToScan.forEach((tp) => {
+        const tree = CATEGORY_TREE[tp] || {};
+        if (majVal === "all") {
+          Object.values(tree).forEach((arr) => arr.forEach((mn) => minorSet.add(mn)));
+        } else if (tree[majVal]) {
+          tree[majVal].forEach((mn) => minorSet.add(mn));
+        }
+      });
+
+      const minors = Array.from(minorSet);
+      minSel.innerHTML = `<option value="all">Mục nhỏ</option>` + minors.map((mn) => `<option value="${escapeHtml(mn)}">${escapeHtml(mn)}</option>`).join("");
+      if (minors.includes(prevMin)) minSel.value = prevMin;
       renderTransactionList();
     }
 
     function resetFilters() {
-      visibleTxLimit = 80;
       document.getElementById("filter-search").value = "";
       document.getElementById("filter-type").value = "all";
       onFilterTypeChange();
@@ -1189,33 +1217,34 @@
 
     function renderTransactionList() {
       const container = document.getElementById("transaction-list");
-      const badge = document.getElementById("tx-count-badge");
+      const countBadge = document.getElementById("tx-count-badge");
       if (!container) return;
 
-      const kw = (document.getElementById("filter-search").value || "").trim().toLowerCase();
-      const typeF = document.getElementById("filter-type").value;
-      const majF = document.getElementById("filter-major").value;
-      const minF = document.getElementById("filter-minor").value;
+      const keyword = (document.getElementById("filter-search").value || "").trim().toLowerCase();
+      const typeFilter = document.getElementById("filter-type").value;
+      const majorFilter = document.getElementById("filter-major").value;
+      const minorFilter = document.getElementById("filter-minor").value;
 
-      let list = getTransactionsInCurrentPeriod().filter((t) => {
-        if (typeF !== "all" && t.type !== typeF) return false;
-        if (majF !== "all" && t.major !== majF) return false;
-        if (minF !== "all" && t.minor !== minF) return false;
-        if (kw) {
-          const hay = `${t.note || ""} ${t.major || ""} ${t.minor || ""} ${t.person || ""}`.toLowerCase();
-          if (!hay.includes(kw)) return false;
-        }
-        return true;
-      });
+      const list = getTransactionsInCurrentPeriod()
+        .filter((t) => {
+          if (typeFilter !== "all" && t.type !== typeFilter) return false;
+          if (majorFilter !== "all" && t.major !== majorFilter) return false;
+          if (minorFilter !== "all" && t.minor !== minorFilter) return false;
+          if (keyword) {
+            const hay = `${t.note || ""} ${t.major || ""} ${t.minor || ""} ${t.person || ""}`.toLowerCase();
+            if (!hay.includes(keyword)) return false;
+          }
+          return true;
+        })
+        .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 
-      list.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-      if (badge) badge.textContent = String(list.length);
+      if (countBadge) countBadge.textContent = String(list.length);
 
       if (list.length === 0) {
         container.innerHTML = `
-          <div class="bg-white rounded-2xl p-6 border border-slate-200/80 text-center space-y-1">
-            <p class="text-xs font-semibold text-slate-700">Chưa có giao dịch nào trong kỳ này</p>
-            <p class="text-[11px] text-slate-400">Chạm Nói AI, Ảnh Bill hoặc Nhập tay bên dưới để ghi chép.</p>
+          <div class="bg-white rounded-[22px] p-6 border border-slate-200/80 text-center space-y-1">
+            <p class="text-xs font-semibold text-slate-700">Chưa có giao dịch nào trong mục này</p>
+            <p class="text-[11px] text-slate-400">Bấm "Nhập tay", "Nói AI" hoặc "Ảnh Bill" ở thanh dưới để thêm mới.</p>
           </div>
         `;
         return;
@@ -1227,27 +1256,41 @@
         const sign = isInc ? "+" : "-";
         const amtColor = isInc ? "text-emerald-600" : "text-rose-600";
         const pillBg = t.type === "income"
-          ? "bg-emerald-50 text-emerald-700 border-emerald-200/60"
-          : (t.type === "debt" ? "bg-amber-50 text-amber-800 border-amber-200/60" : "bg-orange-50 text-orange-800 border-orange-200/60");
+          ? "bg-emerald-50 text-emerald-700 border-emerald-200/70"
+          : (t.type === "debt" ? "bg-amber-50 text-amber-800 border-amber-200/70" : "bg-orange-50 text-orange-800 border-orange-200/70");
         const personBadge = t.person
-          ? `<span class="px-2 py-0.5 rounded-lg bg-sky-50 text-sky-700 border border-sky-200/60 text-[10px] font-semibold">👤 ${escapeHtml(t.person)}</span>`
+          ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200/70 text-[10px] font-semibold">
+              <svg class="w-3 h-3 text-sky-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span>${escapeHtml(t.person)}</span>
+            </span>`
           : "";
 
         return `
-          <div class="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-sm space-y-1.5">
+          <div class="bg-white rounded-[20px] p-3.5 border border-slate-200/80 shadow-sm space-y-1.5">
             <div class="flex items-start justify-between gap-2">
               <div class="flex flex-wrap items-center gap-1.5 min-w-0">
-                <span class="px-2 py-0.5 rounded-lg border text-[10px] font-semibold ${pillBg}">${escapeHtml(t.major)} • ${escapeHtml(t.minor)}</span>
+                <span class="px-2.5 py-0.5 rounded-full border text-[10px] font-semibold ${pillBg}">${escapeHtml(t.major)} • ${escapeHtml(t.minor)}</span>
                 ${personBadge}
               </div>
-              <span class="text-[13px] font-bold ${amtColor} shrink-0">${sign}${formatVND(t.amount)}</span>
+              <span class="text-[14px] font-bold ${amtColor} shrink-0">${sign}${formatVNDStyled(t.amount)}</span>
             </div>
-            <p class="text-xs font-semibold text-slate-800 break-words">${escapeHtml(t.note || t.minor)}</p>
+            <p class="text-[13px] font-semibold text-slate-800 break-words">${escapeHtml(t.note || t.minor)}</p>
             <div class="flex items-center justify-between pt-0.5">
-              <span class="text-[11px] text-slate-400">📅 ${formatDisplayDate(t.date)}</span>
+              <span class="inline-flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
+                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                  <line x1="16" x2="16" y1="2" y2="6" />
+                  <line x1="8" x2="8" y1="2" y2="6" />
+                  <line x1="3" x2="21" y1="10" y2="10" />
+                </svg>
+                <span>${formatDisplayDate(t.date)}</span>
+              </span>
               <div class="flex items-center gap-1.5">
-                <button type="button" onclick="editTransaction('${escapeHtml(t.id)}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold">Sửa</button>
-                <button type="button" onclick="deleteTransaction('${escapeHtml(t.id)}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold">Xóa</button>
+                <button type="button" onclick="editTransaction('${escapeHtml(t.id)}')" class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold">Sửa</button>
+                <button type="button" onclick="deleteTransaction('${escapeHtml(t.id)}')" class="px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold">Xóa</button>
               </div>
             </div>
           </div>
