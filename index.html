@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.64";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.65";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -180,7 +180,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.64
+            v1.65
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -675,7 +675,7 @@
     let dirtyTxIds = new Set();
     let deletedTxIds = new Set();
     let importedGmailIds = new Set();
-    const LATEST_APP_VERSION = "v1.64";
+    const LATEST_APP_VERSION = "v1.65";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -694,6 +694,15 @@
 
     // Lịch sử phiên bản kèm cấu hình giao diện & chức năng đóng băng nguyên bản của từng mốc
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.65",
+        date: "22/11/2026",
+        title: "Khóa cô lập tính năng đèn hiệu đồng bộ rút gọn theo từng phiên bản (khôi phục v1.63 giữ nguyên bản gốc)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true },
+        changes: [
+          "Gắn cờ tách biệt giao diện trạng thái đồng bộ giữa v1.63 và từ v1.64 trở đi: khi bấm Khôi phục về v1.63, dòng trạng thái đồng bộ quay về nguyên bản gốc mà không bị lẫn cập nhật của bản mới."
+        ]
+      },
       {
         version: "v1.64",
         date: "22/11/2026",
@@ -3255,20 +3264,31 @@
     function updateSyncStatusUI(url, customStatusText = "") {
       const line = document.getElementById("sync-status-line");
       if (!line) return;
+      const cfg = getActiveVersionConfig();
+      const isCompact = Boolean(cfg.features.compactSyncStatusBeacon);
+
       if (!url) {
-        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0"></span><span>Chưa gắn Sheets</span>`;
+        line.innerHTML = isCompact
+          ? `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0"></span><span>Chưa gắn Sheets</span>`
+          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200"></span><span>Chưa gắn link Google Sheets</span>`;
         return;
       }
       if (customStatusText) {
-        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-sky-300 animate-pulse shrink-0"></span><span>${escapeHtml(customStatusText)}</span>`;
+        line.innerHTML = isCompact
+          ? `<span class="inline-block w-2 h-2 rounded-full bg-sky-300 animate-pulse shrink-0"></span><span>${escapeHtml(customStatusText)}</span>`
+          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-200 animate-pulse"></span><span>${escapeHtml(customStatusText)}</span>`;
         return;
       }
       const { added, updated, deletedIds } = getPendingDeltaItems();
       const pendingTotal = added.length + updated.length + deletedIds.length;
       if (pendingTotal > 0) {
-        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 animate-pulse shrink-0"></span><span>Chờ đẩy (${pendingTotal})</span>`;
+        line.innerHTML = isCompact
+          ? `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 animate-pulse shrink-0"></span><span>Chờ đẩy (${pendingTotal})</span>`
+          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200"></span><span>Đã kết nối • ${pendingTotal} thay đổi chờ đẩy</span>`;
       } else {
-        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-emerald-300 shadow-[0_0_6px_#6ee7b7] shrink-0"></span><span>Đã đồng bộ</span>`;
+        line.innerHTML = isCompact
+          ? `<span class="inline-block w-2 h-2 rounded-full bg-emerald-300 shadow-[0_0_6px_#6ee7b7] shrink-0"></span><span>Đã đồng bộ</span>`
+          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-300"></span><span>Đã đồng bộ tức thì với Sheets</span>`;
       }
     }
 
@@ -3283,7 +3303,8 @@
       if (!added.length && !updated.length && !deletedIds.length) return;
       if (!transactions.length && !deletedIds.length) return;
 
-      updateSyncStatusUI(url, "Đang đồng bộ...");
+      const isCompact = Boolean(getActiveVersionConfig().features.compactSyncStatusBeacon);
+      updateSyncStatusUI(url, isCompact ? "Đang đồng bộ..." : "Đang đẩy giao dịch mới lên Sheets...");
       try {
         const safePayload = {
           action: "deltaSync",
@@ -3336,7 +3357,8 @@
         return;
       }
       await SevenLayerStorage.save(url);
-      updateSyncStatusUI(url, "Đang tải về...");
+      const isCompact = Boolean(getActiveVersionConfig().features.compactSyncStatusBeacon);
+      updateSyncStatusUI(url, isCompact ? "Đang tải về..." : "Đang kiểm tra giao dịch mới từ Sheets...");
       try {
         const existingIds = new Set(transactions.map(t => t.id));
         const resp = await fetch(`${url}?action=load`);
@@ -4166,9 +4188,11 @@ function scanGmailTransactions_() {
       showConfirmDialog(
         `Khôi phục về ${ver}?`,
         `Toàn bộ giao diện và hành vi chức năng sẽ quay về nguyên bản của phiên bản ${ver}. Bạn có muốn tiếp tục không?`,
-        () => {
+        async () => {
           activeAppVersion = ver;
           persistLocalState();
+          const { url } = await SevenLayerStorage.load();
+          updateSyncStatusUI(url);
           renderAll();
           closeModal("modal-versions");
           showToast(`Đã khôi phục nguyên bản phiên bản ${ver}!`, "✓");
