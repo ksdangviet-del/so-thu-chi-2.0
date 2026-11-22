@@ -12,7 +12,7 @@
   <link id="app-manifest-link" rel="manifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
@@ -31,14 +31,12 @@
       height: 100%;
       overflow-x: hidden;
       font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #F8FAFC;
-      color: #1E293B;
     }
     .safe-top {
       padding-top: calc(var(--sat) + 10px);
     }
     .safe-bottom {
-      padding-bottom: calc(var(--sab) + 12px);
+      padding-bottom: calc(var(--sab) + 8px);
     }
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -49,115 +47,74 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 select-none">
-  <div id="app-shell" class="min-h-[100dvh] max-w-[480px] mx-auto bg-slate-50 flex flex-col relative pb-28">
-    <!-- HEADER CAM CHUẨN NGÂN HÀNG SỐ (KHÔI PHỤC PHONG CÁCH v1.52 - v1.65) -->
-    <header class="bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 text-white safe-top px-4 pb-3.5 rounded-b-[28px] shadow-md sticky top-0 z-30">
+<body class="bg-[#F8FAFC] text-slate-800 select-none">
+  <div id="app-shell" class="min-h-[100dvh] max-w-[480px] mx-auto bg-[#F8FAFC] flex flex-col relative pb-28">
+    <!-- HEADER CAM CHUẨN v1.52 -->
+    <header class="bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 text-white safe-top px-4 pb-3.5 rounded-b-[26px] shadow-sm sticky top-0 z-30">
       <div class="flex items-center justify-between gap-2">
         <div class="min-w-0 flex-1">
           <div class="flex items-center gap-2">
-            <span class="w-7 h-7 rounded-xl bg-white/15 border border-white/25 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
-                <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
-              </svg>
-            </span>
+            <span id="header-brand-icon" class="w-8 h-8 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0"></span>
             <h1 class="text-[17px] font-bold tracking-tight truncate">Sổ thu chi</h1>
           </div>
           <div class="flex items-center gap-1.5 mt-1 pl-0.5">
             <span id="sync-status-dot" class="w-2 h-2 rounded-full bg-amber-300 shrink-0"></span>
-            <span id="sync-status-text" class="text-[11px] font-medium text-orange-100 truncate">Chưa gắn Sheets</span>
+            <span id="sync-status-text" class="text-[11px] font-medium text-orange-50 truncate">Chưa gắn Sheets</span>
           </div>
         </div>
 
-        <div class="flex items-center gap-1.5 shrink-0">
-          <button type="button" id="btn-version-badge" onclick="openVersionModal()" class="px-2.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[11px] font-semibold tracking-tight transition">
-            v1.72
-          </button>
-          <button type="button" onclick="openGmailModal()" class="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[11px] font-semibold flex items-center gap-1 transition">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            <span>Gmail</span>
-          </button>
-          <button type="button" onclick="openSyncModal()" class="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[11px] font-semibold flex items-center gap-1 transition">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
-              <path d="M16 16h5v5" />
-            </svg>
-            <span>Đồng bộ</span>
-          </button>
-        </div>
+        <div id="header-actions-wrap" class="flex items-center gap-1.5 shrink-0"></div>
       </div>
 
       <!-- THANH CHỌN KỲ THỜI GIAN -->
       <div class="mt-3 bg-black/15 p-1 rounded-full flex items-center justify-between gap-1">
-        <div class="flex items-center gap-1">
-          <button type="button" data-period="day" onclick="setPeriodMode('day')" class="period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100">Ngày</button>
-          <button type="button" data-period="month" onclick="setPeriodMode('month')" class="period-btn px-3 py-1 rounded-full text-[11px] font-semibold bg-white text-orange-700 shadow-sm">Tháng</button>
-          <button type="button" data-period="year" onclick="setPeriodMode('year')" class="period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100">Năm</button>
-          <button type="button" data-period="all" onclick="setPeriodMode('all')" class="period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100">Tất cả</button>
+        <div class="flex items-center gap-0.5">
+          <button type="button" data-period="day" onclick="setPeriodMode('day')" class="period-btn px-2.5 py-1.5 rounded-full text-xs font-medium text-orange-100">Ngày</button>
+          <button type="button" data-period="month" onclick="setPeriodMode('month')" class="period-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-orange-700 shadow-xs">Tháng</button>
+          <button type="button" data-period="year" onclick="setPeriodMode('year')" class="period-btn px-2.5 py-1.5 rounded-full text-xs font-medium text-orange-100">Năm</button>
+          <button type="button" data-period="all" onclick="setPeriodMode('all')" class="period-btn px-2.5 py-1.5 rounded-full text-xs font-medium text-orange-100">Tất cả</button>
         </div>
-        <div class="flex items-center gap-1 pr-1.5">
-          <button type="button" onclick="shiftPeriod(-1)" class="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-[10px] font-bold">◀</button>
-          <span id="period-label" class="text-[11px] font-semibold min-w-[66px] text-center">T11/2026</span>
-          <button type="button" onclick="shiftPeriod(1)" class="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-[10px] font-bold">▶</button>
+        <div class="flex items-center gap-0.5 pr-1">
+          <button type="button" onclick="shiftPeriod(-1)" class="w-7 h-7 rounded-full hover:bg-white/20 flex items-center justify-center text-xs font-bold">◀</button>
+          <span id="period-label" class="text-xs font-semibold min-w-[68px] text-center">T11/2026</span>
+          <button type="button" onclick="shiftPeriod(1)" class="w-7 h-7 rounded-full hover:bg-white/20 flex items-center justify-center text-xs font-bold">▶</button>
         </div>
       </div>
     </header>
 
     <!-- NỘI DUNG CHÍNH -->
-    <main class="px-3.5 pt-3.5 space-y-3.5 flex-1">
+    <main class="px-4 pt-3.5 space-y-3.5 flex-1">
       <!-- 4 THẺ TỔNG QUAN TÀI CHÍNH -->
       <section id="summary-cards-mount" class="grid grid-cols-2 gap-2.5"></section>
 
       <!-- THANH TIÊU ĐỀ LỊCH SỬ & BÁO CÁO -->
       <section class="space-y-2.5">
         <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-white border border-slate-200/90 flex items-center justify-center text-slate-700 shadow-sm">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
-                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-                <path d="M12 17.5v-11" />
-              </svg>
-            </span>
-            <h2 class="text-[14px] font-bold text-slate-800">Lịch sử giao dịch</h2>
-            <span id="tx-count-badge" class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[11px] font-semibold">0</span>
+          <div class="flex items-center gap-1.5">
+            <span id="history-section-icon" class="inline-flex items-center justify-center text-orange-600"></span>
+            <h2 class="text-[15px] font-bold text-slate-800">Lịch sử giao dịch</h2>
+            <span id="tx-count-badge" class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-xs font-semibold">0</span>
           </div>
-          <button type="button" onclick="openAnalyticsModal()" class="px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200/90 text-slate-800 text-[11px] font-semibold flex items-center gap-1.5 shadow-sm transition">
-            <svg class="w-3.5 h-3.5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" x2="18" y1="20" y2="10" />
-              <line x1="12" x2="12" y1="20" y2="4" />
-              <line x1="6" x2="6" y1="20" y2="14" />
-            </svg>
-            <span>Báo cáo & Xuất ảnh</span>
-          </button>
+          <button type="button" id="btn-open-analytics" onclick="openAnalyticsModal()" class="px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition"></button>
         </div>
 
-        <!-- THANH LỌC 1 HÀNG DẠNG VIÊN THUỐC TRONG THẺ TRẮNG BO TRÒN -->
-        <div class="bg-white rounded-2xl p-2 border border-slate-200/80 shadow-sm flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <button type="button" onclick="resetFilters()" class="shrink-0 px-3 py-1.5 rounded-full bg-orange-600 text-white text-[11px] font-semibold shadow-sm">Tất cả</button>
+        <!-- THANH LỌC 1 HÀNG TRONG THẺ TRẮNG BO TRÒN -->
+        <div id="filter-bar-container" class="bg-white rounded-2xl p-2 border border-slate-200/80 shadow-2xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <button type="button" id="btn-filter-all" onclick="resetFilters()" class="shrink-0 px-3 py-1.5 rounded-full bg-orange-600 text-white text-xs font-semibold">Tất cả</button>
           <div class="relative shrink-0">
-            <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-            <input id="filter-search" type="text" oninput="renderTransactionList()" placeholder="Tìm kiếm" class="w-24 rounded-full border border-slate-200 bg-slate-50 pl-7 pr-2.5 py-1.5 text-[11px] text-slate-700 focus:outline-none focus:border-orange-500" />
+            <input id="filter-search" type="text" oninput="renderTransactionList()" placeholder="Tìm kiếm" class="w-28 rounded-full border border-slate-200 bg-slate-50 pl-7 pr-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:border-orange-500" />
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           </div>
-          <select id="filter-type" onchange="onFilterTypeChange()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium text-slate-700">
+          <select id="filter-type" onchange="onFilterTypeChange()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-700">
             <option value="all">Loại</option>
             <option value="expense">Chi</option>
             <option value="income">Thu</option>
             <option value="debt">Vay / Nợ</option>
           </select>
-          <select id="filter-major" onchange="onFilterMajorChange()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium text-slate-700 max-w-[105px]">
+          <select id="filter-major" onchange="onFilterMajorChange()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-700 max-w-[115px]">
             <option value="all">Mục lớn</option>
           </select>
-          <select id="filter-minor" onchange="renderTransactionList()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium text-slate-700 max-w-[105px]">
+          <select id="filter-minor" onchange="renderTransactionList()" class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-700 max-w-[115px]">
             <option value="all">Mục nhỏ</option>
           </select>
         </div>
@@ -167,96 +124,67 @@
       </section>
     </main>
 
-    <!-- THANH ĐIỀU HƯỚNG VIÊN THUỐC NỔI DƯỚI ĐÁY -->
-    <nav class="fixed bottom-0 left-0 right-0 z-30 pointer-events-none safe-bottom px-4">
-      <div class="max-w-[440px] mx-auto bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.10)] rounded-full px-6 py-2 flex items-center justify-between pointer-events-auto">
-        <button type="button" onclick="openBillModal()" class="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-full hover:bg-slate-100 text-slate-700 transition">
-          <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-            <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-            <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-            <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-            <line x1="7" x2="17" y1="12" y2="12" />
-          </svg>
-          <span class="text-[11px] font-semibold">Ảnh Bill</span>
-        </button>
-
-        <button type="button" onclick="openVoiceModal()" class="-mt-6 w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-600/35 border-4 border-white flex flex-col items-center justify-center active:scale-95 transition">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-            <line x1="12" x2="12" y1="19" y2="22" />
-          </svg>
-          <span class="text-[9px] font-bold leading-none mt-0.5">Nói AI</span>
-        </button>
-
-        <button type="button" onclick="openManualModal()" class="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-full hover:bg-slate-100 text-slate-700 transition">
-          <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-          </svg>
-          <span class="text-[11px] font-semibold">Nhập tay</span>
-        </button>
-      </div>
-    </nav>
+    <!-- THANH ĐIỀU HƯỚNG ĐÁY (TỰ CHUYỂN ĐỔI GIỮA DẠNG VIÊN THUỐC v1.52 VÀ TRÀN VIỀN v1.51) -->
+    <nav id="bottom-nav-mount" class="fixed bottom-0 left-0 right-0 z-30 pointer-events-none safe-bottom"></nav>
   </div>
 
   <!-- 1. HỘP THOẠI NHẬP TAY / SỬA GIAO DỊCH -->
-  <div id="modal-manual" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-manual" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <h3 id="manual-modal-title" class="font-bold text-sm">Thêm Giao Dịch Mới</h3>
-        <button type="button" onclick="closeModal('modal-manual')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-manual')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-4 space-y-3 overflow-y-auto text-xs">
         <input type="hidden" id="manual-edit-id" />
         <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-2xl">
-          <button type="button" data-mtype="expense" onclick="setManualType('expense')" class="mtype-btn py-2 rounded-xl font-semibold bg-rose-600 text-white">Khoản Chi</button>
-          <button type="button" data-mtype="income" onclick="setManualType('income')" class="mtype-btn py-2 rounded-xl font-medium text-slate-600">Khoản Thu</button>
-          <button type="button" data-mtype="debt" onclick="setManualType('debt')" class="mtype-btn py-2 rounded-xl font-medium text-slate-600">Vay / Nợ</button>
+          <button type="button" data-mtype="expense" onclick="setManualType('expense')" class="mtype-btn py-2.5 rounded-xl font-bold bg-rose-600 text-white">Khoản Chi</button>
+          <button type="button" data-mtype="income" onclick="setManualType('income')" class="mtype-btn py-2.5 rounded-xl font-semibold text-slate-700">Khoản Thu</button>
+          <button type="button" data-mtype="debt" onclick="setManualType('debt')" class="mtype-btn py-2.5 rounded-xl font-semibold text-slate-700">Vay / Nợ</button>
         </div>
 
-        <div id="manual-debt-fields" class="hidden grid grid-cols-2 gap-2 bg-amber-50 p-2.5 rounded-2xl border border-amber-200">
+        <div id="manual-debt-fields" class="hidden grid grid-cols-2 gap-2 bg-amber-50 p-2.5 rounded-2xl border border-amber-300">
           <div>
-            <label class="block text-[11px] font-semibold text-amber-900 mb-1">Hướng giao dịch nợ</label>
-            <select id="manual-debt-dir" class="w-full rounded-xl border border-amber-200 bg-white px-2.5 py-2 text-xs font-medium">
+            <label class="block text-xs font-semibold text-amber-950 mb-1">Hướng giao dịch nợ</label>
+            <select id="manual-debt-dir" class="w-full rounded-xl border border-amber-300 bg-white px-2.5 py-2 text-xs font-semibold">
               <option value="lend">Cho vay / Thu hồi nợ (+)</option>
               <option value="borrow">Đi vay / Trả nợ (-)</option>
             </select>
           </div>
           <div>
-            <label class="block text-[11px] font-semibold text-amber-900 mb-1">Đối tác / Người vay</label>
-            <input id="manual-person" type="text" placeholder="VD: Anh Tuấn..." class="w-full rounded-xl border border-amber-200 bg-white px-2.5 py-2 text-xs" />
+            <label class="block text-xs font-semibold text-amber-950 mb-1">Đối tác / Người vay</label>
+            <input id="manual-person" type="text" placeholder="VD: Anh Tuấn..." class="w-full rounded-xl border border-amber-300 bg-white px-2.5 py-2 text-xs font-medium" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[11px] font-semibold text-slate-700 mb-1">Ngày giao dịch</label>
-            <input id="manual-date" type="date" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium" />
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Ngày giao dịch</label>
+            <input id="manual-date" type="date" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold" />
           </div>
           <div>
-            <label class="block text-[11px] font-semibold text-slate-700 mb-1">Số tiền (VNĐ)</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Số tiền (VNĐ)</label>
             <input id="manual-amount" type="text" inputmode="numeric" oninput="formatCurrencyInput(this)" placeholder="0" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-bold text-orange-600" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[11px] font-semibold text-slate-700 mb-1">Mục lớn</label>
-            <select id="manual-major" onchange="populateManualMinorOptions()" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-medium"></select>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Mục lớn</label>
+            <select id="manual-major" onchange="populateManualMinorOptions()" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-semibold"></select>
           </div>
           <div>
-            <label class="block text-[11px] font-semibold text-slate-700 mb-1">Mục nhỏ</label>
-            <select id="manual-minor" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-medium"></select>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Mục nhỏ</label>
+            <select id="manual-minor" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-semibold"></select>
           </div>
         </div>
 
         <div>
-          <label class="block text-[11px] font-semibold text-slate-700 mb-1">Nội dung ghi chú</label>
-          <input id="manual-note" type="text" placeholder="VD: Ăn sáng, Đổ xăng, Đóng họ..." class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs" />
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Nội dung ghi chú</label>
+          <input id="manual-note" type="text" placeholder="VD: Ăn sáng, Đổ xăng, Đóng họ..." class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium" />
         </div>
 
-        <button type="button" onclick="saveManualTransaction()" class="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md transition">
+        <button type="button" onclick="saveManualTransaction()" class="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-sm transition">
           Lưu Giao Dịch
         </button>
       </div>
@@ -264,40 +192,40 @@
   </div>
 
   <!-- 2. HỘP THOẠI NÓI AI THÔNG MINH -->
-  <div id="modal-voice" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-voice" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-sm">Ghi Chép Bằng Giọng Nói AI</h3>
           <p class="text-[11px] text-orange-100">Nói hoặc gõ câu tự nhiên (VD: "Đóng họ 2 triệu")</p>
         </div>
-        <button type="button" onclick="closeModal('modal-voice')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-voice')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-4 space-y-3 overflow-y-auto text-xs">
         <div class="flex items-center gap-2">
-          <button type="button" id="btn-start-mic" onclick="toggleSpeechRecognition()" class="shrink-0 px-3.5 py-2.5 rounded-2xl bg-orange-600 text-white font-semibold flex items-center gap-1.5 shadow-xs">
-            <span>🎙️</span>
+          <button type="button" id="btn-start-mic" onclick="toggleSpeechRecognition()" class="shrink-0 px-3.5 py-2.5 rounded-2xl bg-orange-600 text-white font-bold flex items-center gap-1.5 shadow-xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v5"/></svg>
             <span id="mic-btn-label">Bấm nói</span>
           </button>
           <input id="voice-transcript-input" type="text" oninput="parseVoiceInputToPreview()" placeholder="VD: Bố đổ xăng 100k, Mẹ đi chợ 250k..." class="flex-1 min-w-0 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-medium" />
         </div>
 
         <div class="flex flex-wrap gap-1.5">
-          <button type="button" onclick="fillVoiceSample('Bố ăn sáng cà phê 45k')" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 text-[11px]">Bố ăn sáng 45k</button>
-          <button type="button" onclick="fillVoiceSample('Đóng họ 2 triệu')" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 text-[11px]">Đóng họ 2tr</button>
-          <button type="button" onclick="fillVoiceSample('Lấy họ 10 triệu')" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 text-[11px]">Lấy họ 10tr</button>
-          <button type="button" onclick="fillVoiceSample('Mua sữa cho Pu 520k')" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 text-[11px]">Sữa Pu 520k</button>
+          <button type="button" onclick="fillVoiceSample('Bố ăn sáng cà phê 45k')" class="px-2.5 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">Bố ăn sáng 45k</button>
+          <button type="button" onclick="fillVoiceSample('Đóng họ 2 triệu')" class="px-2.5 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">Đóng họ 2tr</button>
+          <button type="button" onclick="fillVoiceSample('Lấy họ 10 triệu')" class="px-2.5 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">Lấy họ 10tr</button>
+          <button type="button" onclick="fillVoiceSample('Mua sữa cho Pu 520k')" class="px-2.5 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">Sữa Pu 520k</button>
         </div>
 
         <div class="bg-orange-50/70 p-3 rounded-2xl border border-orange-200 space-y-2">
           <div class="flex items-center justify-between">
-            <p class="text-[11px] font-bold text-orange-900">Bảng phân tích tự động (tách nhiều khoản trong 1 câu):</p>
-            <span id="voice-multi-count" class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-bold">1 khoản</span>
+            <p class="text-xs font-bold text-orange-950">Bảng phân tích tự động (tách nhiều khoản):</p>
+            <span id="voice-multi-count" class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[11px] font-bold">1 khoản</span>
           </div>
           <div id="voice-multi-list" class="space-y-2"></div>
         </div>
 
-        <button type="button" onclick="saveVoiceTransaction()" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">
+        <button type="button" onclick="saveVoiceTransaction()" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm">
           Lưu Tất Cả Giao Dịch Này
         </button>
       </div>
@@ -305,23 +233,23 @@
   </div>
 
   <!-- 3. HỘP THOẠI QUÉT ẢNH HÓA ĐƠN (OCR) -->
-  <div id="modal-bill" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-bill" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-sm">Quét Hóa Đơn / Biên Lai Chuyển Khoản</h3>
           <p class="text-[11px] text-orange-100">Tự động đọc số tiền & nội dung trên ảnh</p>
         </div>
-        <button type="button" onclick="closeModal('modal-bill')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-bill')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-4 space-y-3 overflow-y-auto text-xs">
         <label class="block w-full p-4 rounded-2xl border-2 border-dashed border-orange-300 bg-orange-50/50 text-center cursor-pointer hover:bg-orange-50 transition">
           <input id="bill-file-input" type="file" accept="image/*" onchange="handleBillImageUpload(event)" class="hidden" />
-          <span class="block text-sm font-bold text-orange-700">📸 Chọn ảnh hóa đơn hoặc chụp trực tiếp</span>
-          <span class="block text-[11px] text-slate-500 mt-1">Hỗ trợ biên lai VietinBank, VCB, MB, MoMo, siêu thị...</span>
+          <span class="block text-sm font-bold text-orange-700">Chọn ảnh hóa đơn hoặc chụp trực tiếp</span>
+          <span class="block text-xs text-slate-600 mt-1">Hỗ trợ biên lai VietinBank, VCB, MB, MoMo, siêu thị...</span>
         </label>
 
-        <div id="bill-status-box" class="hidden p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px] font-medium"></div>
+        <div id="bill-status-box" class="hidden p-2.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs font-medium"></div>
 
         <div class="space-y-2 bg-slate-50 p-3 rounded-2xl border border-slate-200">
           <div class="grid grid-cols-2 gap-2">
@@ -329,16 +257,16 @@
               <option value="expense">Khoản Chi</option>
               <option value="income">Khoản Thu</option>
             </select>
-            <input id="bill-amount" type="text" inputmode="numeric" oninput="formatCurrencyInput(this)" placeholder="Số tiền" class="rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-bold text-orange-600" />
+            <input id="bill-amount" type="text" inputmode="numeric" oninput="formatCurrencyInput(this)" placeholder="Số tiền" class="rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-bold text-orange-600" />
           </div>
           <div class="grid grid-cols-2 gap-2">
-            <select id="bill-major" onchange="populateBillMinorOptions()" class="rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-medium"></select>
-            <select id="bill-minor" class="rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-medium"></select>
+            <select id="bill-major" onchange="populateBillMinorOptions()" class="rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold"></select>
+            <select id="bill-minor" class="rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold"></select>
           </div>
-          <input id="bill-note" type="text" placeholder="Nội dung hóa đơn..." class="w-full rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs" />
+          <input id="bill-note" type="text" placeholder="Nội dung hóa đơn..." class="w-full rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-medium" />
         </div>
 
-        <button type="button" onclick="saveBillTransaction()" class="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md">
+        <button type="button" onclick="saveBillTransaction()" class="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-sm">
           Lưu Giao Dịch Từ Bill
         </button>
       </div>
@@ -346,24 +274,24 @@
   </div>
 
   <!-- 4. HỘP THOẠI QUÉT BIẾN ĐỘNG GMAIL 90 NGÀY -->
-  <div id="modal-gmail" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-gmail" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[450px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-sm">Quét Biến Động Gmail 90 Ngày</h3>
           <p class="text-[11px] text-orange-100">Tự ẩn thư cũ đã lưu & phân loại chi tiêu chuẩn</p>
         </div>
-        <button type="button" onclick="closeModal('modal-gmail')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-gmail')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-3.5 space-y-3 overflow-y-auto text-xs">
-        <div class="bg-orange-50 p-3 rounded-2xl border border-orange-200 space-y-2">
+        <div class="bg-orange-50/80 p-3 rounded-2xl border border-orange-200 space-y-2">
           <div class="flex items-center justify-between gap-2">
             <span id="gmail-scan-status" class="font-semibold text-orange-950">Bấm "Quét ngay" để kiểm tra email ngân hàng & ví.</span>
-            <button type="button" onclick="scanGmail90Days()" class="shrink-0 px-3 py-1.5 rounded-xl bg-orange-600 text-white font-semibold">Quét ngay</button>
+            <button type="button" onclick="scanGmail90Days()" class="shrink-0 px-3 py-1.5 rounded-full bg-orange-600 text-white font-bold">Quét ngay</button>
           </div>
           <div class="flex items-center gap-2">
-            <button type="button" onclick="copyAppsScriptCode()" class="px-2.5 py-1.5 rounded-xl bg-emerald-600 text-white text-[11px] font-semibold">Sao chép Mã.gs</button>
-            <button type="button" onclick="closeModal('modal-gmail'); openSyncModal();" class="px-2.5 py-1.5 rounded-xl bg-white border border-orange-200 text-orange-800 text-[11px] font-semibold">Đổi link /exec</button>
+            <button type="button" onclick="copyAppsScriptCode()" class="px-3 py-1.5 rounded-full bg-emerald-600 text-white text-xs font-semibold">Sao chép Mã.gs</button>
+            <button type="button" onclick="closeModal('modal-gmail'); openSyncModal();" class="px-3 py-1.5 rounded-full bg-white border border-orange-200 text-orange-800 text-xs font-semibold">Đổi link /exec</button>
           </div>
         </div>
         <div id="gmail-candidates-list" class="space-y-2"></div>
@@ -372,65 +300,65 @@
   </div>
 
   <!-- 5. HỘP THOẠI BÁO CÁO TÀI CHÍNH & XUẤT ẢNH JPG -->
-  <div id="modal-analytics" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-analytics" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-sm">Báo Cáo Tài Chính & Xuất Ảnh JPG</h3>
           <p id="analytics-period-subtitle" class="text-[11px] text-orange-100">Kỳ: Tháng 11/2026</p>
         </div>
-        <button type="button" onclick="closeModal('modal-analytics')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-analytics')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-3.5 space-y-3 overflow-y-auto text-xs">
-        <div class="grid grid-cols-4 gap-1 bg-slate-100 p-1 rounded-2xl">
-          <button type="button" data-atab="overview" onclick="switchAnalyticsTab('overview')" class="atab py-1.5 rounded-xl text-[11px] font-semibold bg-orange-600 text-white">Tổng quan</button>
-          <button type="button" data-atab="expense" onclick="switchAnalyticsTab('expense')" class="atab py-1.5 rounded-xl text-[11px] font-medium text-slate-600">Cơ cấu chi</button>
-          <button type="button" data-atab="income" onclick="switchAnalyticsTab('income')" class="atab py-1.5 rounded-xl text-[11px] font-medium text-slate-600">Nguồn thu</button>
-          <button type="button" data-atab="debt" onclick="switchAnalyticsTab('debt')" class="atab py-1.5 rounded-xl text-[11px] font-medium text-slate-600">Công nợ</button>
+        <div class="grid grid-cols-4 gap-1 bg-slate-100 p-1 rounded-full">
+          <button type="button" data-atab="overview" onclick="switchAnalyticsTab('overview')" class="atab py-2 rounded-full text-xs font-bold bg-orange-600 text-white">Tổng quan</button>
+          <button type="button" data-atab="expense" onclick="switchAnalyticsTab('expense')" class="atab py-2 rounded-full text-xs font-medium text-slate-700">Cơ cấu chi</button>
+          <button type="button" data-atab="income" onclick="switchAnalyticsTab('income')" class="atab py-2 rounded-full text-xs font-medium text-slate-700">Nguồn thu</button>
+          <button type="button" data-atab="debt" onclick="switchAnalyticsTab('debt')" class="atab py-2 rounded-full text-xs font-medium text-slate-700">Công nợ</button>
         </div>
 
         <div id="analytics-content" class="space-y-2.5"></div>
 
-        <button type="button" onclick="exportReportAsJpg()" class="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md flex items-center justify-center gap-1.5">
-          <span>🖼️ Xuất Ảnh Báo Cáo (JPG)</span>
+        <button type="button" onclick="exportReportAsJpg()" class="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-sm flex items-center justify-center gap-1.5">
+          <span>Xuất Ảnh Báo Cáo (JPG)</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- 6. HỘP THOẠI ĐỒNG BỘ GOOGLE SHEETS -->
-  <div id="modal-sync" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-sync" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-sm">Đồng Bộ Google Sheets (Delta Sync)</h3>
           <p class="text-[11px] text-orange-100">Chỉ thêm/sửa/xóa dòng mới trong 0,2 giây</p>
         </div>
-        <button type="button" onclick="closeModal('modal-sync')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-sync')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-4 space-y-3 overflow-y-auto text-xs">
-        <div id="remote-script-check-banner" class="p-2.5 rounded-2xl bg-slate-100 border border-slate-200 text-[11px] font-medium text-slate-700">
+        <div id="remote-script-check-banner" class="p-2.5 rounded-2xl bg-slate-100 border border-slate-200 text-xs font-medium text-slate-800">
           Đang kiểm tra kết nối Google Apps Script...
         </div>
 
         <div>
-          <label class="block text-[11px] font-semibold text-slate-700 mb-1">Đường dẫn Web App (/exec) cá nhân của bạn:</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Đường dẫn Web App (/exec) cá nhân của bạn:</label>
           <div class="flex items-center gap-1.5">
-            <input id="sync-exec-url-input" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs" />
+            <input id="sync-exec-url-input" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium" />
             <button type="button" onclick="saveAndVerifyExecUrl()" class="shrink-0 px-3 py-2 rounded-xl bg-slate-800 text-white text-xs font-semibold">Kiểm tra</button>
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="pullTransactionsFromSheets()" class="py-2.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs">📥 Tải giao dịch mới về</button>
-          <button type="button" onclick="saveAndSyncNow()" class="py-2.5 px-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold shadow-xs">📤 Đẩy giao dịch mới lên</button>
+          <button type="button" onclick="pullTransactionsFromSheets()" class="py-2.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-2xs">Tải giao dịch mới về</button>
+          <button type="button" onclick="saveAndSyncNow()" class="py-2.5 px-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold shadow-2xs">Đẩy giao dịch mới lên</button>
         </div>
 
-        <button type="button" onclick="closeModal('modal-sync'); openCategoryCustomizerModal();" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-slate-800 hover:text-orange-800 border border-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-          <span>🏷️ Cá nhân hóa danh mục & tên thành viên</span>
+        <button type="button" onclick="closeModal('modal-sync'); openCategoryCustomizerModal();" class="w-full py-2.5 rounded-xl bg-slate-50 hover:bg-orange-50 text-slate-800 hover:text-orange-800 border border-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
+          <span>Cá nhân hóa danh mục & tên thành viên</span>
         </button>
 
-        <button type="button" onclick="closeModal('modal-sync'); openSettingsModal();" class="w-full py-2 rounded-xl bg-orange-50 text-orange-800 border border-orange-200 text-xs font-semibold">
+        <button type="button" onclick="closeModal('modal-sync'); openSettingsModal();" class="w-full py-2 rounded-xl bg-orange-50 text-orange-900 border border-orange-200 text-xs font-semibold">
           Mở Cài Đặt 7 Lớp & Mã.gs
         </button>
       </div>
@@ -438,23 +366,23 @@
   </div>
 
   <!-- 7. HỘP THOẠI CÀI ĐẶT 7 LỚP & MÃ.GS -->
-  <div id="modal-settings" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-settings" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90dvh] flex flex-col">
       <div class="bg-gradient-to-r from-slate-800 to-slate-700 text-white px-4 py-3 flex items-center justify-between">
         <h3 class="font-bold text-sm">Cài Đặt 7 Lớp Lưu Trữ & Công Cụ</h3>
-        <button type="button" onclick="closeModal('modal-settings')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-settings')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-4 space-y-3 overflow-y-auto text-xs">
         <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-200 space-y-1">
-          <p class="font-bold text-emerald-900">Bảo vệ cấu hình 7 lớp bền vững</p>
-          <p class="text-[11px] text-emerald-800">Link /exec của bạn được sao lưu đồng thời trên LocalStorage, SessionStorage, IndexedDB, Cookie, Window.name và Cache API.</p>
+          <p class="font-bold text-emerald-950">Bảo vệ cấu hình 7 lớp bền vững</p>
+          <p class="text-xs text-emerald-900">Link /exec của bạn được sao lưu đồng thời trên LocalStorage, SessionStorage, IndexedDB, Cookie, Window.name và Cache API.</p>
         </div>
 
         <div class="space-y-1.5 bg-slate-50 p-3 rounded-2xl border border-slate-200">
-          <p class="font-semibold text-slate-800">Công cụ Cá nhân hóa & Kết nối Sheets</p>
+          <p class="font-semibold text-slate-900">Công cụ Cá nhân hóa & Kết nối Sheets</p>
           <div class="space-y-2 pt-0.5">
-            <button type="button" onclick="closeModal('modal-settings'); openCategoryCustomizerModal();" class="w-full py-2.5 px-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-semibold text-xs shadow-xs">🏷️ Cá nhân hóa danh mục & tên thành viên</button>
-            <button type="button" onclick="copyAppsScriptCode()" class="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-xs">📋 Sao chép Mã.gs (Cho Google Sheets)</button>
+            <button type="button" onclick="closeModal('modal-settings'); openCategoryCustomizerModal();" class="w-full py-2.5 px-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs">Cá nhân hóa danh mục & tên thành viên</button>
+            <button type="button" onclick="copyAppsScriptCode()" class="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">Sao chép Mã.gs (Cho Google Sheets)</button>
           </div>
         </div>
       </div>
@@ -462,18 +390,18 @@
   </div>
 
   <!-- 8. HỘP THOẠI LỊCH SỬ PHIÊN BẢN & ICON MẪU 1 -->
-  <div id="modal-versions" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+  <div id="modal-versions" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[450px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
-          <h3 class="font-bold text-sm">Phiên Bản & Biểu Tượng Ứng Dụng</h3>
-          <p id="version-modal-subtitle" class="text-[11px] text-orange-100">Đang chạy bản mới nhất: v1.71</p>
+          <h3 class="font-bold text-sm">Phiên Bản & Khôi Phục Giao Diện Gốc</h3>
+          <p id="version-modal-subtitle" class="text-[11px] text-orange-100">Đang chạy bản mới nhất: v1.74</p>
         </div>
-        <button type="button" onclick="closeModal('modal-versions')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-versions')" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-4 space-y-3 overflow-y-auto text-xs">
         <div class="flex items-center gap-3 bg-orange-50/80 p-3 rounded-2xl border border-orange-200">
-          <div class="w-14 h-14 rounded-2xl bg-white shadow-md border border-slate-200 flex items-center justify-center shrink-0">
+          <div class="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-200 flex items-center justify-center shrink-0">
             <svg class="w-9 h-9" viewBox="0 0 64 64" fill="none">
               <rect x="10" y="18" width="44" height="32" rx="9" fill="#EA580C" />
               <path d="M14 18C14 14.6863 16.6863 12 20 12H42C44.2091 12 46 13.7909 46 16V18H14Z" fill="#FB923C" />
@@ -486,7 +414,7 @@
             <p class="font-bold text-slate-900">Icon Mẫu 1 (Cam – Trắng Ngân Hàng)</p>
             <p class="text-[11px] text-slate-600 mt-0.5">Bấm Chia sẻ → Thêm vào Màn hình chính trên iPhone để cài biểu tượng.</p>
           </div>
-          <button type="button" onclick="forceReloadLatestVersion()" class="shrink-0 px-3 py-2 rounded-xl bg-orange-600 text-white font-semibold text-[11px]">Tải bản mới</button>
+          <button type="button" onclick="forceReloadLatestVersion()" class="shrink-0 px-3 py-2 rounded-full bg-orange-600 text-white font-bold text-xs">Tải bản mới</button>
         </div>
 
         <div id="version-history-list" class="space-y-2"></div>
@@ -495,30 +423,30 @@
   </div>
 
   <!-- 9. HỘP THOẠI CÁ NHÂN HÓA DANH MỤC & TÊN THÀNH VIÊN -->
-  <div id="modal-categories" class="fixed inset-0 z-[55] hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
-    <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col">
+  <div id="modal-categories" class="fixed inset-0 z-[55] hidden bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+    <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
-          <h3 class="font-semibold text-sm">Cá Nhân Hóa Danh Mục Riêng</h3>
+          <h3 class="font-bold text-sm">Cá Nhân Hóa Danh Mục Riêng</h3>
           <p class="text-[11px] text-orange-100">Tự đổi tên thành viên, thêm/xóa Mục Lớn & Mục Nhỏ</p>
         </div>
-        <button type="button" onclick="closeModal('modal-categories')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-categories')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-bold">✕</button>
       </div>
 
       <div class="p-3.5 space-y-3 overflow-y-auto text-xs">
-        <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
-          <button type="button" data-ctab="expense" onclick="switchCategoryCustomizerTab('expense')" class="ctab py-1.5 rounded-xl text-[11px] font-semibold bg-orange-600 text-white shadow-xs">Mục Khoản Chi</button>
-          <button type="button" data-ctab="income" onclick="switchCategoryCustomizerTab('income')" class="ctab py-1.5 rounded-xl text-[11px] font-medium text-slate-600">Mục Khoản Thu</button>
-          <button type="button" data-ctab="spotlight" onclick="switchCategoryCustomizerTab('spotlight')" class="ctab py-1.5 rounded-xl text-[11px] font-medium text-slate-600">Thẻ Nổi Bật</button>
+        <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-full border border-slate-200">
+          <button type="button" data-ctab="expense" onclick="switchCategoryCustomizerTab('expense')" class="ctab py-2 rounded-full text-xs font-bold bg-orange-600 text-white">Mục Khoản Chi</button>
+          <button type="button" data-ctab="income" onclick="switchCategoryCustomizerTab('income')" class="ctab py-2 rounded-full text-xs font-medium text-slate-700">Mục Khoản Thu</button>
+          <button type="button" data-ctab="spotlight" onclick="switchCategoryCustomizerTab('spotlight')" class="ctab py-2 rounded-full text-xs font-medium text-slate-700">Thẻ Nổi Bật</button>
         </div>
 
         <div id="category-customizer-body" class="space-y-3"></div>
 
         <div class="pt-1 border-t border-slate-200 flex items-center justify-between gap-2 flex-wrap">
-          <button type="button" onclick="applyGenericFamilyPreset()" class="px-3 py-2 rounded-xl bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-800 text-[11px] font-semibold">
+          <button type="button" onclick="applyGenericFamilyPreset()" class="px-3 py-2 rounded-full bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-900 text-xs font-semibold">
             Chuyển mẫu gia đình phổ thông
           </button>
-          <button type="button" onclick="resetDefaultCategories()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-medium">
+          <button type="button" onclick="resetDefaultCategories()" class="px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
             Khôi phục mặc định
           </button>
         </div>
@@ -527,45 +455,45 @@
   </div>
 
   <!-- 10. HỘP THOẠI XEM TRƯỚC & CHIA SẺ ẢNH BÁO CÁO JPG -->
-  <div id="modal-jpg-preview" class="fixed inset-0 z-[60] hidden bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3">
+  <div id="modal-jpg-preview" class="fixed inset-0 z-[60] hidden bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-3">
     <div class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-slate-900 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-sm">Ảnh Báo Cáo Tài Chính (JPG)</h3>
           <p class="text-[11px] text-slate-300">Chạm giữ vào ảnh để Lưu vào Ảnh trên iPhone</p>
         </div>
-        <button type="button" onclick="closeModal('modal-jpg-preview')" class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-semibold">✕</button>
+        <button type="button" onclick="closeModal('modal-jpg-preview')" class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-3 overflow-y-auto bg-slate-100 flex justify-center">
         <img id="jpg-preview-img" alt="Báo cáo tài chính JPG" class="w-full h-auto rounded-2xl shadow-md border border-slate-200" />
       </div>
       <div class="p-3 bg-white border-t border-slate-200 grid grid-cols-2 gap-2">
-        <a id="jpg-download-link" download="Bao_Cao_Tai_Chinh.jpg" class="py-2.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-semibold text-center">⬇️ Tải file JPG</a>
-        <button type="button" onclick="shareReportJpgFile()" class="py-2.5 rounded-xl bg-orange-600 text-white text-xs font-semibold">📤 Chia sẻ / Lưu Ảnh</button>
+        <a id="jpg-download-link" download="Bao_Cao_Tai_Chinh.jpg" class="py-2.5 rounded-full bg-slate-100 text-slate-900 text-xs font-bold text-center">Tải file JPG</a>
+        <button type="button" onclick="shareReportJpgFile()" class="py-2.5 rounded-full bg-orange-600 text-white text-xs font-bold">Chia sẻ / Lưu Ảnh</button>
       </div>
     </div>
   </div>
 
-  <!-- 11. HỘP THOẠI XÁC NHẬN / NHẬP TÊN TÙY CHỈNH (THAY THẾ ALERT/CONFIRM) -->
-  <div id="modal-dialog" class="fixed inset-0 z-[70] hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+  <!-- 11. HỘP THOẠI XÁC NHẬN -->
+  <div id="modal-dialog" class="fixed inset-0 z-[70] hidden bg-slate-900/65 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-[360px] rounded-3xl p-4 shadow-2xl border border-slate-200 space-y-3">
       <div class="flex items-center gap-2.5">
         <span id="dialog-icon" class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-sm">i</span>
         <h4 id="dialog-title" class="font-bold text-sm text-slate-900">Thông báo</h4>
       </div>
-      <div id="dialog-message" class="text-xs text-slate-600 leading-relaxed"></div>
+      <div id="dialog-message" class="text-xs text-slate-700 leading-relaxed"></div>
       <div id="dialog-actions" class="flex items-center justify-end gap-2 pt-1"></div>
     </div>
   </div>
 
   <!-- TOAST THÔNG BÁO NHANH -->
-  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-[80] hidden max-w-[90vw] bg-slate-900/95 text-white px-4 py-2.5 rounded-2xl shadow-xl text-xs font-medium flex items-center gap-2">
+  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-[80] hidden max-w-[90vw] bg-slate-900/95 text-white px-4 py-2.5 rounded-full shadow-xl text-xs font-semibold flex items-center gap-2">
     <span id="toast-icon" class="text-emerald-400 font-bold">✓</span>
     <span id="toast-text">Đã lưu!</span>
   </div>
 
   <script>
-    // ==================== 1. CẤU TRÚC DANH MỤC GIA ĐÌNH (CÓ THỂ CÁ NHÂN HÓA) ====================
+    // ==================== 1. CẤU TRÚC DANH MỤC GIA ĐÌNH ====================
     const DEFAULT_CATEGORY_TREE = {
       expense: {
         "Cả nhà": [
@@ -624,8 +552,11 @@
       label: "CHI BƠ & PU",
       majors: ["Bơ (Việt Anh - 9t)", "Pu (Quỳnh Anh - 2t)"]
     };
-    const LATEST_APP_VERSION = "v1.72";
+
+    const LATEST_APP_VERSION = "v1.74";
+    const UI_STYLE_KEY = "stc_ui_style_preset_v1";
     let activeAppVersion = LATEST_APP_VERSION;
+    let activeUiStyle = "v1.52"; // Mặc định chuẩn v1.52 hiện đại; tự động chuyển về 'v1.51' nếu khôi phục bản v1.50/v1.51
     let CATEGORY_TREE = JSON.parse(JSON.stringify(DEFAULT_CATEGORY_TREE));
     let spotlightConfig = JSON.parse(JSON.stringify(DEFAULT_SPOTLIGHT_CONFIG));
     let transactions = [];
@@ -642,25 +573,20 @@
     let speechRecognition = null;
     let isRecording = false;
     let toastTimer = null;
+
     const BUILTIN_VERSIONS = [
       {
-        version: "v1.72",
+        version: "v1.74",
+        uiStyle: "v1.52",
         date: "22/11/2026",
-        title: "Khôi phục trọn vẹn phong cách thiết kế v1.50 – v1.65 (Icon nét mảnh & nút viên thuốc)",
+        title: "Giao diện chuẩn v1.52 + Chuyển đổi giao diện gốc theo từng phiên bản",
         changes: [
-          "Khôi phục nút viên thuốc trong mờ trên Header, thanh lọc bo tròn (rounded-full), bộ icon SVG nét mảnh 2 tông màu đồng nhất (loại bỏ emoji) và con số lớn thanh thoát trên 4 thẻ tổng quan."
-        ]
-      },
-      {
-        version: "v1.71",
-        date: "22/11/2026",
-        title: "Khôi phục OCR Ảnh Bill, Nói AI đa giao dịch & nút Khôi phục phiên bản",
-        changes: [
-          "Khôi phục quét chữ tự động OCR trên Ảnh Bill, tách nhiều giao dịch trong 1 câu Nói AI và nút Khôi phục phiên bản."
+          "Khôi phục toàn diện phong cách v1.52 (nền trắng sữa dịu mắt, icon SVG nét mảnh 2 tông màu, thẻ bo góc mềm viền 1px, thanh đáy viên thuốc nổi) kèm cơ chế giữ nguyên diện mạo gốc khi khôi phục từng phiên bản cũ."
         ]
       },
       {
         version: "v1.70",
+        uiStyle: "v1.52",
         date: "22/11/2026",
         title: "Tối ưu chống đơ, treo mạng & mượt hóa danh sách dài",
         changes: [
@@ -668,15 +594,8 @@
         ]
       },
       {
-        version: "v1.69",
-        date: "22/11/2026",
-        title: "Tinh gọn hộp thoại Cài đặt (gỡ bỏ các nút phát triển/dữ liệu mẫu)",
-        changes: [
-          "Lược bỏ các nút Sao chép mã index.html, Chép link chia sẻ và Nạp dữ liệu mẫu để giao diện gọn gàng và an toàn dữ liệu."
-        ]
-      },
-      {
         version: "v1.67",
+        uiStyle: "v1.52",
         date: "22/11/2026",
         title: "Cá nhân hóa danh mục & tên thành viên cho người dùng riêng",
         changes: [
@@ -684,23 +603,8 @@
         ]
       },
       {
-        version: "v1.66",
-        date: "22/11/2026",
-        title: "Đèn báo trạng thái đồng bộ gọn gàng dưới tiêu đề",
-        changes: [
-          "Rút gọn dòng trạng thái kèm đèn báo sáng rõ ngay đầu dòng, hiển thị trọn vẹn 100% trên màn hình iPhone."
-        ]
-      },
-      {
-        version: "v1.65",
-        date: "22/11/2026",
-        title: "Kiểm tra trực tiếp trạng thái Mã.gs & khóa link /exec bền vững",
-        changes: [
-          "Tự động kiểm tra link /exec ngay khi mở hộp thoại Đồng bộ và ngăn ghi đè ngược link cũ từ URL."
-        ]
-      },
-      {
         version: "v1.58",
+        uiStyle: "v1.52",
         date: "22/11/2026",
         title: "Đồng bộ gia tăng (Delta Sync) & tự động đẩy ngầm lên Sheets",
         changes: [
@@ -709,14 +613,25 @@
       },
       {
         version: "v1.52",
+        uiStyle: "v1.52",
         date: "20/11/2026",
-        title: "Thiết kế giao diện chuẩn ngân hàng số (Cam – Trắng & Icon nét mảnh)",
+        title: "Giao diện chuẩn ngân hàng số (Be Vietnam Pro, Icon nét mảnh 2 tông màu & Pill Dock)",
         changes: [
-          "Áp dụng phông Be Vietnam Pro, hệ thống icon SVG nét mảnh 2 tông màu, thanh điều hướng viên thuốc nổi và Icon Ví Cam – Trắng."
+          "Thiết kế thanh thoát, phông chữ Be Vietnam Pro nhẹ mắt, hệ thống icon SVG nét mảnh 1.6px 2 tông màu và thanh điều hướng đáy dạng viên thuốc nổi."
+        ]
+      },
+      {
+        version: "v1.51",
+        uiStyle: "v1.51",
+        date: "20/11/2026",
+        title: "Giao diện tương phản cao, cỡ chữ lớn dễ đọc ngoài trời (Viền 2px & Thanh đáy tràn viền)",
+        changes: [
+          "4 thẻ tổng quan viền đậm 2px độ tương phản cao, chữ số đậm 19px, bộ biểu tượng sinh động và thanh đáy trải rộng toàn chiều ngang."
         ]
       },
       {
         version: "v1.50",
+        uiStyle: "v1.51",
         date: "20/11/2026",
         title: "Khung Sổ Thu Chi Gia Đình hoàn chỉnh (Bố, Mẹ, Bơ, Pu & Báo cáo JPG)",
         changes: [
@@ -824,8 +739,16 @@
     const CAT_STORAGE_KEY = "stc_custom_categories_v1";
     const SPOTLIGHT_STORAGE_KEY = "stc_spotlight_config_v1";
     const GMAIL_SEEN_KEY = "stc_gmail_processed_ids_v1";
+    const ACTIVE_VER_KEY = "stc_active_version_v1";
 
     function loadLocalData() {
+      try {
+        const savedVer = localStorage.getItem(ACTIVE_VER_KEY);
+        const savedStyle = localStorage.getItem(UI_STYLE_KEY);
+        if (savedVer) activeAppVersion = savedVer;
+        if (savedStyle === "v1.51" || savedStyle === "v1.52") activeUiStyle = savedStyle;
+      } catch (e) {}
+
       try {
         const rawTx = localStorage.getItem(TX_STORAGE_KEY);
         if (rawTx) {
@@ -889,11 +812,6 @@
     function formatVND(num) {
       const n = Math.round(Number(num) || 0);
       return n.toLocaleString("vi-VN") + " ₫";
-    }
-
-    function formatVNDStyled(num) {
-      const n = Math.round(Number(num) || 0);
-      return `${n.toLocaleString("vi-VN")} <span class="underline decoration-1 underline-offset-2 text-[13px] font-semibold">₫</span>`;
     }
 
     function formatCurrencyInput(input) {
@@ -1002,7 +920,7 @@
 
       const cancelBtn = document.createElement("button");
       cancelBtn.type = "button";
-      cancelBtn.className = "px-3.5 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold";
+      cancelBtn.className = "px-3.5 py-2 rounded-full bg-slate-100 text-slate-800 text-xs font-semibold";
       cancelBtn.textContent = "Hủy";
       cancelBtn.onclick = () => closeModal("modal-dialog");
       actions.appendChild(cancelBtn);
@@ -1010,8 +928,8 @@
       const okBtn = document.createElement("button");
       okBtn.type = "button";
       okBtn.className = isDanger
-        ? "px-3.5 py-2 rounded-xl bg-rose-600 text-white text-xs font-semibold"
-        : "px-3.5 py-2 rounded-xl bg-orange-600 text-white text-xs font-semibold";
+        ? "px-3.5 py-2 rounded-full bg-rose-600 text-white text-xs font-bold"
+        : "px-3.5 py-2 rounded-full bg-orange-600 text-white text-xs font-bold";
       okBtn.textContent = confirmText;
       okBtn.onclick = () => {
         closeModal("modal-dialog");
@@ -1022,14 +940,115 @@
     }
 
     // ==================== 5. BỘ LỌC KỲ THỜI GIAN & HIỂN THỊ TỔNG QUAN ====================
+    function applyThemeChrome() {
+      const isClassic = activeUiStyle === "v1.51";
+      document.body.className = isClassic ? "bg-slate-100 text-slate-900 select-none" : "bg-[#F8FAFC] text-slate-800 select-none";
+      const shell = document.getElementById("app-shell");
+      if (shell) shell.className = `min-h-[100dvh] max-w-[480px] mx-auto ${isClassic ? "bg-slate-100" : "bg-[#F8FAFC]"} flex flex-col relative pb-28`;
+
+      const brandIcon = document.getElementById("header-brand-icon");
+      if (brandIcon) {
+        brandIcon.innerHTML = isClassic
+          ? `<span class="text-lg leading-none">👛</span>`
+          : `<svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7"/><circle cx="16.5" cy="13" r="1.2" fill="currentColor"/></svg>`;
+      }
+
+      const headerWrap = document.getElementById("header-actions-wrap");
+      if (headerWrap) {
+        const pillCls = isClassic
+          ? "px-2.5 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 border border-white/30 text-white text-xs font-bold flex items-center gap-1 transition"
+          : "px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 border border-white/25 text-white text-xs font-semibold flex items-center gap-1.5 transition";
+
+        headerWrap.innerHTML = isClassic
+          ? `
+            <button type="button" id="btn-version-badge" onclick="openVersionModal()" class="${pillCls}">${escapeHtml(activeAppVersion)}</button>
+            <button type="button" onclick="openGmailModal()" class="${pillCls}"><span>📧</span><span>Gmail</span></button>
+            <button type="button" onclick="openSyncModal()" class="${pillCls}"><span>🔄</span><span>Đồng bộ</span></button>
+          `
+          : `
+            <button type="button" id="btn-version-badge" onclick="openVersionModal()" class="${pillCls}">${escapeHtml(activeAppVersion)}</button>
+            <button type="button" onclick="openGmailModal()" class="${pillCls}">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <span>Gmail</span>
+            </button>
+            <button type="button" onclick="openSyncModal()" class="${pillCls}">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-15-6.7L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/><path d="M16 16h5v5"/></svg>
+              <span>Đồng bộ</span>
+            </button>
+          `;
+      }
+
+      const histIcon = document.getElementById("history-section-icon");
+      if (histIcon) {
+        histIcon.innerHTML = isClassic
+          ? `<span class="text-base">🧾</span>`
+          : `<svg class="w-4 h-4 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v18l-3-2-2.5 2L12 19l-2.5 2L7 19l-3 2V3z"/><path d="M8 8h8"/><path d="M8 12h6"/></svg>`;
+      }
+
+      const repBtn = document.getElementById("btn-open-analytics");
+      if (repBtn) {
+        repBtn.className = isClassic
+          ? "px-3 py-1.5 rounded-xl bg-white hover:bg-orange-50 border-2 border-orange-200 text-orange-800 text-xs font-extrabold flex items-center gap-1 shadow-xs transition"
+          : "px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition";
+        repBtn.innerHTML = isClassic
+          ? `<span>📊</span><span>Báo cáo & Xuất ảnh</span>`
+          : `<svg class="w-3.5 h-3.5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg><span>Báo cáo & Xuất ảnh</span>`;
+      }
+
+      const navMount = document.getElementById("bottom-nav-mount");
+      if (navMount) {
+        if (isClassic) {
+          navMount.className = "fixed bottom-0 left-0 right-0 z-30 bg-white border-t-2 border-slate-200 shadow-[0_-6px_24px_rgba(15,23,42,0.08)] safe-bottom";
+          navMount.innerHTML = `
+            <div class="max-w-[480px] mx-auto px-4 pt-1.5 pb-1 grid grid-cols-3 items-center">
+              <button type="button" onclick="openBillModal()" class="flex flex-col items-center justify-center gap-0.5 py-1 rounded-2xl active:bg-slate-100 text-slate-800 transition">
+                <span class="text-xl leading-none">📸</span>
+                <span class="text-xs font-extrabold">Ảnh Bill</span>
+              </button>
+              <div class="flex flex-col items-center justify-center -mt-6">
+                <button type="button" onclick="openVoiceModal()" class="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-600/40 border-4 border-white flex flex-col items-center justify-center active:scale-95 transition">
+                  <span class="text-xl leading-none">🎙️</span>
+                  <span class="text-[11px] font-extrabold leading-tight mt-0.5">Nói AI</span>
+                </button>
+              </div>
+              <button type="button" onclick="openManualModal()" class="flex flex-col items-center justify-center gap-0.5 py-1 rounded-2xl active:bg-slate-100 text-slate-800 transition">
+                <span class="text-xl leading-none">✍️</span>
+                <span class="text-xs font-extrabold">Nhập tay</span>
+              </button>
+            </div>
+          `;
+        } else {
+          navMount.className = "fixed bottom-0 left-0 right-0 z-30 pointer-events-none safe-bottom px-4";
+          navMount.innerHTML = `
+            <div class="max-w-[440px] mx-auto pointer-events-auto bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-full shadow-[0_8px_28px_rgba(15,23,42,0.12)] px-5 py-1.5 grid grid-cols-3 items-center">
+              <button type="button" onclick="openBillModal()" class="flex flex-col items-center justify-center gap-0.5 py-1 rounded-full active:bg-slate-100 text-slate-700 transition">
+                <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2"/><path d="M20 7V5a1 1 0 0 0-1-1h-2"/><path d="M4 17v2a1 1 0 0 0 1 1h2"/><path d="M20 17v2a1 1 0 0 1-1 1h-2"/><path d="M7 12h10"/></svg>
+                <span class="text-[11px] font-semibold">Ảnh Bill</span>
+              </button>
+              <div class="flex flex-col items-center justify-center -mt-6">
+                <button type="button" onclick="openVoiceModal()" class="w-15 h-15 w-[60px] h-[60px] rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-600/35 border-4 border-white flex flex-col items-center justify-center active:scale-95 transition">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>
+                  <span class="text-[10px] font-bold leading-tight mt-0.5">Nói AI</span>
+                </button>
+              </div>
+              <button type="button" onclick="openManualModal()" class="flex flex-col items-center justify-center gap-0.5 py-1 rounded-full active:bg-slate-100 text-slate-700 transition">
+                <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                <span class="text-[11px] font-semibold">Nhập tay</span>
+              </button>
+            </div>
+          `;
+        }
+      }
+    }
+
     function setPeriodMode(mode) {
       currentPeriodMode = mode;
       visibleTxLimit = 80;
       document.querySelectorAll(".period-btn").forEach((btn) => {
         const active = btn.dataset.period === mode;
         btn.className = active
-          ? "period-btn px-3 py-1 rounded-full text-[11px] font-semibold bg-white text-orange-700 shadow-sm"
-          : "period-btn px-2.5 py-1 rounded-full text-[11px] font-medium text-orange-100";
+          ? "period-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-orange-700 shadow-xs"
+          : "period-btn px-2.5 py-1.5 rounded-full text-xs font-medium text-orange-100";
       });
       updatePeriodLabel();
       refreshDashboard();
@@ -1106,62 +1125,91 @@
       if (!mount) return;
       const list = getTransactionsInCurrentPeriod();
       const m = computePeriodMetrics(list);
+      const isClassic = activeUiStyle === "v1.51";
       const debtText = m.netDebt === 0
         ? "Không phát sinh nợ"
         : `Nợ ròng: <span class="font-semibold ${m.netDebt >= 0 ? "text-emerald-600" : "text-rose-600"}">${m.netDebt > 0 ? "+" : "-"}${formatVND(Math.abs(m.netDebt))}</span>`;
 
-      mount.innerHTML = `
-        <div class="bg-white rounded-[22px] p-3.5 border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">TỔNG THU</span>
-            <span class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7" />
-                <path d="M7 7h10v10" />
-              </svg>
-            </span>
+      if (isClassic) {
+        mount.innerHTML = `
+          <div class="bg-white rounded-2xl p-3.5 border-2 border-emerald-200 shadow-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-slate-600 uppercase">TỔNG THU</span>
+              <span class="text-sm">📈</span>
+            </div>
+            <p class="text-[19px] font-extrabold text-emerald-600 mt-1 truncate">${formatVND(m.totalIncome)}</p>
+            <p class="text-[11px] font-medium text-slate-500 mt-0.5">Tiền vào trong kỳ</p>
           </div>
-          <p class="text-[17px] font-bold text-emerald-600 mt-1.5 truncate">${formatVNDStyled(m.totalIncome)}</p>
-          <p class="text-[10px] text-slate-400 mt-0.5">Tiền vào trong kỳ</p>
-        </div>
+          <div class="bg-white rounded-2xl p-3.5 border-2 border-rose-200 shadow-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-slate-600 uppercase">TỔNG CHI</span>
+              <span class="text-sm">📉</span>
+            </div>
+            <p class="text-[19px] font-extrabold text-rose-600 mt-1 truncate">${formatVND(m.totalExpense)}</p>
+            <p class="text-[11px] font-medium text-slate-500 mt-0.5">Tiền ra trong kỳ</p>
+          </div>
+          <div class="bg-white rounded-2xl p-3.5 border-2 border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-slate-600 uppercase">SỐ DƯ KỲ</span>
+              <span class="text-sm">💳</span>
+            </div>
+            <p class="text-[19px] font-extrabold text-slate-900 mt-1 truncate">${formatVND(m.balance)}</p>
+            <p class="text-[11px] font-medium text-slate-600 mt-0.5 truncate">${debtText}</p>
+          </div>
+          <div onclick="openCategoryCustomizerModal()" class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-3.5 border-2 border-orange-300 shadow-xs cursor-pointer active:scale-[0.99] transition">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-xs font-extrabold text-orange-950 uppercase truncate">${escapeHtml(spotlightConfig.label)}</span>
+              <span class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[11px] font-extrabold shrink-0">${m.spotlightPct}%</span>
+            </div>
+            <p class="text-[19px] font-extrabold text-orange-600 mt-1 truncate">${formatVND(m.spotlightExpense)}</p>
+            <p class="text-[11px] font-medium text-orange-900/75 mt-0.5">Tỷ trọng trên tổng chi</p>
+          </div>
+        `;
+      } else {
+        mount.innerHTML = `
+          <div class="bg-white rounded-[20px] p-3.5 border border-slate-200/80 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">TỔNG THU</span>
+              <span class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </span>
+            </div>
+            <p class="text-[18px] font-bold text-emerald-600 mt-1 truncate">${formatVND(m.totalIncome)}</p>
+            <p class="text-[11px] font-normal text-slate-400 mt-0.5">Tiền vào trong kỳ</p>
+          </div>
 
-        <div class="bg-white rounded-[22px] p-3.5 border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">TỔNG CHI</span>
-            <span class="w-6 h-6 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m7 7 10 10" />
-                <path d="M17 7v10H7" />
-              </svg>
-            </span>
+          <div class="bg-white rounded-[20px] p-3.5 border border-slate-200/80 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">TỔNG CHI</span>
+              <span class="w-6 h-6 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 10"/><path d="M17 8v9H8"/></svg>
+              </span>
+            </div>
+            <p class="text-[18px] font-bold text-rose-600 mt-1 truncate">${formatVND(m.totalExpense)}</p>
+            <p class="text-[11px] font-normal text-slate-400 mt-0.5">Tiền ra trong kỳ</p>
           </div>
-          <p class="text-[17px] font-bold text-rose-600 mt-1.5 truncate">${formatVNDStyled(m.totalExpense)}</p>
-          <p class="text-[10px] text-slate-400 mt-0.5">Tiền ra trong kỳ</p>
-        </div>
 
-        <div class="bg-white rounded-[22px] p-3.5 border border-slate-200/80 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">SỐ DƯ KỲ</span>
-            <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
-                <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
-              </svg>
-            </span>
+          <div class="bg-white rounded-[20px] p-3.5 border border-slate-200/80 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">SỐ DƯ KỲ</span>
+              <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M16 12.5h.01"/></svg>
+              </span>
+            </div>
+            <p class="text-[18px] font-bold text-slate-800 mt-1 truncate">${formatVND(m.balance)}</p>
+            <p class="text-[11px] font-normal text-slate-500 mt-0.5 truncate">${debtText}</p>
           </div>
-          <p class="text-[17px] font-bold text-slate-800 mt-1.5 truncate">${formatVNDStyled(m.balance)}</p>
-          <p class="text-[10px] text-slate-500 mt-0.5 truncate">${debtText}</p>
-        </div>
 
-        <div onclick="openCategoryCustomizerModal()" class="bg-gradient-to-br from-orange-50/90 to-amber-50/60 rounded-[22px] p-3.5 border border-orange-200/90 shadow-sm cursor-pointer active:scale-[0.99] transition">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-[11px] font-semibold text-slate-600 uppercase tracking-wide truncate">${escapeHtml(spotlightConfig.label)}</span>
-            <span class="px-2 py-0.5 rounded-full bg-orange-100/90 border border-orange-200 text-orange-700 text-[10px] font-bold shrink-0">${m.spotlightPct}%</span>
+          <div onclick="openCategoryCustomizerModal()" class="bg-gradient-to-br from-orange-50/90 to-amber-50/70 rounded-[20px] p-3.5 border border-orange-200/90 shadow-2xs cursor-pointer active:scale-[0.99] transition">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[11px] font-semibold text-orange-900 uppercase tracking-wide truncate">${escapeHtml(spotlightConfig.label)}</span>
+              <span class="px-2 py-0.5 rounded-full bg-white text-orange-600 border border-orange-200 text-[10px] font-bold shrink-0">${m.spotlightPct}%</span>
+            </div>
+            <p class="text-[18px] font-bold text-orange-600 mt-1 truncate">${formatVND(m.spotlightExpense)}</p>
+            <p class="text-[11px] font-normal text-orange-800/70 mt-0.5">Tỷ trọng trên tổng chi</p>
           </div>
-          <p class="text-[17px] font-bold text-orange-600 mt-1.5 truncate">${formatVNDStyled(m.spotlightExpense)}</p>
-          <p class="text-[10px] text-slate-400 mt-0.5">Tỷ trọng trên tổng chi</p>
-        </div>
-      `;
+        `;
+      }
     }
 
     // ==================== 6. BỘ LỌC & DANH SÁCH GIAO DỊCH ====================
@@ -1220,6 +1268,7 @@
       const countBadge = document.getElementById("tx-count-badge");
       if (!container) return;
 
+      const isClassic = activeUiStyle === "v1.51";
       const keyword = (document.getElementById("filter-search").value || "").trim().toLowerCase();
       const typeFilter = document.getElementById("filter-type").value;
       const majorFilter = document.getElementById("filter-major").value;
@@ -1242,9 +1291,9 @@
 
       if (list.length === 0) {
         container.innerHTML = `
-          <div class="bg-white rounded-[22px] p-6 border border-slate-200/80 text-center space-y-1">
-            <p class="text-xs font-semibold text-slate-700">Chưa có giao dịch nào trong mục này</p>
-            <p class="text-[11px] text-slate-400">Bấm "Nhập tay", "Nói AI" hoặc "Ảnh Bill" ở thanh dưới để thêm mới.</p>
+          <div class="bg-white rounded-2xl p-6 border border-slate-200 text-center space-y-1">
+            <p class="text-sm font-semibold text-slate-800">Chưa có giao dịch nào trong mục này</p>
+            <p class="text-xs text-slate-500">Bấm "Nhập tay", "Nói AI" hoặc "Ảnh Bill" ở thanh dưới để thêm mới.</p>
           </div>
         `;
         return;
@@ -1256,41 +1305,34 @@
         const sign = isInc ? "+" : "-";
         const amtColor = isInc ? "text-emerald-600" : "text-rose-600";
         const pillBg = t.type === "income"
-          ? "bg-emerald-50 text-emerald-700 border-emerald-200/70"
-          : (t.type === "debt" ? "bg-amber-50 text-amber-800 border-amber-200/70" : "bg-orange-50 text-orange-800 border-orange-200/70");
+          ? "bg-emerald-50 text-emerald-700 border-emerald-200/80"
+          : (t.type === "debt" ? "bg-amber-50 text-amber-800 border-amber-200/80" : "bg-orange-50 text-orange-800 border-orange-200/80");
+
         const personBadge = t.person
-          ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200/70 text-[10px] font-semibold">
-              <svg class="w-3 h-3 text-sky-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              <span>${escapeHtml(t.person)}</span>
-            </span>`
+          ? (isClassic
+              ? `<span class="px-2 py-0.5 rounded-lg bg-sky-50 text-sky-800 border border-sky-200 text-[11px] font-bold">👤 ${escapeHtml(t.person)}</span>`
+              : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200/80 text-[11px] font-medium"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>${escapeHtml(t.person)}</span>`)
           : "";
 
+        const dateMarkup = isClassic
+          ? `<span class="text-xs text-slate-500 font-semibold">📅 ${formatDisplayDate(t.date)}</span>`
+          : `<span class="inline-flex items-center gap-1 text-[11px] text-slate-400 font-medium"><svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDisplayDate(t.date)}</span>`;
+
         return `
-          <div class="bg-white rounded-[20px] p-3.5 border border-slate-200/80 shadow-sm space-y-1.5">
+          <div class="bg-white rounded-[18px] p-3.5 border border-slate-200/80 shadow-2xs space-y-1.5">
             <div class="flex items-start justify-between gap-2">
               <div class="flex flex-wrap items-center gap-1.5 min-w-0">
-                <span class="px-2.5 py-0.5 rounded-full border text-[10px] font-semibold ${pillBg}">${escapeHtml(t.major)} • ${escapeHtml(t.minor)}</span>
+                <span class="px-2.5 py-0.5 rounded-full border text-[11px] font-medium ${pillBg}">${escapeHtml(t.major)} • ${escapeHtml(t.minor)}</span>
                 ${personBadge}
               </div>
-              <span class="text-[14px] font-bold ${amtColor} shrink-0">${sign}${formatVNDStyled(t.amount)}</span>
+              <span class="text-[15px] font-bold ${amtColor} shrink-0">${sign}${formatVND(t.amount)}</span>
             </div>
-            <p class="text-[13px] font-semibold text-slate-800 break-words">${escapeHtml(t.note || t.minor)}</p>
+            <p class="text-[14px] font-semibold text-slate-800 break-words">${escapeHtml(t.note || t.minor)}</p>
             <div class="flex items-center justify-between pt-0.5">
-              <span class="inline-flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
-                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                  <line x1="16" x2="16" y1="2" y2="6" />
-                  <line x1="8" x2="8" y1="2" y2="6" />
-                  <line x1="3" x2="21" y1="10" y2="10" />
-                </svg>
-                <span>${formatDisplayDate(t.date)}</span>
-              </span>
+              ${dateMarkup}
               <div class="flex items-center gap-1.5">
-                <button type="button" onclick="editTransaction('${escapeHtml(t.id)}')" class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold">Sửa</button>
-                <button type="button" onclick="deleteTransaction('${escapeHtml(t.id)}')" class="px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold">Xóa</button>
+                <button type="button" onclick="editTransaction('${escapeHtml(t.id)}')" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium">Sửa</button>
+                <button type="button" onclick="deleteTransaction('${escapeHtml(t.id)}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-medium">Xóa</button>
               </div>
             </div>
           </div>
@@ -1298,7 +1340,7 @@
       }).join("");
 
       const moreHtml = list.length > visibleTxLimit
-        ? `<button type="button" onclick="loadMoreTransactions()" class="w-full py-2.5 rounded-2xl bg-white hover:bg-orange-50 border border-slate-200 text-xs font-semibold text-orange-700 shadow-2xs">Hiển thị thêm (${list.length - visibleTxLimit} giao dịch còn lại)</button>`
+        ? `<button type="button" onclick="loadMoreTransactions()" class="w-full py-2.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200 text-xs font-semibold text-orange-700 shadow-2xs">Hiển thị thêm (${list.length - visibleTxLimit} giao dịch còn lại)</button>`
         : "";
 
       container.innerHTML = cardsHtml + moreHtml;
@@ -1310,6 +1352,7 @@
     }
 
     function refreshDashboard() {
+      applyThemeChrome();
       renderSummaryCards();
       onFilterTypeChange();
     }
@@ -1348,15 +1391,12 @@
         const active = btn.dataset.mtype === type;
         const activeBg = type === "income" ? "bg-emerald-600" : (type === "debt" ? "bg-amber-600" : "bg-rose-600");
         btn.className = active
-          ? `mtype-btn py-2 rounded-xl font-semibold ${activeBg} text-white`
-          : "mtype-btn py-2 rounded-xl font-medium text-slate-600";
+          ? `mtype-btn py-2.5 rounded-xl font-bold ${activeBg} text-white`
+          : "mtype-btn py-2.5 rounded-xl font-semibold text-slate-700";
       });
       const debtBox = document.getElementById("manual-debt-fields");
-      if (type === "debt") {
-        debtBox.classList.remove("hidden");
-      } else {
-        debtBox.classList.add("hidden");
-      }
+      if (type === "debt") debtBox.classList.remove("hidden");
+      else debtBox.classList.add("hidden");
       populateManualMajorOptions();
     }
 
@@ -1393,17 +1433,7 @@
       if (editId) {
         const idx = transactions.findIndex((t) => t.id === editId);
         if (idx !== -1) {
-          const updatedTx = {
-            ...transactions[idx],
-            date,
-            type: currentManualType,
-            major,
-            minor,
-            amount,
-            note,
-            person,
-            debtDirection
-          };
+          const updatedTx = { ...transactions[idx], date, type: currentManualType, major, minor, amount, note, person, debtDirection };
           transactions[idx] = updatedTx;
           persistTransactions();
           refreshDashboard();
@@ -1434,8 +1464,7 @@
 
     function editTransaction(id) {
       const tx = transactions.find((t) => t.id === id);
-      if (!tx) return;
-      openManualModal(tx);
+      if (tx) openManualModal(tx);
     }
 
     function deleteTransaction(id) {
@@ -1472,48 +1501,31 @@
     function parseAmountFromVietnameseText(raw) {
       const txt = raw.toLowerCase();
       const mTr = txt.match(/(\d+(?:[.,]\d+)?)\s*(?:triệu|tr|củ)\b/);
-      if (mTr) {
-        return Math.round(parseFloat(mTr[1].replace(",", ".")) * 1000000);
-      }
+      if (mTr) return Math.round(parseFloat(mTr[1].replace(",", ".")) * 1000000);
       const mK = txt.match(/(\d+(?:[.,]\d+)?)\s*(?:nghìn|ngàn|k)\b/);
-      if (mK) {
-        return Math.round(parseFloat(mK[1].replace(",", ".")) * 1000);
-      }
+      if (mK) return Math.round(parseFloat(mK[1].replace(",", ".")) * 1000);
       const mNum = txt.match(/(\d{1,3}(?:[.,]\d{3})+|\d{4,10})/);
-      if (mNum) {
-        return Number(mNum[1].replace(/[^\d]/g, ""));
-      }
+      if (mNum) return Number(mNum[1].replace(/[^\d]/g, ""));
       return 0;
     }
 
     function classifySmartVietnameseText(raw) {
       const lower = raw.toLowerCase();
       let type = "expense";
-      if (/lấy họ|lương|thưởng|thu nhập|tiền vào|nhận tiền|hoàn tiền|bán hàng/i.test(lower)) {
-        type = "income";
-      } else if (/cho vay|đi vay|trả nợ|thu hồi nợ/i.test(lower)) {
-        type = "debt";
-      }
+      if (/lấy họ|lương|thưởng|thu nhập|tiền vào|nhận tiền|hoàn tiền|bán hàng/i.test(lower)) type = "income";
+      else if (/cho vay|đi vay|trả nợ|thu hồi nợ/i.test(lower)) type = "debt";
 
       const majors = Object.keys(CATEGORY_TREE[type]);
       let major = majors[0];
 
       if (type === "expense") {
-        if (/\bbố\b|việt|xăng|lãi ngân hàng|lãi cá nhân|đóng họ/i.test(lower)) {
-          major = majors.find((m) => m.includes("Bố") || m.includes("Chồng")) || major;
-        } else if (/\bmẹ\b|quỳnh|đi chợ|làm đẹp/i.test(lower)) {
-          major = majors.find((m) => m.includes("Mẹ") || m.includes("Vợ")) || major;
-        } else if (/\bbơ\b|việt anh|học phí|sách vở/i.test(lower)) {
-          major = majors.find((m) => m.includes("Bơ") || m.includes("Con")) || major;
-        } else if (/\bpu\b|quỳnh anh|bỉm|gửi trẻ/i.test(lower)) {
-          major = majors.find((m) => m.includes("Pu") || m.includes("Con")) || major;
-        }
+        if (/\bbố\b|việt|xăng|lãi ngân hàng|lãi cá nhân|đóng họ/i.test(lower)) major = majors.find((m) => m.includes("Bố") || m.includes("Chồng")) || major;
+        else if (/\bmẹ\b|quỳnh|đi chợ|làm đẹp/i.test(lower)) major = majors.find((m) => m.includes("Mẹ") || m.includes("Vợ")) || major;
+        else if (/\bbơ\b|việt anh|học phí|sách vở/i.test(lower)) major = majors.find((m) => m.includes("Bơ") || m.includes("Con")) || major;
+        else if (/\bpu\b|quỳnh anh|bỉm|gửi trẻ/i.test(lower)) major = majors.find((m) => m.includes("Pu") || m.includes("Con")) || major;
       } else if (type === "income") {
-        if (/\bbố\b|việt|lấy họ/i.test(lower)) {
-          major = majors.find((m) => m.includes("Bố") || m.includes("Chồng")) || major;
-        } else if (/\bmẹ\b|quỳnh/i.test(lower)) {
-          major = majors.find((m) => m.includes("Mẹ") || m.includes("Vợ")) || major;
-        }
+        if (/\bbố\b|việt|lấy họ/i.test(lower)) major = majors.find((m) => m.includes("Bố") || m.includes("Chồng")) || major;
+        else if (/\bmẹ\b|quỳnh/i.test(lower)) major = majors.find((m) => m.includes("Mẹ") || m.includes("Vợ")) || major;
       }
 
       const minors = CATEGORY_TREE[type][major] || [];
@@ -1536,29 +1548,19 @@
       for (const [regex, target] of rules) {
         if (regex.test(lower)) {
           const found = minors.find((mn) => mn.toLowerCase().includes(target.toLowerCase()));
-          if (found) {
-            minor = found;
-            break;
-          }
+          if (found) { minor = found; break; }
         }
       }
-
       return { type, major, minor };
     }
 
     function splitMultiVietnameseClauses(raw) {
-      const segments = raw
-        .split(/[,;.\n]+|\bvà\b|\brồi\b|\bvới\b/i)
-        .map((s) => s.trim())
-        .filter(Boolean);
+      const segments = raw.split(/[,;.\n]+|\bvà\b|\brồi\b|\bvới\b/i).map((s) => s.trim()).filter(Boolean);
       const merged = [];
       segments.forEach((seg) => {
         const amt = parseAmountFromVietnameseText(seg);
-        if (amt > 0 || merged.length === 0) {
-          merged.push(seg);
-        } else {
-          merged[merged.length - 1] += " " + seg;
-        }
+        if (amt > 0 || merged.length === 0) merged.push(seg);
+        else merged[merged.length - 1] += " " + seg;
       });
       return merged.length > 0 ? merged : [raw];
     }
@@ -1570,13 +1572,7 @@
       voiceParsedItems = clauses.map((clause) => {
         const amt = parseAmountFromVietnameseText(clause);
         const cls = classifySmartVietnameseText(clause);
-        return {
-          type: cls.type,
-          major: cls.major,
-          minor: cls.minor,
-          amount: amt,
-          note: clause
-        };
+        return { type: cls.type, major: cls.major, minor: cls.minor, amount: amt, note: clause };
       });
       renderVoiceParsedItems();
     }
@@ -1591,7 +1587,7 @@
         const majors = Object.keys(CATEGORY_TREE[it.type] || CATEGORY_TREE.expense);
         const minors = (CATEGORY_TREE[it.type] && CATEGORY_TREE[it.type][it.major]) || ["Chi khác"];
         return `
-          <div class="bg-white p-2.5 rounded-2xl border border-orange-200/90 space-y-2">
+          <div class="bg-white p-2.5 rounded-2xl border border-orange-200 space-y-2">
             <div class="grid grid-cols-2 gap-1.5">
               <select onchange="onVoiceItemTypeChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-semibold">
                 <option value="expense" ${it.type === "expense" ? "selected" : ""}>Khoản Chi</option>
@@ -1601,16 +1597,16 @@
               <input type="text" inputmode="numeric" value="${it.amount > 0 ? it.amount.toLocaleString("vi-VN") : ""}" oninput="formatCurrencyInput(this); voiceParsedItems[${idx}].amount = parseCurrencyInput(this.value);" placeholder="Số tiền" class="rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-orange-600" />
             </div>
             <div class="grid grid-cols-2 gap-1.5">
-              <select onchange="onVoiceItemMajorChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-[11px] font-medium">
+              <select onchange="onVoiceItemMajorChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-semibold">
                 ${majors.map((m) => `<option value="${escapeHtml(m)}" ${m === it.major ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
               </select>
-              <select onchange="voiceParsedItems[${idx}].minor = this.value" class="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-[11px] font-medium">
+              <select onchange="voiceParsedItems[${idx}].minor = this.value" class="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-semibold">
                 ${minors.map((mn) => `<option value="${escapeHtml(mn)}" ${mn === it.minor ? "selected" : ""}>${escapeHtml(mn)}</option>`).join("")}
               </select>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" value="${escapeHtml(it.note)}" onchange="voiceParsedItems[${idx}].note = this.value" placeholder="Nội dung ghi chú..." class="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs" />
-              ${voiceParsedItems.length > 1 ? `<button type="button" onclick="voiceParsedItems.splice(${idx}, 1); renderVoiceParsedItems();" class="px-2 py-1.5 rounded-xl bg-rose-50 text-rose-600 text-[11px] font-semibold">Xóa</button>` : ""}
+              <input type="text" value="${escapeHtml(it.note)}" onchange="voiceParsedItems[${idx}].note = this.value" placeholder="Nội dung ghi chú..." class="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium" />
+              ${voiceParsedItems.length > 1 ? `<button type="button" onclick="voiceParsedItems.splice(${idx}, 1); renderVoiceParsedItems();" class="px-2.5 py-1.5 rounded-full bg-rose-50 text-rose-600 text-xs font-semibold">Xóa</button>` : ""}
             </div>
           </div>
         `;
@@ -1667,12 +1663,7 @@
         isRecording = false;
         document.getElementById("mic-btn-label").textContent = "Bấm nói";
       };
-      try {
-        speechRecognition.start();
-      } catch (e) {
-        isRecording = false;
-        document.getElementById("mic-btn-label").textContent = "Bấm nói";
-      }
+      try { speechRecognition.start(); } catch (e) { isRecording = false; }
     }
 
     function saveVoiceTransaction() {
@@ -1743,9 +1734,7 @@
           const mAmt = cleanText.match(/(\d{1,3}(?:[.,]\d{3})+)\s*(?:VND|VNĐ|đ|₫)?/i);
           if (mAmt) {
             const num = Number(mAmt[1].replace(/[^\d]/g, ""));
-            if (num >= 1000) {
-              document.getElementById("bill-amount").value = num.toLocaleString("vi-VN");
-            }
+            if (num >= 1000) document.getElementById("bill-amount").value = num.toLocaleString("vi-VN");
           }
           const cls = classifySmartVietnameseText(cleanText);
           document.getElementById("bill-type").value = cls.type === "income" ? "income" : "expense";
@@ -1760,9 +1749,7 @@
       } catch (e) {}
 
       box.textContent = `Đã chọn ảnh "${file.name}". Hãy kiểm tra/nhập số tiền và nội dung bên dưới rồi bấm Lưu.`;
-      if (!document.getElementById("bill-note").value) {
-        document.getElementById("bill-note").value = file.name.replace(/\.[^.]+$/, "");
-      }
+      if (!document.getElementById("bill-note").value) document.getElementById("bill-note").value = file.name.replace(/\.[^.]+$/, "");
     }
 
     function saveBillTransaction() {
@@ -1804,18 +1791,16 @@
     function isGmailItemAlreadySaved(item) {
       if (!item) return false;
       if (item.gmailId && processedGmailIds[item.gmailId]) return true;
-      if (item.gmailId && transactions.some((t) => t.id === "gm_" + item.gmailId || t.gmailId === item.gmailId)) {
-        return true;
-      }
+      if (item.gmailId && transactions.some((t) => t.id === "gm_" + item.gmailId || t.gmailId === item.gmailId)) return true;
       return transactions.some((t) => {
         if (Number(t.amount) !== Number(item.amount)) return false;
         const sameDay = String(t.date || "").slice(0, 10) === String(item.date || "").slice(0, 10);
         if (!sameDay) return false;
         const noteA = (t.note || "").toLowerCase();
         const noteB = (item.note || item.subject || "").toLowerCase();
-        return noteA.includes("shopee") && noteB.includes("shopee")
-          || noteA.includes("momo") && noteB.includes("momo")
-          || noteA.includes("google") && noteB.includes("google")
+        return (noteA.includes("shopee") && noteB.includes("shopee"))
+          || (noteA.includes("momo") && noteB.includes("momo"))
+          || (noteA.includes("google") && noteB.includes("google"))
           || noteA === noteB;
       });
     }
@@ -1823,9 +1808,7 @@
     function normalizeGmailCandidate(raw) {
       const combined = `${raw.bank || ""} ${raw.subject || ""} ${raw.snippet || ""}`.toLowerCase();
       let type = raw.type === "income" ? "income" : "expense";
-      if (/shopee|lazada|tiki|momo|google play/i.test(combined) && !/hoàn tiền thành công/i.test(combined)) {
-        type = "expense";
-      }
+      if (/shopee|lazada|tiki|momo|google play/i.test(combined) && !/hoàn tiền thành công/i.test(combined)) type = "expense";
       const cls = classifySmartVietnameseText(`${raw.subject || ""} ${raw.note || ""}`);
       return {
         ...raw,
@@ -1872,7 +1855,7 @@
       const listEl = document.getElementById("gmail-candidates-list");
       if (!listEl) return;
       if (gmailCandidates.length === 0) {
-        listEl.innerHTML = `<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-[11px] text-slate-500">Không có giao dịch Gmail mới nào đang chờ duyệt.</div>`;
+        listEl.innerHTML = `<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-600 font-medium">Không có giao dịch Gmail mới nào đang chờ duyệt.</div>`;
         return;
       }
 
@@ -1887,27 +1870,27 @@
           <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
             <div class="flex items-center justify-between gap-2">
               <div class="flex items-center gap-1.5">
-                <span class="text-[11px] text-slate-500">${formatDisplayDate(item.date)}</span>
-                ${item.bank ? `<span class="px-2 py-0.5 rounded-md bg-sky-50 text-sky-700 text-[10px] font-bold">${escapeHtml(item.bank)}</span>` : ""}
+                <span class="text-xs font-medium text-slate-500">${formatDisplayDate(item.date)}</span>
+                ${item.bank ? `<span class="px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 text-[11px] font-semibold">${escapeHtml(item.bank)}</span>` : ""}
               </div>
-              <span class="text-xs font-bold ${color}">${sign}${formatVND(item.amount)}</span>
+              <span class="text-sm font-bold ${color}">${sign}${formatVND(item.amount)}</span>
             </div>
-            <input type="text" value="${escapeHtml(item.note)}" onchange="gmailCandidates[${idx}].note = this.value" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium" />
+            <input type="text" value="${escapeHtml(item.note)}" onchange="gmailCandidates[${idx}].note = this.value" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-semibold" />
             <div class="grid grid-cols-3 gap-1.5">
-              <select onchange="onGmailCandTypeChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-[11px] font-semibold">
+              <select onchange="onGmailCandTypeChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold">
                 <option value="expense" ${item.type === "expense" ? "selected" : ""}>Chi</option>
                 <option value="income" ${item.type === "income" ? "selected" : ""}>Thu</option>
               </select>
-              <select onchange="onGmailCandMajorChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-[11px]">
+              <select onchange="onGmailCandMajorChange(${idx}, this.value)" class="rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold">
                 ${majors.map((m) => `<option value="${escapeHtml(m)}" ${m === item.major ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
               </select>
-              <select onchange="gmailCandidates[${idx}].minor = this.value" class="rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-[11px]">
+              <select onchange="gmailCandidates[${idx}].minor = this.value" class="rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold">
                 ${minors.map((mn) => `<option value="${escapeHtml(mn)}" ${mn === item.minor ? "selected" : ""}>${escapeHtml(mn)}</option>`).join("")}
               </select>
             </div>
             <div class="flex items-center justify-end gap-2">
-              <button type="button" onclick="ignoreGmailCandidate(${idx})" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-semibold">Bỏ qua</button>
-              <button type="button" onclick="saveGmailCandidate(${idx})" class="px-3 py-1.5 rounded-xl bg-orange-600 text-white text-[11px] font-semibold">+ Lưu giao dịch này</button>
+              <button type="button" onclick="ignoreGmailCandidate(${idx})" class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">Bỏ qua</button>
+              <button type="button" onclick="saveGmailCandidate(${idx})" class="px-3 py-1.5 rounded-full bg-orange-600 text-white text-xs font-bold">+ Lưu giao dịch này</button>
             </div>
           </div>
         `;
@@ -1984,8 +1967,8 @@
       document.querySelectorAll(".atab").forEach((btn) => {
         const active = btn.dataset.atab === tab;
         btn.className = active
-          ? "atab py-1.5 rounded-xl text-[11px] font-semibold bg-orange-600 text-white"
-          : "atab py-1.5 rounded-xl text-[11px] font-medium text-slate-600";
+          ? "atab py-2 rounded-full text-xs font-bold bg-orange-600 text-white"
+          : "atab py-2 rounded-full text-xs font-medium text-slate-700";
       });
       renderAnalyticsContent();
     }
@@ -2008,9 +1991,7 @@
 
         if (majorSum > 0) {
           grandTotal += majorSum;
-          const activeMinors = Object.entries(minorTotals)
-            .filter(([, val]) => val > 0)
-            .sort((a, b) => b[1] - a[1]);
+          const activeMinors = Object.entries(minorTotals).filter(([, val]) => val > 0).sort((a, b) => b[1] - a[1]);
           result.push({ major, total: majorSum, minors: activeMinors });
         }
       });
@@ -2029,30 +2010,30 @@
         const expData = buildBreakdownData(list, "expense");
         mount.innerHTML = `
           <div class="grid grid-cols-2 gap-2">
-            <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200">
-              <p class="text-[11px] font-semibold text-emerald-800">Tổng Thu</p>
+            <div class="p-3 rounded-2xl bg-emerald-50/80 border border-emerald-200">
+              <p class="text-xs font-semibold text-emerald-900">Tổng Thu</p>
               <p class="text-sm font-bold text-emerald-700 mt-0.5">${formatVND(m.totalIncome)}</p>
             </div>
-            <div class="p-3 rounded-2xl bg-rose-50 border border-rose-200">
-              <p class="text-[11px] font-semibold text-rose-800">Tổng Chi</p>
+            <div class="p-3 rounded-2xl bg-rose-50/80 border border-rose-200">
+              <p class="text-xs font-semibold text-rose-900">Tổng Chi</p>
               <p class="text-sm font-bold text-rose-700 mt-0.5">${formatVND(m.totalExpense)}</p>
             </div>
             <div class="p-3 rounded-2xl bg-slate-100 border border-slate-200">
-              <p class="text-[11px] font-semibold text-slate-700">Số Dư Kỳ</p>
+              <p class="text-xs font-semibold text-slate-800">Số Dư Kỳ</p>
               <p class="text-sm font-bold text-slate-900 mt-0.5">${formatVND(m.balance)}</p>
             </div>
-            <div class="p-3 rounded-2xl bg-orange-50 border border-orange-200">
-              <p class="text-[11px] font-semibold text-orange-800">${escapeHtml(spotlightConfig.label)} (${m.spotlightPct}%)</p>
+            <div class="p-3 rounded-2xl bg-orange-50/80 border border-orange-200">
+              <p class="text-xs font-semibold text-orange-950">${escapeHtml(spotlightConfig.label)} (${m.spotlightPct}%)</p>
               <p class="text-sm font-bold text-orange-700 mt-0.5">${formatVND(m.spotlightExpense)}</p>
             </div>
           </div>
           <div class="p-3 rounded-2xl bg-white border border-slate-200 space-y-2">
             <p class="font-bold text-slate-800">Tỷ trọng chi tiêu theo nhóm (ẩn mục 0 ₫)</p>
-            ${expData.groups.length === 0 ? `<p class="text-slate-400">Chưa có khoản chi phát sinh trong kỳ.</p>` : expData.groups.map((g) => {
+            ${expData.groups.length === 0 ? `<p class="text-slate-500">Chưa có khoản chi phát sinh trong kỳ.</p>` : expData.groups.map((g) => {
               const pct = expData.grandTotal > 0 ? Math.round((g.total / expData.grandTotal) * 100) : 0;
               return `
                 <div class="space-y-1">
-                  <div class="flex justify-between text-[11px] font-semibold">
+                  <div class="flex justify-between text-xs font-semibold">
                     <span>${escapeHtml(g.major)} (${pct}%)</span>
                     <span class="text-rose-600">${formatVND(g.total)}</span>
                   </div>
@@ -2070,24 +2051,24 @@
         const colorCls = isExp ? "text-rose-600" : "text-emerald-600";
 
         if (data.groups.length === 0) {
-          mount.innerHTML = `<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-slate-500">Không có khoản phát sinh nào khác 0 ₫ trong kỳ này.</div>`;
+          mount.innerHTML = `<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-slate-600 font-medium">Không có khoản phát sinh nào khác 0 ₫ trong kỳ này.</div>`;
           return;
         }
 
         mount.innerHTML = `
-          <div class="p-2.5 rounded-2xl bg-slate-100 flex justify-between font-bold">
+          <div class="p-3 rounded-2xl bg-slate-100 flex justify-between font-bold text-sm">
             <span>Tổng cộng ${isExp ? "Chi" : "Thu"}:</span>
             <span class="${colorCls}">${formatVND(data.grandTotal)}</span>
           </div>
           ${data.groups.map((g) => `
             <div class="p-3 rounded-2xl bg-white border border-slate-200 space-y-1.5">
-              <div class="flex justify-between font-bold text-slate-900 border-b border-slate-100 pb-1">
+              <div class="flex justify-between font-bold text-slate-800 border-b border-slate-100 pb-1">
                 <span>${escapeHtml(g.major)}</span>
                 <span class="${colorCls}">${formatVND(g.total)}</span>
               </div>
               <div class="space-y-1">
                 ${g.minors.map(([mn, val]) => `
-                  <div class="flex justify-between text-[11px] text-slate-600 pl-2">
+                  <div class="flex justify-between text-xs text-slate-600 pl-2">
                     <span>• ${escapeHtml(mn)}</span>
                     <span class="font-semibold text-slate-800">${formatVND(val)}</span>
                   </div>
@@ -2103,13 +2084,13 @@
             <span>Số dư Vay / Nợ ròng trong kỳ:</span>
             <span>${m.netDebt >= 0 ? "+" : "-"}${formatVND(Math.abs(m.netDebt))}</span>
           </div>
-          ${debts.length === 0 ? `<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-slate-500">Chưa có giao dịch Vay / Nợ trong kỳ này.</div>` : debts.map((d) => `
+          ${debts.length === 0 ? `<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-slate-600 font-medium">Chưa có giao dịch Vay / Nợ trong kỳ này.</div>` : debts.map((d) => `
             <div class="p-3 rounded-2xl bg-white border border-slate-200 flex items-center justify-between gap-2">
               <div>
                 <p class="font-bold text-slate-800">${escapeHtml(d.person || d.minor)}</p>
-                <p class="text-[11px] text-slate-500">${escapeHtml(d.note || d.minor)} • ${formatDisplayDate(d.date)}</p>
+                <p class="text-xs text-slate-500">${escapeHtml(d.note || d.minor)} • ${formatDisplayDate(d.date)}</p>
               </div>
-              <span class="font-bold ${d.debtDirection === "borrow" ? "text-rose-600" : "text-emerald-600"}">${d.debtDirection === "borrow" ? "-" : "+"}${formatVND(d.amount)}</span>
+              <span class="font-bold text-sm ${d.debtDirection === "borrow" ? "text-rose-600" : "text-emerald-600"}">${d.debtDirection === "borrow" ? "-" : "+"}${formatVND(d.amount)}</span>
             </div>
           `).join("")}
         `;
@@ -2223,10 +2204,7 @@
         const blob = await res.blob();
         const file = new File([blob], "Bao_Cao_Tai_Chinh.jpg", { type: "image/jpeg" });
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: "Báo Cáo Tài Chính Gia Đình",
-            files: [file]
-          });
+          await navigator.share({ title: "Báo Cáo Tài Chính Gia Đình", files: [file] });
           return;
         }
       } catch (e) {}
@@ -2246,26 +2224,26 @@
       const banner = document.getElementById("remote-script-check-banner");
       if (!banner) return;
       if (!url) {
-        banner.className = "p-2.5 rounded-2xl bg-amber-50 border border-amber-200 text-[11px] font-medium text-amber-900";
+        banner.className = "p-2.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-medium text-amber-950";
         banner.textContent = "Chưa gắn đường dẫn /exec. Hãy dán link Web App Google Apps Script vào ô bên dưới.";
         return;
       }
-      banner.className = "p-2.5 rounded-2xl bg-slate-100 border border-slate-200 text-[11px] font-medium text-slate-700";
+      banner.className = "p-2.5 rounded-2xl bg-slate-100 border border-slate-200 text-xs font-medium text-slate-800";
       banner.textContent = "Đang kiểm tra kết nối tới Google Apps Script...";
       try {
         const res = await fetchWithTimeout(`${url}${url.includes("?") ? "&" : "?"}action=ping`, {}, 12000);
         const data = await res.json();
         const statusStr = String((data && data.status) || "");
         if (statusStr.includes("Delta Sync")) {
-          banner.className = "p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-[11px] font-semibold text-emerald-800";
+          banner.className = "p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900";
           banner.textContent = `✓ Đã kích hoạt Mã.gs mới (${statusStr})!`;
           updateSyncStatusIndicator("synced", "Đã đồng bộ Sheets");
         } else {
-          banner.className = "p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-[11px] font-semibold text-rose-800";
+          banner.className = "p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-900";
           banner.textContent = "⚠ Link /exec này VẪN đang chạy Mã.gs cũ. Hãy cập nhật Mã.gs và chọn Phiên bản mới khi triển khai.";
         }
       } catch (err) {
-        banner.className = "p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-[11px] font-semibold text-rose-800";
+        banner.className = "p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-900";
         banner.textContent = "Không kết nối được link /exec này. Hãy kiểm tra quyền truy cập 'Bất kỳ ai (Anyone)'.";
       }
     }
@@ -2294,16 +2272,10 @@
           deletedIds: delta.deletedIds || [],
           transactions
         };
-        const res = await fetchWithTimeout(url, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        }, 15000);
+        const res = await fetchWithTimeout(url, { method: "POST", body: JSON.stringify(payload) }, 15000);
         const data = await res.json();
-        if (data && data.ok) {
-          updateSyncStatusIndicator("synced", "Đã đồng bộ Sheets");
-        } else {
-          updateSyncStatusIndicator("error", "Lỗi đồng bộ Sheets");
-        }
+        if (data && data.ok) updateSyncStatusIndicator("synced", "Đã đồng bộ Sheets");
+        else updateSyncStatusIndicator("error", "Lỗi đồng bộ Sheets");
       } catch (e) {
         updateSyncStatusIndicator("error", "Lỗi đồng bộ Sheets");
       }
@@ -2320,13 +2292,7 @@
       try {
         const res = await fetchWithTimeout(url, {
           method: "POST",
-          body: JSON.stringify({
-            action: "deltaSync",
-            added: transactions,
-            updated: [],
-            deletedIds: [],
-            transactions
-          })
+          body: JSON.stringify({ action: "deltaSync", added: transactions, updated: [], deletedIds: [], transactions })
         }, 20000);
         const data = await res.json();
         if (data && data.ok) {
@@ -2352,9 +2318,7 @@
       try {
         const res = await fetchWithTimeout(`${url}${url.includes("?") ? "&" : "?"}action=load`, {}, 20000);
         const data = await res.json();
-        if (!data || !data.ok || !Array.isArray(data.transactions)) {
-          throw new Error("Load failed");
-        }
+        if (!data || !data.ok || !Array.isArray(data.transactions)) throw new Error("Load failed");
         const existingMap = new Map(transactions.map((t) => [String(t.id), t]));
         let addedCount = 0;
         data.transactions.forEach((remoteTx) => {
@@ -2386,8 +2350,8 @@
       document.querySelectorAll(".ctab").forEach((btn) => {
         const active = btn.dataset.ctab === tab;
         btn.className = active
-          ? "ctab py-1.5 rounded-xl text-[11px] font-semibold bg-orange-600 text-white shadow-xs"
-          : "ctab py-1.5 rounded-xl text-[11px] font-medium text-slate-600";
+          ? "ctab py-2 rounded-full text-xs font-bold bg-orange-600 text-white"
+          : "ctab py-2 rounded-full text-xs font-medium text-slate-700";
       });
       renderCategoryCustomizerBody();
     }
@@ -2402,7 +2366,7 @@
         wrapper.className = "space-y-3 bg-orange-50/70 p-3 rounded-2xl border border-orange-200";
 
         const titleLbl = document.createElement("label");
-        titleLbl.className = "block text-[11px] font-bold text-orange-950";
+        titleLbl.className = "block text-xs font-bold text-orange-950";
         titleLbl.textContent = "Tiêu đề Thẻ Nổi Bật thứ 4 trên màn hình chính:";
         wrapper.appendChild(titleLbl);
 
@@ -2418,7 +2382,7 @@
         wrapper.appendChild(titleInp);
 
         const subLbl = document.createElement("p");
-        subLbl.className = "text-[11px] font-semibold text-slate-700 pt-1";
+        subLbl.className = "text-xs font-semibold text-slate-700 pt-1";
         subLbl.textContent = "Chọn các Mục Lớn khoản chi được cộng tổng vào thẻ này:";
         wrapper.appendChild(subLbl);
 
@@ -2438,7 +2402,7 @@
             renderSummaryCards();
           };
           const sp = document.createElement("span");
-          sp.className = "text-xs font-medium text-slate-800";
+          sp.className = "text-xs font-semibold text-slate-800";
           sp.textContent = maj;
           row.appendChild(cb);
           row.appendChild(sp);
@@ -2457,10 +2421,10 @@
       const newMajInp = document.createElement("input");
       newMajInp.type = "text";
       newMajInp.placeholder = type === "expense" ? "Thêm Mục Lớn mới (VD: Ông Nội)..." : "Thêm Nguồn Thu mới...";
-      newMajInp.className = "flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs";
+      newMajInp.className = "flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium";
       const addMajBtn = document.createElement("button");
       addMajBtn.type = "button";
-      addMajBtn.className = "shrink-0 px-3 py-2 rounded-xl bg-orange-600 text-white text-xs font-semibold";
+      addMajBtn.className = "shrink-0 px-3 py-2 rounded-xl bg-orange-600 text-white text-xs font-bold";
       addMajBtn.textContent = "+ Mục lớn";
       addMajBtn.onclick = () => {
         const val = newMajInp.value.trim();
@@ -2486,7 +2450,7 @@
         const majInp = document.createElement("input");
         majInp.type = "text";
         majInp.value = major;
-        majInp.className = "flex-1 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-900";
+        majInp.className = "flex-1 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-800";
         majInp.onchange = () => {
           const renamed = majInp.value.trim();
           if (!renamed || renamed === major || map[renamed]) {
@@ -2494,16 +2458,10 @@
             return;
           }
           const updatedMap = {};
-          Object.entries(map).forEach(([k, v]) => {
-            updatedMap[k === major ? renamed : k] = v;
-          });
+          Object.entries(map).forEach(([k, v]) => { updatedMap[k === major ? renamed : k] = v; });
           CATEGORY_TREE[type] = updatedMap;
-          transactions.forEach((t) => {
-            if (t.type === type && t.major === major) t.major = renamed;
-          });
-          if (type === "expense") {
-            spotlightConfig.majors = spotlightConfig.majors.map((m) => (m === major ? renamed : m));
-          }
+          transactions.forEach((t) => { if (t.type === type && t.major === major) t.major = renamed; });
+          if (type === "expense") spotlightConfig.majors = spotlightConfig.majors.map((m) => (m === major ? renamed : m));
           persistTransactions();
           persistCategoryConfig();
           refreshDashboard();
@@ -2515,7 +2473,7 @@
         if (Object.keys(map).length > 1) {
           const delMajBtn = document.createElement("button");
           delMajBtn.type = "button";
-          delMajBtn.className = "px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-600 text-[11px] font-semibold";
+          delMajBtn.className = "px-2.5 py-1.5 rounded-full bg-rose-50 text-rose-600 text-xs font-semibold";
           delMajBtn.textContent = "Xóa";
           delMajBtn.onclick = () => {
             delete CATEGORY_TREE[type][major];
@@ -2531,7 +2489,7 @@
         tagsWrap.className = "flex flex-wrap gap-1.5";
         minors.forEach((mn, idx) => {
           const pill = document.createElement("span");
-          pill.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white border border-slate-200 text-[11px] text-slate-700";
+          pill.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-700";
           const lbl = document.createElement("span");
           lbl.textContent = mn;
           pill.appendChild(lbl);
@@ -2558,10 +2516,10 @@
         const minInp = document.createElement("input");
         minInp.type = "text";
         minInp.placeholder = "Thêm mục nhỏ mới...";
-        minInp.className = "flex-1 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-[11px]";
+        minInp.className = "flex-1 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs";
         const addMinBtn = document.createElement("button");
         addMinBtn.type = "button";
-        addMinBtn.className = "px-2.5 py-1.5 rounded-xl bg-slate-800 text-white text-[11px] font-semibold";
+        addMinBtn.className = "px-2.5 py-1.5 rounded-xl bg-slate-800 text-white text-xs font-semibold";
         addMinBtn.textContent = "+ Thêm";
         addMinBtn.onclick = () => {
           const val = minInp.value.trim();
@@ -2625,7 +2583,7 @@
     return ContentService.createTextOutput(JSON.stringify({ ok: true, transactions: loadSheetTransactions_() }))
       .setMimeType(ContentService.MimeType.JSON);
   }
-  return ContentService.createTextOutput(JSON.stringify({ ok: true, status: "Sổ Thu Chi Ready (Delta Sync v1.70)" }))
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, status: "Sổ Thu Chi Ready (Delta Sync v1.74)" }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -2804,24 +2762,24 @@ function scanGmailTransactions_() {
 
     function openVersionModal() {
       const sub = document.getElementById("version-modal-subtitle");
-      if (sub) sub.textContent = `Đang chạy phiên bản: ${activeAppVersion}`;
+      if (sub) sub.textContent = `Đang chạy phiên bản: ${activeAppVersion} (Giao diện ${activeUiStyle})`;
       const list = document.getElementById("version-history-list");
       if (list) {
         list.innerHTML = BUILTIN_VERSIONS.map((v) => {
           const isCurrent = v.version === activeAppVersion;
           return `
-            <div class="p-3 rounded-2xl ${isCurrent ? "bg-orange-50/80 border-orange-300" : "bg-slate-50 border-slate-200"} border space-y-1.5">
+            <div class="p-3 rounded-2xl ${isCurrent ? "bg-orange-50/90 border-orange-300" : "bg-slate-50 border-slate-200"} border space-y-1.5">
               <div class="flex items-center justify-between gap-2">
                 <span class="font-bold text-slate-900">${escapeHtml(v.version)} • ${escapeHtml(v.title)}</span>
-                <span class="text-[10px] text-slate-400 shrink-0">${escapeHtml(v.date)}</span>
+                <span class="text-[11px] text-slate-500 shrink-0">${escapeHtml(v.date)}</span>
               </div>
-              <ul class="text-[11px] text-slate-600 space-y-0.5 pl-3 list-disc">
+              <ul class="text-xs text-slate-600 space-y-0.5 pl-3 list-disc">
                 ${v.changes.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}
               </ul>
               <div class="flex justify-end pt-0.5">
                 ${isCurrent
-                  ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-[10px] font-bold">✓ Đang sử dụng</span>`
-                  : `<button type="button" onclick="restoreAppVersion('${escapeHtml(v.version)}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-orange-50 border border-slate-200 text-orange-700 text-[10px] font-semibold">Khôi phục bản này</button>`}
+                  ? `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[11px] font-bold">✓ Đang sử dụng</span>`
+                  : `<button type="button" onclick="restoreAppVersion('${escapeHtml(v.version)}')" class="px-3 py-1 rounded-full bg-white hover:bg-orange-50 border border-slate-200 text-orange-700 text-[11px] font-semibold">Khôi phục bản này</button>`}
               </div>
             </div>
           `;
@@ -2831,14 +2789,23 @@ function scanGmailTransactions_() {
     }
 
     function restoreAppVersion(ver) {
+      const found = BUILTIN_VERSIONS.find((v) => v.version === ver);
       activeAppVersion = ver;
-      const badge = document.getElementById("btn-version-badge");
-      if (badge) badge.textContent = ver;
+      activeUiStyle = (found && found.uiStyle) || "v1.52";
+      try {
+        localStorage.setItem(ACTIVE_VER_KEY, activeAppVersion);
+        localStorage.setItem(UI_STYLE_KEY, activeUiStyle);
+      } catch (e) {}
+      refreshDashboard();
       openVersionModal();
-      showToast(`Đã chuyển trạng thái về ${ver}`);
+      showToast(`Đã khôi phục nguyên bản giao diện ${ver}!`);
     }
 
     function forceReloadLatestVersion() {
+      try {
+        localStorage.setItem(ACTIVE_VER_KEY, LATEST_APP_VERSION);
+        localStorage.setItem(UI_STYLE_KEY, "v1.52");
+      } catch (e) {}
       window.location.href = window.location.origin + window.location.pathname + "?_v=" + Date.now();
     }
 
