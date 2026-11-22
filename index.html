@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.69";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.70";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -186,7 +186,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.69
+            v1.70
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -757,7 +757,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.69";
+    const LATEST_APP_VERSION = "v1.70";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -775,6 +775,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.70",
+        date: "22/11/2026",
+        title: "Tự động đồng bộ gia tăng (Delta Sync) lên Google Sheets đúng các giao dịch có tên Loại, Mục Lớn hoặc Mục Nhỏ vừa thay đổi",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true },
+        changes: [
+          "Khi đổi tên Loại, Mục Lớn hoặc Mục Nhỏ (hoặc Đặt lại mặc định), hệ thống tự động lọc ra đúng các giao dịch có tên hiển thị thay đổi và đẩy ngầm qua Delta Sync (updated) lên Google Sheets mà không xóa bảng tính.",
+          "Hỗ trợ khớp ngược tên tùy chỉnh khi tải dữ liệu từ Google Sheets về máy để điện thoại và trang tính luôn đồng nhất."
+        ]
+      },
       {
         version: "v1.69",
         date: "22/11/2026",
@@ -1478,6 +1488,9 @@
 
     function saveCustomLabelsFromModal() {
       if (!draftCustomLabels) return;
+      const cfg = getActiveVersionConfig();
+      const prevLabelsSnapshot = JSON.parse(JSON.stringify(customLabels));
+
       const cleanTypes = {
         expense: (draftCustomLabels.types.expense || "").trim() || "Khoản Chi",
         income: (draftCustomLabels.types.income || "").trim() || "Khoản Thu",
@@ -1503,10 +1516,35 @@
         customTree: draftCustomLabels.customTree || { expense: {}, income: {}, debt: {} },
         customKeywords: draftCustomLabels.customKeywords || {}
       };
+
+      const affectedTxList = [];
+      if (cfg.features.deltaSyncRenamedCategories) {
+        const getPrevMaj = (m) => (prevLabelsSnapshot.majors?.[m] || "").trim() || m;
+        const getPrevMin = (m) => (prevLabelsSnapshot.minors?.[m] || "").trim() || m;
+
+        transactions.forEach(t => {
+          if (!t || Number(t.amount) <= 0) return;
+          const oldMajDisplay = getPrevMaj(t.major);
+          const newMajDisplay = getMajorDisplayName(t.major);
+          const oldMinDisplay = getPrevMin(t.minor);
+          const newMinDisplay = getMinorDisplayName(t.minor);
+          if (oldMajDisplay !== newMajDisplay || oldMinDisplay !== newMinDisplay) {
+            dirtyTxIds.add(t.id);
+            affectedTxList.push(buildSheetPayloadTx(t));
+          }
+        });
+      }
+
       persistLocalState();
       renderAll();
       closeModal("modal-custom-labels");
-      showToast("Đã lưu danh mục! Toàn bộ giao dịch cũ và đề xuất thông minh đã được đồng bộ theo tên mới.", "✓");
+
+      if (affectedTxList.length > 0) {
+        autoDeltaSyncInBackground({ updated: affectedTxList });
+        showToast(`Đã lưu danh mục và tự động cập nhật ${affectedTxList.length} giao dịch bị đổi tên lên Google Sheets!`, "✓");
+      } else {
+        showToast("Đã lưu danh mục! Toàn bộ giao dịch và đề xuất thông minh đã được đồng bộ theo tên mới.", "✓");
+      }
     }
 
     function confirmResetCustomLabels() {
@@ -1514,6 +1552,8 @@
         "Đặt lại mặc định ban đầu?",
         "Toàn bộ tên Loại, Mục lớn, Mục nhỏ và danh sách hiển thị sẽ quay về cấu trúc cá nhân hóa gốc ban đầu của gia đình.",
         () => {
+          const cfg = getActiveVersionConfig();
+          const prevLabelsSnapshot = JSON.parse(JSON.stringify(customLabels));
           customLabels = {
             types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" },
             majors: {},
@@ -1523,10 +1563,29 @@
             customTree: { expense: {}, income: {}, debt: {} },
             customKeywords: {}
           };
+
+          const affectedTxList = [];
+          if (cfg.features.deltaSyncRenamedCategories) {
+            const getPrevMaj = (m) => (prevLabelsSnapshot.majors?.[m] || "").trim() || m;
+            const getPrevMin = (m) => (prevLabelsSnapshot.minors?.[m] || "").trim() || m;
+            transactions.forEach(t => {
+              if (!t || Number(t.amount) <= 0) return;
+              if (getPrevMaj(t.major) !== t.major || getPrevMin(t.minor) !== t.minor) {
+                dirtyTxIds.add(t.id);
+                affectedTxList.push(buildSheetPayloadTx(t));
+              }
+            });
+          }
+
           persistLocalState();
           renderAll();
           closeModal("modal-custom-labels");
-          showToast("Đã đặt lại về danh mục cá nhân hóa mặc định ban đầu!", "✓");
+          if (affectedTxList.length > 0) {
+            autoDeltaSyncInBackground({ updated: affectedTxList });
+            showToast(`Đã đặt lại mặc định và cập nhật ${affectedTxList.length} giao dịch về tên gốc trên Google Sheets!`, "✓");
+          } else {
+            showToast("Đã đặt lại về danh mục cá nhân hóa mặc định ban đầu!", "✓");
+          }
         },
         "i"
       );
@@ -4195,9 +4254,21 @@
     }
 
     // ==================== 12. ĐỒNG BỘ GIA TĂNG GOOGLE SHEETS, QUÉT GMAIL & CÀI ĐẶT ====================
+    function buildSheetPayloadTx(t) {
+      const cfg = getActiveVersionConfig();
+      if (!cfg.features.deltaSyncRenamedCategories || !isCustomNamingEnabled()) {
+        return { ...t };
+      }
+      return {
+        ...t,
+        major: getMajorDisplayName(t.major),
+        minor: getMinorDisplayName(t.minor)
+      };
+    }
+
     function getPendingDeltaItems() {
-      const added = transactions.filter(t => !syncedTxIds.has(t.id) && Number(t.amount) > 0);
-      const updated = transactions.filter(t => syncedTxIds.has(t.id) && dirtyTxIds.has(t.id) && Number(t.amount) > 0);
+      const added = transactions.filter(t => !syncedTxIds.has(t.id) && Number(t.amount) > 0).map(buildSheetPayloadTx);
+      const updated = transactions.filter(t => syncedTxIds.has(t.id) && dirtyTxIds.has(t.id) && Number(t.amount) > 0).map(buildSheetPayloadTx);
       const deletedIds = [...deletedTxIds];
       return { added, updated, deletedIds };
     }
@@ -4252,8 +4323,8 @@
       if (!url) return;
 
       const delta = explicitDelta || getPendingDeltaItems();
-      const added = delta.added || [];
-      const updated = delta.updated || [];
+      const added = (delta.added || []).map(buildSheetPayloadTx);
+      const updated = (delta.updated || []).map(buildSheetPayloadTx);
       const deletedIds = delta.deletedIds || [];
       if (!added.length && !updated.length && !deletedIds.length) return;
       if (!transactions.length && !deletedIds.length) return;
@@ -4265,7 +4336,7 @@
           added,
           updated,
           deletedIds,
-          transactions: transactions.filter(t => Number(t.amount) > 0)
+          transactions: transactions.filter(t => Number(t.amount) > 0).map(buildSheetPayloadTx)
         };
         await fetch(url, {
           method: "POST",
@@ -4380,7 +4451,7 @@
 
       const { added, updated, deletedIds } = getPendingDeltaItems();
       const hasDelta = added.length > 0 || updated.length > 0 || deletedIds.length > 0;
-      const validAll = transactions.filter(t => Number(t.amount) > 0);
+      const validAll = transactions.filter(t => Number(t.amount) > 0).map(buildSheetPayloadTx);
       closeModal("modal-sync");
 
       try {
