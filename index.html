@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.66";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.68";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -45,8 +45,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Be Vietnam Pro & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -176,7 +176,7 @@
       <!-- Hàng 1: Tên app, Phiên bản & Cụm nút chức năng cân đối ngang hàng -->
       <div class="flex items-center justify-between gap-1.5">
         <div class="min-w-0 flex-1">
-          <div id="header-brand-trigger" onclick="handleBrandHeaderClick()" class="inline-flex items-center gap-2 max-w-full cursor-pointer active:opacity-80 transition" title="Chạm để đổi tên Loại, Mục lớn & Mục nhỏ">
+          <div id="header-brand-trigger" onclick="handleBrandHeaderClick()" title="Chạm để quản lý Loại, Mục lớn & Mục nhỏ" class="flex items-center gap-2 cursor-pointer select-none">
             <span id="header-brand-icon" class="shrink-0 flex items-center justify-center"><svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"></path></svg></span>
             <h1 id="app-header-title" class="font-bold text-[15px] tracking-tight truncate">Sổ thu chi</h1>
           </div>
@@ -186,7 +186,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.66
+            v1.68
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -203,12 +203,25 @@
       </div>
 
       <!-- Hàng 2: Bộ chọn thời gian & điều hướng kỳ -->
-      <div id="period-bar-mount" class="mt-2"></div>
+      <div id="period-bar-mount" class="mt-2">
+        <div class="flex items-center gap-1.5">
+          <div class="grid grid-cols-4 gap-1 flex-1 bg-white/15 p-0.5 rounded-full">
+            <button data-mode="day" onclick="setPeriodMode('day')" class="period-tab py-1 rounded-full text-[11px] transition font-medium text-white/95 hover:bg-white/15">Ngày</button>
+            <button data-mode="month" onclick="setPeriodMode('month')" class="period-tab py-1 rounded-full text-[11px] transition font-semibold bg-white text-orange-600 shadow-xs">Tháng</button>
+            <button data-mode="year" onclick="setPeriodMode('year')" class="period-tab py-1 rounded-full text-[11px] transition font-medium text-white/95 hover:bg-white/15">Năm</button>
+            <button data-mode="all" onclick="setPeriodMode('all')" class="period-tab py-1 rounded-full text-[11px] transition font-medium text-white/95 hover:bg-white/15">Tất cả</button>
+          </div>
+          <div id="period-nav" class="flex items-center gap-0.5 bg-white/15 px-1.5 py-0.5 rounded-full shrink-0">
+            <button onclick="shiftPeriod(-1)" class="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-[10px] font-semibold">◀</button>
+            <span id="period-label" class="text-[11px] font-semibold px-1 min-w-[58px] text-center">T11/2026</span>
+            <button onclick="shiftPeriod(1)" class="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-[10px] font-semibold">▶</button>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- NỘI DUNG CHÍNH -->
     <main id="app-main-root" class="flex-1 px-3.5 pt-3 space-y-3 flex flex-col min-h-0">
-
       <!-- 4 THẺ TỔNG QUAN -->
       <section id="summary-cards-mount" class="grid grid-cols-2 gap-2.5 shrink-0"></section>
 
@@ -615,40 +628,41 @@
     </div>
   </div>
 
-  <!-- 10. Hộp thoại Tùy Chỉnh Tên Loại, Mục Lớn & Mục Nhỏ (Mở từ Icon & Tên Sổ thu chi) -->
+  <!-- 10. Hộp thoại Quản Lý Loại, Mục Lớn & Mục Nhỏ (Mở từ Icon & Tên Sổ thu chi) -->
   <div id="modal-custom-labels" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
           <svg class="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
           <div>
-            <h3 class="font-semibold text-sm">Đổi Tên Loại, Mục Lớn &amp; Mục Nhỏ</h3>
-            <p class="text-[11px] text-orange-100">Giữ nguyên toàn bộ đề xuất thông minh &amp; lịch sử giao dịch</p>
+            <h3 id="custom-labels-modal-title" class="font-semibold text-sm">Quản Lý Loại, Mục Lớn &amp; Mục Nhỏ</h3>
+            <p class="text-[11px] text-orange-100">Chạm mục cần sửa • Giữ nguyên đề xuất &amp; lịch sử cũ</p>
           </div>
         </div>
         <button onclick="closeModal('modal-custom-labels')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
       </div>
 
-      <div class="p-3.5 space-y-3 overflow-y-auto ios-smooth-scroll">
-        <div class="bg-orange-50/80 p-2.5 rounded-2xl border border-orange-200/80 text-[11px] text-orange-950 leading-relaxed">
-          Bạn có thể đổi tên hiển thị của <b>Loại</b>, <b>Mục lớn</b> và <b>Mục nhỏ</b> theo cách gọi của gia đình mình. Mọi quy tắc gợi ý Nói AI, Quét Bill, Gmail và Báo cáo vẫn hoạt động chính xác như cũ.
+      <div class="p-3.5 space-y-2.5 overflow-y-auto ios-smooth-scroll">
+        <div id="custom-labels-helper-note" class="bg-orange-50/80 px-3 py-2 rounded-2xl border border-orange-200/80 text-[11px] text-orange-950 leading-snug">
+          Chạm vào thẻ <b>Mục Lớn</b> bên dưới để xem và sửa tên tại chỗ, ẩn bớt hoặc thêm mới. Toàn bộ giao dịch cũ tự động cập nhật theo tên mới.
         </div>
 
         <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
-          <button type="button" data-cltab="expense" onclick="switchCustomLabelTab('expense')" class="cl-tab py-2 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition">Khoản Chi</button>
-          <button type="button" data-cltab="income" onclick="switchCustomLabelTab('income')" class="cl-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition">Khoản Thu</button>
-          <button type="button" data-cltab="debt" onclick="switchCustomLabelTab('debt')" class="cl-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition">Vay / Nợ</button>
+          <button type="button" data-cltab="expense" onclick="switchCustomLabelTab('expense')" class="cl-tab py-1.5 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition">Khoản Chi</button>
+          <button type="button" data-cltab="income" onclick="switchCustomLabelTab('income')" class="cl-tab py-1.5 rounded-xl text-xs font-medium text-slate-600 transition">Khoản Thu</button>
+          <button type="button" data-cltab="debt" onclick="switchCustomLabelTab('debt')" class="cl-tab py-1.5 rounded-xl text-xs font-medium text-slate-600 transition">Vay / Nợ</button>
         </div>
 
-        <div id="custom-labels-editor-body" class="space-y-3"></div>
+        <div id="custom-labels-editor-body" class="space-y-2.5"></div>
       </div>
 
       <div class="p-3 bg-slate-50 border-t border-slate-200/80 flex items-center gap-2 shrink-0">
-        <button type="button" onclick="confirmResetCustomLabels()" class="px-3 py-2.5 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 text-xs font-medium transition">
-          Mặc định
+        <button type="button" onclick="confirmResetCustomLabels()" class="px-3 py-2.5 rounded-2xl bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-600 hover:text-rose-700 text-xs font-medium transition flex items-center gap-1 shrink-0">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <span>Đặt lại mặc định</span>
         </button>
         <button type="button" onclick="saveCustomLabelsFromModal()" class="flex-1 py-2.5 rounded-2xl bg-gradient-to-r from-orange-600 to-amber-500 text-white text-xs font-semibold shadow-sm active:scale-98 transition">
-          Lưu Tên Hiển Thị
+          Lưu Thay Đổi
         </button>
       </div>
     </div>
@@ -727,11 +741,23 @@
         debt: "Vay / Nợ"
       },
       majors: {},
-      minors: {}
+      minors: {},
+      hiddenMajors: [],
+      hiddenMinors: [],
+      customTree: {
+        expense: {},
+        income: {},
+        debt: {}
+      },
+      customKeywords: {}
     };
     let currentCustomLabelTab = "expense";
+    let selectedCustomMajorKey = "";
+    let editingInlineKey = "";
+    let showAddMajorForm = false;
+    let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.66";
+    const LATEST_APP_VERSION = "v1.68";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -750,161 +776,60 @@
 
     const BUILTIN_VERSIONS = [
       {
+        version: "v1.68",
+        date: "22/11/2026",
+        title: "Nâng cấp bảng Quản lý Loại, Mục Lớn & Mục Nhỏ dạng 2 tầng thu gọn thông minh (chạm mở từng mục & sửa tại chỗ) kèm nút Đặt lại mặc định",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true },
+        changes: [
+          "Thu gọn bảng quản lý thành 2 tầng thông minh: dải thẻ ngang Mục Lớn + danh sách Mục Nhỏ gọn gàng (chạm vào dòng nào mới mở ô sửa tại chỗ, giảm 80% chiều dài cuộn).",
+          "Giữ nguyên nút 'Đặt lại mặc định' để khôi phục 1 chạm về danh mục cá nhân hóa gốc ban đầu của gia đình bất cứ lúc nào."
+        ]
+      },
+      {
+        version: "v1.67",
+        date: "22/11/2026",
+        title: "Hỗ trợ Thêm mới, Ẩn/Hiện bớt Mục Lớn & Mục Nhỏ (kèm từ khóa Nói AI) & tự đồng bộ tên mới cho toàn bộ giao dịch cũ",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true },
+        changes: [
+          "Bổ sung nút '+ Thêm Mục Lớn Mới' và '+ Thêm Mục Nhỏ' (kèm ô từ khóa nhận diện thông minh cho Nói AI) ngay trong bảng quản lý khi chạm vào icon/tên Sổ thu chi.",
+          "Thêm nút bật/tắt Ẩn hoặc Hiện từng Mục Lớn và Mục Nhỏ không dùng đến mà vẫn giữ nguyên vẹn toàn bộ giao dịch cũ trong lịch sử."
+        ]
+      },
+      {
         version: "v1.66",
         date: "22/11/2026",
         title: "Cho phép tự đổi tên Loại, Mục lớn & Mục nhỏ ngay tại biểu tượng và tiêu đề Sổ thu chi (giữ nguyên toàn bộ đề xuất cá nhân hóa)",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true },
         changes: [
-          "Chạm trực tiếp vào biểu tượng chiếc ví hoặc tên 'Sổ thu chi' trên thanh tiêu đề để mở bảng đổi tên Loại, Mục lớn và Mục nhỏ theo ý muốn.",
-          "Liên kết ánh xạ thông minh giúp toàn bộ các đề xuất cá nhân hóa trong Nói AI, Quét Ảnh Bill, Quét Gmail và Báo cáo vẫn hoạt động chính xác 100% sau khi đổi tên."
+          "Chạm vào biểu tượng chiếc ví hoặc tiêu đề 'Sổ thu chi' trên thanh tiêu đề để mở bảng đổi tên Loại, Mục lớn và Mục nhỏ.",
+          "Giữ nguyên toàn bộ quy tắc gợi ý Nói AI, Quét Bill, Gmail và Báo cáo đồng thời nhận diện luôn cả tên hiển thị mới."
         ]
       },
       {
         version: "v1.65",
         date: "22/11/2026",
-        title: "Cô lập chặt trạng thái đồng bộ & đèn hiệu theo từng mốc phiên bản (khôi phục về v1.63 giữ nguyên bản gốc 100%)",
+        title: "Cô lập chính xác đèn báo trạng thái rút gọn theo từng phiên bản khi khôi phục về v1.63",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true },
         changes: [
-          "Gắn cờ điều kiện riêng biệt cho dòng đèn hiệu trạng thái đồng bộ rút gọn để khi khôi phục về v1.63 hay các bản cũ hơn sẽ giữ đúng 100% nguyên bản."
+          "Gắn cờ điều kiện riêng cho đèn hiệu rút gọn để khi khôi phục về v1.63 thì dòng trạng thái gốc của v1.63 được giữ nguyên vẹn."
         ]
       },
       {
         version: "v1.64",
         date: "22/11/2026",
-        title: "Rút gọn dòng trạng thái đồng bộ kèm đèn hiệu phát sáng ngay dưới tiêu đề Sổ thu chi",
+        title: "Rút gọn dòng trạng thái đồng bộ dưới Sổ thu chi kèm đèn báo sáng rõ cho từng trạng thái",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true },
         changes: [
-          "Hiển thị gọn trạng thái đồng bộ kèm đèn báo sáng rõ ('Đã đồng bộ', 'Đang đồng bộ...', 'Chờ đẩy (N)', 'Chưa gắn Sheets') để không bao giờ bị mất chữ trên màn hình iPhone."
+          "Rút gọn chữ trạng thái dưới tiêu đề Sổ thu chi kèm đèn hiệu phát sáng rõ ràng (Đã đồng bộ, Đang đồng bộ..., Đang tải về..., Chờ đẩy (N), Chưa gắn Sheets)."
         ]
       },
       {
         version: "v1.63",
         date: "22/11/2026",
-        title: "Sửa dứt điểm nhận diện Khoản Chi cho Shopee (-190.000 ₫), khớp giao dịch đã sửa ngày & thêm nút Bỏ qua email cũ",
+        title: "Mốc nền tảng chuẩn Sổ Thu Chi Thông Minh",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true },
         changes: [
-          "Gỡ bỏ hàm trùng lặp khiến đơn hàng Shopee vẫn hiện Khoản Thu (+190.000 ₫ • Lương chính), đảm bảo mọi đơn Shopee/MoMo/Google Play luôn hiển thị đúng là Khoản Chi (-).",
-          "Thêm nút 'Bỏ qua' ngay trên từng thẻ email Gmail để bạn chạm 1 lần là ẩn vĩnh viễn các email cũ đã nhập trước đó."
-        ]
-      },
-      {
-        version: "v1.62",
-        date: "22/11/2026",
-        title: "Khớp & ẩn cả các giao dịch Gmail cũ đã lưu từ trước (trùng ngày + số tiền) & sửa lỗi đơn Shopee bị nhận nhầm thành Khoản Thu",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true },
-        changes: [
-          "Tự động đối chiếu chéo theo Ngày + Số tiền + Thương hiệu/Nội dung với các giao dịch đã có trong sổ từ các phiên bản cũ để ẩn hoàn toàn những email đã lưu trước đó.",
-          "Sửa lỗi đơn hàng Shopee bị nhận nhầm thành Khoản Thu (Lương chính) do chữ 'hoàn tiền/hoàn xu' trong chân trang email."
-        ]
-      },
-      {
-        version: "v1.61",
-        date: "22/11/2026",
-        title: "Chống trùng lặp & tự động ẩn các email Gmail đã sửa nội dung và lưu trước đó khi quét lại",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true },
-        changes: [
-          "Gắn cố định mã thư Gmail vào ID giao dịch (gm_<gmailId>) kết hợp danh sách lịch sử email đã duyệt bền vững: dù bạn đã sửa nội dung trước khi lưu hay đồng bộ 2 chiều qua Google Sheets vẫn nhận diện chính xác 100%.",
-          "Khi quét lại Gmail 90 ngày, tự động ẩn toàn bộ các giao dịch Gmail cũ đã lưu trước đó để bảng chỉ hiển thị duy nhất các email mới phát sinh."
-        ]
-      },
-      {
-        version: "v1.60",
-        date: "22/11/2026",
-        title: "Nút sao chép nhanh Mã.gs đồng bộ gia tăng (0,2 giây) ngay trong hộp thoại Đồng Bộ",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true },
-        changes: [
-          "Thêm nút 'Chép Mã.gs' ngay trong hộp thoại Đồng Bộ giúp cập nhật Google Apps Script 1 lần để chấm dứt hoàn toàn việc xóa trắng và chép lại từng dòng trên Sheets.",
-          "Khi đã cập nhật Mã.gs mới, mọi thao tác thêm/sửa/xóa hoặc đẩy giao dịch mới chỉ xử lý đúng dòng thay đổi trong 0,2 giây."
-        ]
-      },
-      {
-        version: "v1.59",
-        date: "22/11/2026",
-        title: "Khóa bảo vệ kép tương thích ngược cho Đồng bộ tự động (chống xóa trắng Google Sheets ngay cả khi chưa cập nhật Mã.gs)",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true },
-        changes: [
-          "Khóa bảo vệ kép tương thích ngược: Khi tự động đồng bộ giao dịch mới, ứng dụng luôn gửi kèm danh sách dự phòng để Mã.gs cũ không bao giờ xóa trắng Google Sheets nếu bạn chưa kịp cập nhật Apps Script.",
-          "Kết hợp đồng bộ gia tăng (chỉ thêm/sửa/xóa đúng giao dịch mới) ngay khi bạn cập nhật Mã.gs mới nhất."
-        ]
-      },
-      {
-        version: "v1.58",
-        date: "22/11/2026",
-        title: "Đồng bộ gia tăng thông minh (chỉ thêm giao dịch mới) & tự động đẩy ngầm lên Google Sheets khi Lưu / Sửa / Xóa",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true },
-        changes: [
-          "Tự động đẩy ngầm tức thì lên Google Sheets mỗi khi bạn Lưu giao dịch mới, Sửa hoặc Xóa giao dịch trên điện thoại.",
-          "Đồng bộ gia tăng (Delta Sync): Bỏ hoàn toàn lệnh xóa trắng trang tính, chỉ nối thêm giao dịch mới, cập nhật đúng dòng bị sửa và xóa đúng dòng bị xóa — nhanh gấp nhiều lần và an toàn tuyệt đối."
-        ]
-      },
-      {
-        version: "v1.57",
-        date: "22/11/2026",
-        title: "Ẩn các mục 0 ₫ trong Báo Cáo Tài Chính & Xuất Ảnh báo cáo định dạng JPG có thể lưu vào điện thoại hoặc chia sẻ",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true },
-        changes: [
-          "Tự động bỏ qua các Mục lớn và Mục nhỏ không có giá trị (0 ₫) trong tab Cơ Cấu Chi, Nguồn Thu và trên ảnh báo cáo xuất ra để trang báo cáo gọn gàng, súc tích.",
-          "Nâng cấp Xuất Ảnh Báo Cáo sang định dạng file ảnh JPG sắc nét, mở khung xem trước trực tiếp (chạm giữ để Lưu vào Ảnh iPhone) kèm nút Chia sẻ / Lưu Ảnh qua Zalo, Messenger, AirDrop."
-        ]
-      },
-      {
-        version: "v1.56",
-        date: "22/11/2026",
-        title: "Bổ sung mục nhỏ cho Bố (Trả lãi ngân hàng, Trả lãi cá nhân, Giải trí, Đóng họ, Lấy họ) & hiển thị đầy đủ tổng Mục lớn, Mục nhỏ trong Báo Cáo Tài Chính & Xuất Ảnh",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true },
-        changes: [
-          "Thêm vào Loại Chi • Mục lớn Bố (Hồng Việt) các mục nhỏ: Trả lãi ngân hàng, Trả lãi cá nhân, Giải trí, Đóng họ.",
-          "Thêm vào Loại Thu • Mục lớn Thu nhập Bố (Hồng Việt) mục nhỏ: Lấy họ (kèm từ khóa tự động nhận diện cho Nói AI).",
-          "Nâng cấp tab Cơ Cấu Chi & Nguồn Thu trong Báo Cáo Tài Chính & Xuất Ảnh: hiển thị đầy đủ giá trị tổng từng Mục lớn và toàn bộ Mục nhỏ bên trong."
-        ]
-      },
-      {
-        version: "v1.55",
-        date: "22/11/2026",
-        title: "Khóa an toàn chống xóa trắng Google Sheets khi máy trống dữ liệu & bổ sung Đồng bộ 2 chiều (Tải từ Sheets về máy)",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true },
-        changes: [
-          "Khóa an toàn tuyệt đối: Khi thiết bị mới mở từ màn hình chính iPhone chưa có dữ liệu (0 giao dịch), ứng dụng tự động tải dữ liệu từ Google Sheets về máy thay vì ghi đè rỗng lên trang tính.",
-          "Bổ sung nút '📥 Tải từ Sheets về máy' (đồng bộ 2 chiều) trong hộp thoại Đồng bộ và nâng cấp Mã.gs hỗ trợ action=load."
-        ]
-      },
-      {
-        version: "v1.54",
-        date: "22/11/2026",
-        title: "Thiết kế lại Icon ứng dụng Mẫu 1 (Nền Trắng Tinh Khôi + Ví Cam & Trắng Chuẩn Ngân Hàng Số)",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1" },
-        changes: [
-          "Áp dụng Icon Mẫu 1 phong cách Ngân hàng số (VietinBank iPay / ZaloPay) với tông màu Cam (#EA580C) – Trắng (#FFFFFF) chủ đạo: nền trắng tinh khôi nổi bật trên màn hình tối, thân ví cam chuyển sắc bo tròn sắc nét cùng khe thẻ trắng và huy hiệu đồng tiền ₫ tinh xảo.",
-          "Giữ nguyên tùy chọn khôi phục về Mẫu 2 (v1.53) hoặc các phiên bản trước bất cứ lúc nào."
-        ]
-      },
-      {
-        version: "v1.52",
-        date: "22/11/2026",
-        title: "Ghi đè trực tiếp bộ nhớ đệm HTTP của đường dẫn gốc iOS PWA (thoát ra mở lại luôn giữ đúng phiên bản mới nhất)",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true },
-        changes: [
-          "Ép trình duyệt iOS Safari/PWA ghi đè trực tiếp tệp mới nhất vào bộ nhớ đệm HTTP của đường dẫn gốc (cache: 'reload') khi bấm 'Tải bản mới', giúp thoát ra mở lại biểu tượng màn hình chính luôn vào thẳng phiên bản mới nhất.",
-          "Cập nhật ngầm bộ đệm HTTP của đường dẫn gốc sau khi ứng dụng đã mở ổn định mà không tải lại trang hay gây chớp giật màn hình."
-        ]
-      },
-      {
-        version: "v1.51",
-        date: "22/11/2026",
-        title: "Nâng cấp giao diện chuẩn Ngân hàng số hiện đại: Phông chữ Be Vietnam Pro thanh nét, Icon SVG nét mảnh 2 tông màu & Thanh điều hướng viên thuốc nổi",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true },
-        changes: [
-          "Chuyển phông chữ sang Be Vietnam Pro với độ đậm tiết chế (Medium 500 – SemiBold 600 – Bold 700), nét tròn thoáng và dễ đọc lâu không mỏi mắt.",
-          "Thay thế toàn bộ Emoji nhiều màu bằng bộ Icon SVG nét mảnh 2 tông màu (Cam #EA580C & Xám than #1E293B) đồng bộ trên Header, 4 thẻ tổng quan, Lịch sử giao dịch và thanh thao tác đáy."
-        ]
-      },
-      {
-        version: "v1.50",
-        date: "22/11/2026",
-        title: "Mở khóa cuộn cảm ứng mượt 60fps cho Lịch sử giao dịch trên iPhone & chống kẹt cache bản cũ khi thoát app",
-        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true },
-        changes: [
-          "Kích hoạt gia tốc phần cứng (-webkit-overflow-scrolling: touch; touch-action: pan-y) giúp vuốt Lịch sử giao dịch mượt ngay tức thì."
+          "Phiên bản chuẩn nền tảng cho giao diện ngân hàng số, Delta Sync 0,2s, Quét Gmail 90 ngày, Nói AI 0ms, Ảnh Bill OCR và Báo cáo xuất ảnh JPG."
         ]
       }
     ];
@@ -913,9 +838,57 @@
       return BUILTIN_VERSIONS.find(v => v.version === activeAppVersion) || BUILTIN_VERSIONS[0];
     }
 
-    // ==================== ÁNH XẠ TÊN HIỂN THỊ LOẠI / MỤC LỚN / MỤC NHỎ ====================
+    // ==================== ÁNH XẠ & QUẢN LÝ LOẠI / MỤC LỚN / MỤC NHỎ ====================
     function isCustomNamingEnabled() {
       return Boolean(getActiveVersionConfig().features.customCategoryNaming);
+    }
+
+    function isFlexibleCategoryEnabled() {
+      return Boolean(getActiveVersionConfig().features.flexibleCategoryManager);
+    }
+
+    function isCompactCategoryUIEnabled() {
+      return Boolean(getActiveVersionConfig().features.compactCategoryUI);
+    }
+
+    function getMergedCategoryTree(includeHidden = false) {
+      const merged = { expense: {}, income: {}, debt: {} };
+      const hiddenMajSet = new Set(isFlexibleCategoryEnabled() ? (customLabels.hiddenMajors || []) : []);
+      const hiddenMinSet = new Set(isFlexibleCategoryEnabled() ? (customLabels.hiddenMinors || []) : []);
+
+      ["expense", "income", "debt"].forEach(tKey => {
+        const baseMajors = CATEGORY_TREE[tKey] || {};
+        Object.entries(baseMajors).forEach(([maj, mins]) => {
+          if (!includeHidden && hiddenMajSet.has(maj)) return;
+          const customExtraMins = isFlexibleCategoryEnabled() ? (customLabels.customTree?.[tKey]?.[maj] || []) : [];
+          const combinedMins = [...new Set([...mins, ...customExtraMins])]
+            .filter(m => includeHidden || !hiddenMinSet.has(m));
+          merged[tKey][maj] = combinedMins.length ? combinedMins : [mins[0]];
+        });
+
+        if (isFlexibleCategoryEnabled()) {
+          const customMajorsObj = customLabels.customTree?.[tKey] || {};
+          Object.entries(customMajorsObj).forEach(([cMaj, cMins]) => {
+            if (merged[tKey][cMaj]) return;
+            if (!includeHidden && hiddenMajSet.has(cMaj)) return;
+            const filteredMins = (Array.isArray(cMins) && cMins.length ? cMins : ["Chi khác"])
+              .filter(m => includeHidden || !hiddenMinSet.has(m));
+            merged[tKey][cMaj] = filteredMins.length ? filteredMins : ["Chi khác"];
+          });
+        }
+      });
+
+      return merged;
+    }
+
+    function getActiveMajorsForType(typeKey, includeHidden = false) {
+      const tree = getMergedCategoryTree(includeHidden);
+      return Object.keys(tree[typeKey] || {});
+    }
+
+    function getActiveMinorsForMajor(typeKey, majorKey, includeHidden = false) {
+      const tree = getMergedCategoryTree(includeHidden);
+      return tree[typeKey]?.[majorKey] || [];
     }
 
     function getTypeDisplayName(typeKey, shortMode = false) {
@@ -951,8 +924,9 @@
     function resolveCanonicalMajor(name) {
       if (!name) return "";
       const clean = String(name).trim();
+      const tree = getMergedCategoryTree(true);
       for (const t of ["expense", "income", "debt"]) {
-        if (CATEGORY_TREE[t]?.[clean]) return clean;
+        if (tree[t]?.[clean]) return clean;
       }
       for (const [canon, custom] of Object.entries(customLabels.majors || {})) {
         if (custom && custom.trim().toLowerCase() === clean.toLowerCase()) return canon;
@@ -963,10 +937,11 @@
     function resolveCanonicalMinor(name) {
       if (!name) return "";
       const clean = String(name).trim();
+      const tree = getMergedCategoryTree(true);
       const allMinors = [
-        ...Object.values(CATEGORY_TREE.expense).flat(),
-        ...Object.values(CATEGORY_TREE.income).flat(),
-        ...Object.values(CATEGORY_TREE.debt).flat()
+        ...Object.values(tree.expense).flat(),
+        ...Object.values(tree.income).flat(),
+        ...Object.values(tree.debt).flat()
       ];
       if (allMinors.includes(clean)) return clean;
       for (const [canon, custom] of Object.entries(customLabels.minors || {})) {
@@ -982,6 +957,22 @@
 
     function openCustomLabelsModal() {
       if (!isCustomNamingEnabled()) return;
+      const flexEnabled = isFlexibleCategoryEnabled();
+      const compactEnabled = isCompactCategoryUIEnabled();
+      const titleEl = document.getElementById("custom-labels-modal-title");
+      const subEl = document.getElementById("custom-labels-modal-sub");
+      const noteEl = document.getElementById("custom-labels-helper-note");
+      if (titleEl) {
+        titleEl.textContent = flexEnabled ? "Quản Lý Loại, Mục Lớn & Mục Nhỏ" : "Đổi Tên Loại, Mục Lớn & Mục Nhỏ";
+      }
+      if (subEl) {
+        subEl.textContent = compactEnabled
+          ? "Chạm mục cần sửa • Giữ nguyên đề xuất & lịch sử cũ"
+          : "Giữ nguyên toàn bộ đề xuất thông minh & lịch sử giao dịch";
+      }
+      if (noteEl) {
+        noteEl.classList.toggle("hidden", compactEnabled);
+      }
       draftCustomLabels = {
         types: {
           expense: (customLabels.types?.expense || "").trim() || "Khoản Chi",
@@ -989,27 +980,73 @@
           debt: (customLabels.types?.debt || "").trim() || "Vay / Nợ"
         },
         majors: { ...(customLabels.majors || {}) },
-        minors: { ...(customLabels.minors || {}) }
+        minors: { ...(customLabels.minors || {}) },
+        hiddenMajors: [...(customLabels.hiddenMajors || [])],
+        hiddenMinors: [...(customLabels.hiddenMinors || [])],
+        customTree: {
+          expense: JSON.parse(JSON.stringify(customLabels.customTree?.expense || {})),
+          income: JSON.parse(JSON.stringify(customLabels.customTree?.income || {})),
+          debt: JSON.parse(JSON.stringify(customLabels.customTree?.debt || {}))
+        },
+        customKeywords: { ...(customLabels.customKeywords || {}) }
       };
+      editingInlineKey = "";
+      showAddMajorForm = false;
+      showAddMinorForm = false;
       switchCustomLabelTab("expense");
       openModal("modal-custom-labels");
     }
 
     function switchCustomLabelTab(tab) {
       currentCustomLabelTab = tab;
+      editingInlineKey = "";
+      showAddMajorForm = false;
+      showAddMinorForm = false;
+      const baseKeys = Object.keys(CATEGORY_TREE[tab] || {});
+      const customKeys = Object.keys(draftCustomLabels?.customTree?.[tab] || {});
+      const allKeys = [...new Set([...baseKeys, ...customKeys])];
+      selectedCustomMajorKey = allKeys[0] || "";
+
       document.querySelectorAll(".cl-tab").forEach(btn => {
-        if (btn.dataset.cltab === tab) {
-          btn.className = "cl-tab py-2 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition";
+        const tKey = btn.dataset.cltab;
+        const lbl = draftCustomLabels?.types?.[tKey] || (tKey === "income" ? "Khoản Thu" : (tKey === "debt" ? "Vay / Nợ" : "Khoản Chi"));
+        btn.textContent = lbl;
+        if (tKey === tab) {
+          btn.className = "cl-tab py-1.5 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition truncate px-1";
         } else {
-          btn.className = "cl-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition";
+          btn.className = "cl-tab py-1.5 rounded-xl text-xs font-medium text-slate-600 transition truncate px-1";
         }
       });
       renderCustomLabelsEditor();
     }
 
+    function selectCompactMajor(canonMajor) {
+      selectedCustomMajorKey = canonMajor;
+      editingInlineKey = "";
+      showAddMajorForm = false;
+      showAddMinorForm = false;
+      renderCustomLabelsEditor();
+    }
+
+    function setInlineEditKey(key) {
+      editingInlineKey = editingInlineKey === key ? "" : key;
+      renderCustomLabelsEditor();
+      if (editingInlineKey) {
+        setTimeout(() => {
+          const inp = document.getElementById("inline-active-input");
+          if (inp) {
+            inp.focus();
+            inp.select();
+          }
+        }, 40);
+      }
+    }
+
     function updateDraftTypeLabel(typeKey, val) {
       if (!draftCustomLabels) return;
       draftCustomLabels.types[typeKey] = val;
+      const tabBtn = document.querySelector(`.cl-tab[data-cltab="${typeKey}"]`);
+      if (tabBtn) tabBtn.textContent = val.trim() || (typeKey === "income" ? "Khoản Thu" : (typeKey === "debt" ? "Vay / Nợ" : "Khoản Chi"));
     }
 
     function updateDraftMajorLabel(canonMajor, val) {
@@ -1020,6 +1057,8 @@
       } else {
         draftCustomLabels.majors[canonMajor] = val;
       }
+      const pillSpan = document.querySelector(`[data-pill-major="${CSS.escape(canonMajor)}"]`);
+      if (pillSpan) pillSpan.textContent = trimmed || canonMajor;
     }
 
     function updateDraftMinorLabel(canonMinor, val) {
@@ -1032,14 +1071,286 @@
       }
     }
 
+    function updateDraftKeyword(canonKey, val) {
+      if (!draftCustomLabels) return;
+      const trimmed = val.trim();
+      if (!trimmed) delete draftCustomLabels.customKeywords[canonKey];
+      else draftCustomLabels.customKeywords[canonKey] = val;
+    }
+
+    function toggleDraftMajorHidden(canonMajor) {
+      if (!draftCustomLabels) return;
+      const idx = draftCustomLabels.hiddenMajors.indexOf(canonMajor);
+      if (idx === -1) {
+        const allMajors = [
+          ...Object.keys(CATEGORY_TREE[currentCustomLabelTab] || {}),
+          ...Object.keys(draftCustomLabels.customTree?.[currentCustomLabelTab] || {})
+        ];
+        const visibleCount = allMajors.filter(m => !draftCustomLabels.hiddenMajors.includes(m)).length;
+        if (visibleCount <= 1) {
+          showToast("Cần giữ lại ít nhất 1 Mục Lớn hiển thị trong mỗi Loại.", "!");
+          return;
+        }
+        draftCustomLabels.hiddenMajors.push(canonMajor);
+      } else {
+        draftCustomLabels.hiddenMajors.splice(idx, 1);
+      }
+      renderCustomLabelsEditor();
+    }
+
+    function toggleDraftMinorHidden(canonMajor, canonMinor) {
+      if (!draftCustomLabels) return;
+      const idx = draftCustomLabels.hiddenMinors.indexOf(canonMinor);
+      if (idx === -1) {
+        const baseMins = CATEGORY_TREE[currentCustomLabelTab]?.[canonMajor] || [];
+        const extraMins = draftCustomLabels.customTree?.[currentCustomLabelTab]?.[canonMajor] || [];
+        const allMins = [...new Set([...baseMins, ...extraMins])];
+        const visibleCount = allMins.filter(m => !draftCustomLabels.hiddenMinors.includes(m)).length;
+        if (visibleCount <= 1) {
+          showToast("Mỗi Mục Lớn cần giữ lại ít nhất 1 Mục Nhỏ hiển thị.", "!");
+          return;
+        }
+        draftCustomLabels.hiddenMinors.push(canonMinor);
+      } else {
+        draftCustomLabels.hiddenMinors.splice(idx, 1);
+      }
+      renderCustomLabelsEditor();
+    }
+
+    function addDraftCustomMajor() {
+      if (!draftCustomLabels) return;
+      const nameInput = document.getElementById("new-custom-major-name");
+      const kwInput = document.getElementById("new-custom-major-kw");
+      const rawName = (nameInput?.value || "").trim();
+      if (!rawName) {
+        showToast("Vui lòng nhập tên Mục Lớn muốn thêm mới.", "!");
+        return;
+      }
+      const tab = currentCustomLabelTab;
+      if (CATEGORY_TREE[tab]?.[rawName] || draftCustomLabels.customTree[tab]?.[rawName]) {
+        showToast("Mục Lớn này đã tồn tại trong danh sách.", "!");
+        return;
+      }
+      const defaultFirstMinor = tab === "income" ? "Thu khác" : (tab === "debt" ? "Cho vay mới" : "Chi khác");
+      draftCustomLabels.customTree[tab][rawName] = [defaultFirstMinor];
+      const kw = (kwInput?.value || "").trim();
+      if (kw) draftCustomLabels.customKeywords[rawName] = kw;
+      selectedCustomMajorKey = rawName;
+      showAddMajorForm = false;
+      renderCustomLabelsEditor();
+    }
+
+    function removeDraftCustomMajor(canonMajor) {
+      if (!draftCustomLabels) return;
+      const tab = currentCustomLabelTab;
+      delete draftCustomLabels.customTree[tab][canonMajor];
+      delete draftCustomLabels.majors[canonMajor];
+      delete draftCustomLabels.customKeywords[canonMajor];
+      const remaining = [...new Set([...Object.keys(CATEGORY_TREE[tab] || {}), ...Object.keys(draftCustomLabels.customTree[tab] || {})])];
+      selectedCustomMajorKey = remaining[0] || "";
+      renderCustomLabelsEditor();
+    }
+
+    function addDraftCustomMinor(canonMajor, inputIdx = 0) {
+      if (!draftCustomLabels) return;
+      const inp = document.getElementById(`new-minor-input-${inputIdx}`);
+      const rawName = (inp?.value || "").trim();
+      if (!rawName) {
+        showToast("Vui lòng nhập tên Mục Nhỏ muốn thêm.", "!");
+        return;
+      }
+      const tab = currentCustomLabelTab;
+      const baseMins = CATEGORY_TREE[tab]?.[canonMajor] || [];
+      const extraMins = draftCustomLabels.customTree[tab]?.[canonMajor] || [];
+      if (baseMins.includes(rawName) || extraMins.includes(rawName)) {
+        showToast("Mục Nhỏ này đã có trong Mục Lớn.", "!");
+        return;
+      }
+      if (!draftCustomLabels.customTree[tab][canonMajor]) {
+        draftCustomLabels.customTree[tab][canonMajor] = [];
+      }
+      draftCustomLabels.customTree[tab][canonMajor].push(rawName);
+      showAddMinorForm = false;
+      renderCustomLabelsEditor();
+    }
+
+    function removeDraftCustomMinor(canonMajor, canonMinor) {
+      if (!draftCustomLabels) return;
+      const tab = currentCustomLabelTab;
+      const arr = draftCustomLabels.customTree[tab]?.[canonMajor] || [];
+      draftCustomLabels.customTree[tab][canonMajor] = arr.filter(m => m !== canonMinor);
+      if (!CATEGORY_TREE[tab]?.[canonMajor] && draftCustomLabels.customTree[tab][canonMajor].length === 0) {
+        draftCustomLabels.customTree[tab][canonMajor] = [tab === "income" ? "Thu khác" : "Chi khác"];
+      }
+      delete draftCustomLabels.minors[canonMinor];
+      renderCustomLabelsEditor();
+    }
+
     function renderCustomLabelsEditor() {
       const body = document.getElementById("custom-labels-editor-body");
       if (!body || !draftCustomLabels) return;
+      const flexEnabled = isFlexibleCategoryEnabled();
+      const compactEnabled = isCompactCategoryUIEnabled();
       const tab = currentCustomLabelTab;
       const defaultTypeNames = { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" };
       const currentTypeVal = draftCustomLabels.types[tab] ?? defaultTypeNames[tab];
-      const majorsObj = CATEGORY_TREE[tab] || {};
+      const baseMajorsObj = CATEGORY_TREE[tab] || {};
+      const customMajorsObj = flexEnabled ? (draftCustomLabels.customTree?.[tab] || {}) : {};
+      const allMajorKeys = [...new Set([...Object.keys(baseMajorsObj), ...Object.keys(customMajorsObj)])];
 
+      if (compactEnabled) {
+        if (!selectedCustomMajorKey || !allMajorKeys.includes(selectedCustomMajorKey)) {
+          selectedCustomMajorKey = allMajorKeys[0] || "";
+        }
+        const canonMajor = selectedCustomMajorKey;
+        const isBuiltInMajor = Boolean(baseMajorsObj[canonMajor]);
+        const isMajorHidden = draftCustomLabels.hiddenMajors.includes(canonMajor);
+        const curMajVal = draftCustomLabels.majors[canonMajor] || canonMajor;
+        const baseMins = baseMajorsObj[canonMajor] || [];
+        const extraMins = customMajorsObj[canonMajor] || [];
+        const combinedMins = [...new Set([...baseMins, ...extraMins])];
+        const curKw = draftCustomLabels.customKeywords?.[canonMajor] || "";
+
+        const isEditingType = editingInlineKey === "type";
+        const isEditingMajor = editingInlineKey === "major";
+
+        body.innerHTML = `
+          <!-- Dòng tên Loại gọn 1 chạm -->
+          <div class="bg-slate-50 px-3 py-2 rounded-2xl border border-slate-200/90 flex items-center justify-between gap-2">
+            ${isEditingType ? `
+              <input id="inline-active-input" type="text" value="${escapeHtml(currentTypeVal)}" oninput="updateDraftTypeLabel('${tab}', this.value)" onkeydown="if(event.key==='Enter')setInlineEditKey('')" class="flex-1 min-w-0 rounded-xl border border-orange-400 bg-white px-2.5 py-1.5 text-xs font-semibold text-orange-700 focus:outline-none" />
+              <button type="button" onclick="setInlineEditKey('')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-orange-600 text-white text-[11px] font-semibold">Xong</button>
+            ` : `
+              <div onclick="setInlineEditKey('type')" class="flex-1 min-w-0 flex items-center gap-1.5 cursor-pointer">
+                <span class="text-[11px] text-slate-500">Tên loại:</span>
+                <span class="text-xs font-semibold text-orange-700 truncate">${escapeHtml(currentTypeVal)}</span>
+                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </div>
+              <span class="text-[10px] text-slate-400 shrink-0">Gốc: ${escapeHtml(defaultTypeNames[tab])}</span>
+            `}
+          </div>
+
+          <!-- Tầng 2: Dải thẻ ngang Mục Lớn (Chỉ chọn 1 Mục Lớn để thao tác, không cuộn dài) -->
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            ${allMajorKeys.map(mKey => {
+              const isSelected = mKey === canonMajor;
+              const isHidden = draftCustomLabels.hiddenMajors.includes(mKey);
+              const dispName = draftCustomLabels.majors[mKey] || mKey;
+              return `
+                <button type="button" onclick="selectCompactMajor('${escapeHtml(mKey)}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition flex items-center gap-1.5 ${isSelected ? "bg-orange-600 text-white border-orange-600 shadow-xs font-semibold" : (isHidden ? "bg-slate-100 text-slate-400 border-slate-200 line-through" : "bg-white text-slate-700 border-slate-200 hover:bg-orange-50")}">
+                  <span data-pill-major="${escapeHtml(mKey)}">${escapeHtml(dispName)}</span>
+                </button>
+              `;
+            }).join("")}
+            <button type="button" onclick="showAddMajorForm = !showAddMajorForm; showAddMinorForm = false; editingInlineKey = ''; renderCustomLabelsEditor();" class="shrink-0 px-2.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">
+              + Thêm mục lớn
+            </button>
+          </div>
+
+          <!-- Khung thêm Mục Lớn mới (thu gọn, chỉ bung khi bấm + Thêm mục lớn) -->
+          ${showAddMajorForm ? `
+            <div class="bg-emerald-50/80 p-3 rounded-2xl border border-emerald-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-emerald-950">+ Thêm Mục Lớn Mới</span>
+                <button type="button" onclick="showAddMajorForm = false; renderCustomLabelsEditor();" class="text-[11px] text-slate-500">Đóng</button>
+              </div>
+              <input id="new-custom-major-name" type="text" placeholder="VD: Ông Bà, Xe Ô Tô, Nhà Cửa..." class="w-full min-h-[38px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-500" />
+              <input id="new-custom-major-kw" type="text" placeholder="Từ khóa Nói AI (tùy chọn): VD: ông nội, bà ngoại..." class="w-full min-h-[36px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-[11px] font-normal text-slate-700 focus:outline-none focus:border-emerald-500" />
+              <button type="button" onclick="addDraftCustomMajor()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-2xs">
+                Xác nhận thêm
+              </button>
+            </div>
+          ` : ""}
+
+          <!-- Khung chi tiết duy nhất của Mục Lớn đang chọn -->
+          ${canonMajor ? `
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
+              <!-- Tiêu đề Mục Lớn (chạm để sửa tên tại chỗ) -->
+              <div class="px-3 py-2.5 bg-orange-50/60 border-b border-orange-100 flex items-center justify-between gap-2">
+                ${isEditingMajor ? `
+                  <input id="inline-active-input" type="text" value="${escapeHtml(curMajVal)}" oninput="updateDraftMajorLabel('${escapeHtml(canonMajor)}', this.value)" onkeydown="if(event.key==='Enter')setInlineEditKey('')" class="flex-1 min-w-0 rounded-xl border border-orange-400 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:outline-none" />
+                  <button type="button" onclick="setInlineEditKey('')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-orange-600 text-white text-[11px] font-semibold">Xong</button>
+                ` : `
+                  <div onclick="setInlineEditKey('major')" class="flex-1 min-w-0 cursor-pointer">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs font-semibold text-slate-900 truncate">${escapeHtml(curMajVal)}</span>
+                      <svg class="w-3.5 h-3.5 text-orange-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    </div>
+                    <p class="text-[10px] text-slate-400 truncate">Chạm tên để đổi • Gốc: ${escapeHtml(canonMajor)}</p>
+                  </div>
+                  ${isBuiltInMajor ? `
+                    <button type="button" onclick="toggleDraftMajorHidden('${escapeHtml(canonMajor)}')" class="shrink-0 px-2.5 py-1 rounded-xl border text-[11px] font-medium transition ${isMajorHidden ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-white border-slate-200 text-slate-600 hover:text-rose-600"}">
+                      ${isMajorHidden ? "Hiện mục này" : "Ẩn mục này"}
+                    </button>
+                  ` : `
+                    <button type="button" onclick="removeDraftCustomMajor('${escapeHtml(canonMajor)}')" class="shrink-0 px-2.5 py-1 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-[11px] font-medium">
+                      Xóa mục
+                    </button>
+                  `}
+                `}
+              </div>
+
+              ${!isBuiltInMajor ? `
+                <div class="px-3 py-2 bg-slate-50/70 border-b border-slate-100">
+                  <input type="text" value="${escapeHtml(curKw)}" oninput="updateDraftKeyword('${escapeHtml(canonMajor)}', this.value)" placeholder="Từ khóa Nói AI (cách nhau dấu phẩy)..." class="w-full rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700 focus:outline-none focus:border-orange-400" />
+                </div>
+              ` : ""}
+
+              <!-- Danh sách Mục Nhỏ dạng dòng gọn gàng, chạm dòng nào sửa dòng đó -->
+              <div class="divide-y divide-slate-100">
+                ${combinedMins.map((canonMinor, minIdx) => {
+                  const isBuiltInMinor = baseMins.includes(canonMinor);
+                  const isMinorHidden = draftCustomLabels.hiddenMinors.includes(canonMinor);
+                  const curMinVal = draftCustomLabels.minors[canonMinor] || canonMinor;
+                  const rowKey = `minor_${minIdx}`;
+                  const isEditingThisMinor = editingInlineKey === rowKey;
+
+                  return `
+                    <div class="px-3 py-2 flex items-center justify-between gap-2 ${isMinorHidden ? "bg-slate-50/80 opacity-60" : "hover:bg-slate-50/50"}">
+                      ${isEditingThisMinor ? `
+                        <input id="inline-active-input" type="text" value="${escapeHtml(curMinVal)}" oninput="updateDraftMinorLabel('${escapeHtml(canonMinor)}', this.value)" onkeydown="if(event.key==='Enter')setInlineEditKey('')" class="flex-1 min-w-0 rounded-xl border border-orange-400 bg-white px-2.5 py-1 text-xs font-medium text-slate-900 focus:outline-none" />
+                        <button type="button" onclick="setInlineEditKey('')" class="shrink-0 px-2.5 py-1 rounded-xl bg-orange-600 text-white text-[11px] font-semibold">Xong</button>
+                      ` : `
+                        <div onclick="setInlineEditKey('${rowKey}')" class="flex-1 min-w-0 flex items-center gap-2 cursor-pointer py-0.5">
+                          <span class="w-1.5 h-1.5 rounded-full ${isMinorHidden ? "bg-slate-300" : "bg-orange-500"} shrink-0"></span>
+                          <span class="text-xs font-medium ${isMinorHidden ? "text-slate-400 line-through" : "text-slate-700"} truncate">${escapeHtml(curMinVal)}</span>
+                        </div>
+                        ${isBuiltInMinor ? `
+                          <button type="button" onclick="toggleDraftMinorHidden('${escapeHtml(canonMajor)}', '${escapeHtml(canonMinor)}')" class="shrink-0 px-2 py-0.5 rounded-lg border text-[10px] font-medium ${isMinorHidden ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-slate-100 border-slate-200 text-slate-500 hover:text-rose-600"}">
+                            ${isMinorHidden ? "Hiện" : "Ẩn"}
+                          </button>
+                        ` : `
+                          <button type="button" onclick="removeDraftCustomMinor('${escapeHtml(canonMajor)}', '${escapeHtml(canonMinor)}')" class="shrink-0 px-2 py-0.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 text-[10px] font-medium">
+                            Xóa
+                          </button>
+                        `}
+                      `}
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+
+              <!-- Dòng thêm Mục Nhỏ thu gọn ở đáy thẻ -->
+              <div class="p-2.5 bg-slate-50/70 border-t border-slate-100">
+                ${showAddMinorForm ? `
+                  <div class="flex items-center gap-1.5">
+                    <input id="new-minor-input-0" type="text" placeholder="Nhập tên mục nhỏ mới..." onkeydown="if(event.key==='Enter')addDraftCustomMinor('${escapeHtml(canonMajor)}', 0)" class="flex-1 min-w-0 min-h-[36px] rounded-xl border border-orange-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 focus:outline-none" />
+                    <button type="button" onclick="addDraftCustomMinor('${escapeHtml(canonMajor)}', 0)" class="shrink-0 px-3 py-1.5 rounded-xl bg-orange-600 text-white text-[11px] font-semibold">Thêm</button>
+                    <button type="button" onclick="showAddMinorForm = false; renderCustomLabelsEditor();" class="shrink-0 px-2 py-1.5 rounded-xl bg-slate-200 text-slate-600 text-[11px]">Hủy</button>
+                  </div>
+                ` : `
+                  <button type="button" onclick="showAddMinorForm = true; editingInlineKey = ''; renderCustomLabelsEditor(); setTimeout(() => document.getElementById('new-minor-input-0')?.focus(), 40);" class="w-full py-1.5 rounded-xl border border-dashed border-orange-300 bg-white hover:bg-orange-50 text-orange-700 text-[11px] font-semibold transition">
+                    + Thêm Mục Nhỏ vào "${escapeHtml(curMajVal)}"
+                  </button>
+                `}
+              </div>
+            </div>
+          ` : ""}
+        `;
+        return;
+      }
+
+      // Giao diện gốc cho v1.66 & v1.67
       body.innerHTML = `
         <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/90 space-y-1.5">
           <div class="flex items-center justify-between">
@@ -1050,36 +1361,95 @@
         </div>
 
         <div class="space-y-2.5">
-          ${Object.entries(majorsObj).map(([canonMajor, minorsList]) => {
+          ${allMajorKeys.map((canonMajor, majIdx) => {
+            const isBuiltInMajor = Boolean(baseMajorsObj[canonMajor]);
+            const isMajorHidden = flexEnabled && draftCustomLabels.hiddenMajors.includes(canonMajor);
             const curMajVal = draftCustomLabels.majors[canonMajor] || canonMajor;
+            const baseMins = baseMajorsObj[canonMajor] || [];
+            const extraMins = customMajorsObj[canonMajor] || [];
+            const combinedMins = [...new Set([...baseMins, ...extraMins])];
+            const curKw = draftCustomLabels.customKeywords?.[canonMajor] || "";
+
             return `
-              <div class="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs space-y-2">
+              <div class="bg-white p-3 rounded-2xl border ${isMajorHidden ? "border-slate-200 bg-slate-50/80 opacity-65" : "border-slate-200/90 shadow-2xs"} space-y-2">
                 <div>
-                  <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] font-semibold text-orange-700 uppercase tracking-wide">Mục Lớn</span>
-                    ${curMajVal !== canonMajor ? `<span class="text-[10px] text-slate-400">Gốc: ${escapeHtml(canonMajor)}</span>` : ""}
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-[10px] font-semibold text-orange-700 uppercase tracking-wide">Mục Lớn</span>
+                      ${!isBuiltInMajor ? `<span class="px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[9px] font-semibold">Tự thêm</span>` : ""}
+                      ${isMajorHidden ? `<span class="px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-600 text-[9px] font-semibold">Đang ẩn</span>` : ""}
+                    </div>
+                    ${flexEnabled ? (isBuiltInMajor ? `
+                      <button type="button" onclick="toggleDraftMajorHidden('${escapeHtml(canonMajor)}')" class="px-2 py-0.5 rounded-lg border text-[10px] font-semibold transition ${isMajorHidden ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-slate-100 border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-600"}">
+                        ${isMajorHidden ? "Hiện lại" : "Ẩn bớt"}
+                      </button>
+                    ` : `
+                      <button type="button" onclick="removeDraftCustomMajor('${escapeHtml(canonMajor)}')" class="px-2 py-0.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 text-[10px] font-semibold">
+                        Xóa mục
+                      </button>
+                    `) : ""}
                   </div>
                   <input type="text" value="${escapeHtml(curMajVal)}" oninput="updateDraftMajorLabel('${escapeHtml(canonMajor)}', this.value)" placeholder="${escapeHtml(canonMajor)}" class="ios-touch-field w-full rounded-xl border border-orange-200 focus:border-orange-500 focus:outline-none bg-orange-50/40 px-3 text-xs font-semibold text-slate-800" />
                 </div>
 
-                <div class="pt-1 border-t border-slate-100 space-y-1.5">
-                  <span class="block text-[10px] font-medium text-slate-500">Các Mục Nhỏ bên trong:</span>
-                  <div class="grid grid-cols-1 gap-1.5">
-                    ${minorsList.map(canonMinor => {
-                      const curMinVal = draftCustomLabels.minors[canonMinor] || canonMinor;
-                      return `
-                        <div class="flex items-center gap-2">
-                          <span class="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0"></span>
-                          <input type="text" value="${escapeHtml(curMinVal)}" oninput="updateDraftMinorLabel('${escapeHtml(canonMinor)}', this.value)" placeholder="${escapeHtml(canonMinor)}" class="w-full min-h-[38px] rounded-xl border border-slate-200 focus:border-orange-500 focus:outline-none bg-slate-50/70 focus:bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700" />
-                        </div>
-                      `;
-                    }).join("")}
+                ${flexEnabled && !isBuiltInMajor ? `
+                  <div>
+                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Từ khóa Nói AI tự nhận diện (cách nhau dấu phẩy):</label>
+                    <input type="text" value="${escapeHtml(curKw)}" oninput="updateDraftKeyword('${escapeHtml(canonMajor)}', this.value)" placeholder="VD: ông nội, bà ngoại, biếu ông bà..." class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-normal text-slate-700" />
                   </div>
-                </div>
+                ` : ""}
+
+                ${!isMajorHidden ? `
+                  <div class="pt-1 border-t border-slate-100 space-y-1.5">
+                    <span class="block text-[10px] font-medium text-slate-500">Các Mục Nhỏ bên trong:</span>
+                    <div class="grid grid-cols-1 gap-1.5">
+                      ${combinedMins.map(canonMinor => {
+                        const isBuiltInMinor = baseMins.includes(canonMinor);
+                        const isMinorHidden = flexEnabled && draftCustomLabels.hiddenMinors.includes(canonMinor);
+                        const curMinVal = draftCustomLabels.minors[canonMinor] || canonMinor;
+                        return `
+                          <div class="flex items-center gap-1.5 ${isMinorHidden ? "opacity-55" : ""}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0"></span>
+                            <input type="text" value="${escapeHtml(curMinVal)}" oninput="updateDraftMinorLabel('${escapeHtml(canonMinor)}', this.value)" placeholder="${escapeHtml(canonMinor)}" class="flex-1 min-w-0 min-h-[38px] rounded-xl border border-slate-200 focus:border-orange-500 focus:outline-none bg-slate-50/70 focus:bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700" />
+                            ${flexEnabled ? (isBuiltInMinor ? `
+                              <button type="button" onclick="toggleDraftMinorHidden('${escapeHtml(canonMajor)}', '${escapeHtml(canonMinor)}')" class="shrink-0 px-2 py-1.5 rounded-lg border text-[10px] font-medium ${isMinorHidden ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-slate-100 border-slate-200 text-slate-500 hover:text-rose-600"}">
+                                ${isMinorHidden ? "Hiện" : "Ẩn"}
+                              </button>
+                            ` : `
+                              <button type="button" onclick="removeDraftCustomMinor('${escapeHtml(canonMajor)}', '${escapeHtml(canonMinor)}')" class="shrink-0 px-2 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 text-[10px] font-medium">
+                                Xóa
+                              </button>
+                            `) : ""}
+                          </div>
+                        `;
+                      }).join("")}
+                    </div>
+
+                    ${flexEnabled ? `
+                      <div class="flex items-center gap-1.5 pt-1">
+                        <input id="new-minor-input-${majIdx}" type="text" placeholder="+ Thêm mục nhỏ mới..." class="flex-1 min-w-0 min-h-[36px] rounded-xl border border-dashed border-orange-300 bg-orange-50/30 px-2.5 py-1 text-[11px] font-normal text-slate-700 focus:outline-none focus:border-orange-500" />
+                        <button type="button" onclick="addDraftCustomMinor('${escapeHtml(canonMajor)}', ${majIdx})" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-orange-100 hover:bg-orange-200 text-orange-800 text-[11px] font-semibold">
+                          + Thêm
+                        </button>
+                      </div>
+                    ` : ""}
+                  </div>
+                ` : ""}
               </div>
             `;
           }).join("")}
         </div>
+
+        ${flexEnabled ? `
+          <div class="bg-emerald-50/70 p-3 rounded-2xl border border-emerald-200/80 space-y-2">
+            <p class="text-[11px] font-semibold text-emerald-950">+ Thêm Mục Lớn Mới (${escapeHtml(defaultTypeNames[tab])})</p>
+            <input id="new-custom-major-name" type="text" placeholder="VD: Ông Bà, Xe Ô Tô, Nhà Cửa..." class="w-full min-h-[40px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-500" />
+            <input id="new-custom-major-kw" type="text" placeholder="Từ khóa Nói AI (tùy chọn): VD: ông nội, bà ngoại..." class="w-full min-h-[38px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-[11px] font-normal text-slate-700 focus:outline-none focus:border-emerald-500" />
+            <button type="button" onclick="addDraftCustomMajor()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-2xs active:scale-98 transition">
+              + Thêm Mục Lớn Này
+            </button>
+          </div>
+        ` : ""}
       `;
     }
 
@@ -1101,27 +1471,39 @@
         if (tv && tv !== k) cleanMinors[k] = tv;
       });
 
-      customLabels = { types: cleanTypes, majors: cleanMajors, minors: cleanMinors };
+      customLabels = {
+        types: cleanTypes,
+        majors: cleanMajors,
+        minors: cleanMinors,
+        hiddenMajors: [...(draftCustomLabels.hiddenMajors || [])],
+        hiddenMinors: [...(draftCustomLabels.hiddenMinors || [])],
+        customTree: draftCustomLabels.customTree || { expense: {}, income: {}, debt: {} },
+        customKeywords: draftCustomLabels.customKeywords || {}
+      };
       persistLocalState();
       renderAll();
       closeModal("modal-custom-labels");
-      showToast("Đã cập nhật tên Loại, Mục lớn & Mục nhỏ! Toàn bộ đề xuất thông minh vẫn hoạt động nguyên vẹn.", "✓");
+      showToast("Đã lưu danh mục! Toàn bộ giao dịch cũ và đề xuất thông minh đã được đồng bộ theo tên mới.", "✓");
     }
 
     function confirmResetCustomLabels() {
       showConfirmDialog(
-        "Khôi phục tên mặc định?",
-        "Toàn bộ tên Loại, Mục lớn và Mục nhỏ sẽ quay về tên gốc ban đầu của gia đình.",
+        "Đặt lại mặc định ban đầu?",
+        "Toàn bộ tên Loại, Mục lớn, Mục nhỏ và danh sách hiển thị sẽ quay về cấu trúc cá nhân hóa gốc ban đầu của gia đình.",
         () => {
           customLabels = {
             types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" },
             majors: {},
-            minors: {}
+            minors: {},
+            hiddenMajors: [],
+            hiddenMinors: [],
+            customTree: { expense: {}, income: {}, debt: {} },
+            customKeywords: {}
           };
           persistLocalState();
           renderAll();
           closeModal("modal-custom-labels");
-          showToast("Đã khôi phục tên danh mục mặc định!", "✓");
+          showToast("Đã đặt lại về danh mục cá nhân hóa mặc định ban đầu!", "✓");
         },
         "i"
       );
@@ -1327,7 +1709,15 @@
             customLabels = {
               types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ", ...(parsedLabels.types || {}) },
               majors: parsedLabels.majors || {},
-              minors: parsedLabels.minors || {}
+              minors: parsedLabels.minors || {},
+              hiddenMajors: Array.isArray(parsedLabels.hiddenMajors) ? parsedLabels.hiddenMajors : [],
+              hiddenMinors: Array.isArray(parsedLabels.hiddenMinors) ? parsedLabels.hiddenMinors : [],
+              customTree: {
+                expense: parsedLabels.customTree?.expense || {},
+                income: parsedLabels.customTree?.income || {},
+                debt: parsedLabels.customTree?.debt || {}
+              },
+              customKeywords: parsedLabels.customKeywords || {}
             };
           }
         }
@@ -1739,6 +2129,34 @@
             break;
           }
         }
+        if (isFlexibleCategoryEnabled() && !matchedCustomMajor) {
+          for (const tKey of ["expense", "income", "debt"]) {
+            for (const cMaj of Object.keys(customLabels.customTree?.[tKey] || {})) {
+              const kwList = [cMaj, ...(String(customLabels.customKeywords?.[cMaj] || "").split(","))]
+                .map(s => s.trim().toLowerCase())
+                .filter(s => s.length >= 2);
+              if (kwList.some(kw => lower.includes(kw))) {
+                matchedCustomMajor = cMaj;
+                break;
+              }
+            }
+            if (matchedCustomMajor) break;
+          }
+        }
+        if (isFlexibleCategoryEnabled() && !matchedCustomMinor) {
+          for (const tKey of ["expense", "income", "debt"]) {
+            for (const cMins of Object.values(customLabels.customTree?.[tKey] || {})) {
+              for (const cm of (cMins || [])) {
+                if (cm.length >= 2 && lower.includes(cm.toLowerCase())) {
+                  matchedCustomMinor = cm;
+                  break;
+                }
+              }
+              if (matchedCustomMinor) break;
+            }
+            if (matchedCustomMinor) break;
+          }
+        }
       }
 
       const knownDebtNames = [...new Set(transactions.filter(t => t.type === "debt" && t.person).map(t => t.person.toLowerCase()))];
@@ -1824,24 +2242,26 @@
       }
 
       if (!matchedLearned && matchedCustomMajor) {
+        const mergedTree = getMergedCategoryTree(true);
         for (const tKey of ["expense", "income", "debt"]) {
-          if (CATEGORY_TREE[tKey]?.[matchedCustomMajor]) {
+          if (mergedTree[tKey]?.[matchedCustomMajor]) {
             type = tKey;
             major = matchedCustomMajor;
-            if (!CATEGORY_TREE[tKey][major].includes(minor)) {
-              minor = CATEGORY_TREE[tKey][major][0];
+            if (!mergedTree[tKey][major].includes(minor)) {
+              minor = mergedTree[tKey][major][0];
             }
             break;
           }
         }
       }
       if (!matchedLearned && matchedCustomMinor) {
+        const mergedTree = getMergedCategoryTree(true);
         for (const tKey of ["expense", "income", "debt"]) {
-          for (const [majKey, minArr] of Object.entries(CATEGORY_TREE[tKey] || {})) {
+          for (const [majKey, minArr] of Object.entries(mergedTree[tKey] || {})) {
             if (minArr.includes(matchedCustomMinor)) {
               type = tKey;
               if (!matchedCustomMajor) major = majKey;
-              if ((CATEGORY_TREE[tKey][major] || []).includes(matchedCustomMinor)) {
+              if ((mergedTree[tKey][major] || []).includes(matchedCustomMinor)) {
                 minor = matchedCustomMinor;
               }
               break;
@@ -2057,8 +2477,10 @@
       }
 
       container.innerHTML = nlpParsedItems.map((item, idx) => {
-        const majors = Object.keys(CATEGORY_TREE[item.type] || {});
-        const minors = (CATEGORY_TREE[item.type]?.[item.major]) || [];
+        const majors = getActiveMajorsForType(item.type, false);
+        if (!majors.includes(item.major) && majors.length) item.major = majors[0];
+        const minors = getActiveMinorsForMajor(item.type, item.major, false);
+        if (!minors.includes(item.minor) && minors.length) item.minor = minors[0];
         return `
           <div class="bg-slate-50/90 p-3.5 rounded-2xl border border-slate-200/80 space-y-2.5">
             <div class="flex items-center justify-between">
@@ -2154,15 +2576,15 @@
       if (!item) return;
       item[field] = val;
       if (field === "type") {
-        const firstMajor = Object.keys(CATEGORY_TREE[val])[0];
+        const firstMajor = getActiveMajorsForType(val, false)[0] || Object.keys(CATEGORY_TREE[val])[0];
         item.major = firstMajor;
-        item.minor = CATEGORY_TREE[val][firstMajor][0];
+        item.minor = getActiveMinorsForMajor(val, firstMajor, false)[0] || CATEGORY_TREE[val][firstMajor][0];
         if (val === "debt") {
           item.debtDirection = (item.minor === "Đi vay mới" || item.minor === "Trả nợ") ? "payable" : "receivable";
         }
         renderVoiceParsedCards();
       } else if (field === "major") {
-        item.minor = CATEGORY_TREE[item.type][val][0];
+        item.minor = getActiveMinorsForMajor(item.type, val, false)[0] || "Chi khác";
         renderVoiceParsedCards();
       } else if (field === "minor" && item.type === "debt") {
         item.debtDirection = (val === "Đi vay mới" || val === "Trả nợ") ? "payable" : "receivable";
@@ -2338,7 +2760,7 @@
         }
       });
       const majorSelect = document.getElementById("tx-major");
-      const majors = Object.keys(CATEGORY_TREE[tab]);
+      const majors = getActiveMajorsForType(tab, false);
       majorSelect.innerHTML = majors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMajorDisplayName(m))}</option>`).join("");
       onManualMajorChange();
 
@@ -2349,7 +2771,7 @@
 
     function onManualMajorChange() {
       const major = document.getElementById("tx-major").value;
-      const minors = CATEGORY_TREE[currentManualTab][major] || [];
+      const minors = getActiveMinorsForMajor(currentManualTab, major, false);
       document.getElementById("tx-minor").innerHTML = minors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMinorDisplayName(m))}</option>`).join("");
       onManualMinorChange();
     }
@@ -2514,7 +2936,7 @@
       `;
       typeSelect.value = curType;
       const type = typeSelect.value;
-      const majors = Object.keys(CATEGORY_TREE[type] || {});
+      const majors = getActiveMajorsForType(type, false);
       document.getElementById("bill-major").innerHTML = majors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMajorDisplayName(m))}</option>`).join("");
       onBillMajorChange();
 
@@ -2532,7 +2954,7 @@
     function onBillMajorChange() {
       const type = document.getElementById("bill-type").value;
       const major = document.getElementById("bill-major").value;
-      const minors = (CATEGORY_TREE[type]?.[major]) || [];
+      const minors = getActiveMinorsForMajor(type, major, false);
       document.getElementById("bill-minor").innerHTML = minors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMinorDisplayName(m))}</option>`).join("");
       onBillMinorChange();
     }
@@ -3137,9 +3559,9 @@
       const prevMinor = document.getElementById("filter-minor")?.value || "";
 
       const allMajors = [
-        ...Object.keys(CATEGORY_TREE.expense),
-        ...Object.keys(CATEGORY_TREE.income),
-        ...Object.keys(CATEGORY_TREE.debt)
+        ...getActiveMajorsForType("expense", false),
+        ...getActiveMajorsForType("income", false),
+        ...getActiveMajorsForType("debt", false)
       ];
 
       const isAllDefault = activeTypeFilter === "all" && !prevMajor && !prevMinor && !prevSearch;
@@ -3177,14 +3599,15 @@
     function populateMinorFilterOptions(selectedMajor, selectedMinor = "") {
       const minorSelect = document.getElementById("filter-minor");
       if (!minorSelect) return;
+      const tree = getMergedCategoryTree(false);
       let minors = [];
       if (selectedMajor) {
-        minors = CATEGORY_TREE.expense[selectedMajor] || CATEGORY_TREE.income[selectedMajor] || CATEGORY_TREE.debt[selectedMajor] || [];
+        minors = tree.expense[selectedMajor] || tree.income[selectedMajor] || tree.debt[selectedMajor] || [];
       } else {
         const sets = [
-          ...Object.values(CATEGORY_TREE.expense).flat(),
-          ...Object.values(CATEGORY_TREE.income).flat(),
-          ...Object.values(CATEGORY_TREE.debt).flat()
+          ...Object.values(tree.expense).flat(),
+          ...Object.values(tree.income).flat(),
+          ...Object.values(tree.debt).flat()
         ];
         minors = [...new Set(sets)];
       }
@@ -3341,7 +3764,7 @@
     function buildMajorMinorBreakdown(type, useSelectedPeriod = true, omitZeroItems = true) {
       const valid = transactions.filter(t => !t.needsReview && t.type === type && (!useSelectedPeriod || isTxInCurrentPeriod(t)));
       const total = valid.reduce((sum, t) => sum + t.amount, 0);
-      const treeForType = CATEGORY_TREE[type] || {};
+      const treeForType = getMergedCategoryTree(true)[type] || {};
       const majorMap = {};
 
       Object.entries(treeForType).forEach(([maj, minors]) => {
@@ -4137,8 +4560,8 @@
 
       listEl.innerHTML = gmailScannedCandidates.map((item, idx) => {
         if (item.alreadyImported) return "";
-        const majors = Object.keys(CATEGORY_TREE[item.type] || {});
-        const minors = (CATEGORY_TREE[item.type]?.[item.major]) || [];
+        const majors = getActiveMajorsForType(item.type, false);
+        const minors = getActiveMinorsForMajor(item.type, item.major, false);
         return `
           <div class="p-3 rounded-2xl border ${item.needsReview ? "bg-amber-50/70 border-amber-300" : "bg-white border-slate-200"} space-y-2">
             <div class="flex items-start justify-between gap-2">
@@ -4186,11 +4609,11 @@
       if (!item) return;
       item[field] = val;
       if (field === "type") {
-        const firstMajor = Object.keys(CATEGORY_TREE[val])[0];
+        const firstMajor = getActiveMajorsForType(val, false)[0] || Object.keys(CATEGORY_TREE[val])[0];
         item.major = firstMajor;
-        item.minor = CATEGORY_TREE[val][firstMajor][0];
+        item.minor = getActiveMinorsForMajor(val, firstMajor, false)[0] || CATEGORY_TREE[val][firstMajor][0];
       } else if (field === "major") {
-        item.minor = CATEGORY_TREE[item.type][val][0];
+        item.minor = getActiveMinorsForMajor(item.type, val, false)[0] || "Chi khác";
       }
       if (field === "minor" && val !== "Chi khác" && val !== "Thu khác") {
         item.needsReview = false;
