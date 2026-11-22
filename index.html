@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.65";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.66";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -45,14 +45,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Be Vietnam Pro & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     * {
-      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
       font-variant-numeric: tabular-nums;
+    }
+    html.clean-banking-ui * {
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
       letter-spacing: -0.01em;
     }
     html.clean-banking-ui .font-black {
@@ -107,12 +110,15 @@
       width: 100%;
       height: var(--exact-app-h, 100%);
       margin: 0 auto;
-      background-color: #f8fafc;
+      background-color: #fffaf5;
       box-shadow: 0 0 40px rgba(234, 88, 12, 0.08);
       position: relative;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+    }
+    html.clean-banking-ui .app-shell {
+      background-color: #f8fafc;
     }
     .app-header {
       padding-top: calc(12px + env(safe-area-inset-top, 0px));
@@ -170,7 +176,7 @@
       <!-- Hàng 1: Tên app, Phiên bản & Cụm nút chức năng cân đối ngang hàng -->
       <div class="flex items-center justify-between gap-1.5">
         <div class="min-w-0 flex-1">
-          <div class="flex items-center gap-2">
+          <div id="header-brand-trigger" onclick="handleBrandHeaderClick()" class="inline-flex items-center gap-2 max-w-full cursor-pointer active:opacity-80 transition" title="Chạm để đổi tên Loại, Mục lớn & Mục nhỏ">
             <span id="header-brand-icon" class="shrink-0 flex items-center justify-center"><svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"></path></svg></span>
             <h1 id="app-header-title" class="font-bold text-[15px] tracking-tight truncate">Sổ thu chi</h1>
           </div>
@@ -180,7 +186,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.65
+            v1.66
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -609,6 +615,45 @@
     </div>
   </div>
 
+  <!-- 10. Hộp thoại Tùy Chỉnh Tên Loại, Mục Lớn & Mục Nhỏ (Mở từ Icon & Tên Sổ thu chi) -->
+  <div id="modal-custom-labels" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
+    <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col">
+      <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+          <div>
+            <h3 class="font-semibold text-sm">Đổi Tên Loại, Mục Lớn &amp; Mục Nhỏ</h3>
+            <p class="text-[11px] text-orange-100">Giữ nguyên toàn bộ đề xuất thông minh &amp; lịch sử giao dịch</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-custom-labels')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
+      </div>
+
+      <div class="p-3.5 space-y-3 overflow-y-auto ios-smooth-scroll">
+        <div class="bg-orange-50/80 p-2.5 rounded-2xl border border-orange-200/80 text-[11px] text-orange-950 leading-relaxed">
+          Bạn có thể đổi tên hiển thị của <b>Loại</b>, <b>Mục lớn</b> và <b>Mục nhỏ</b> theo cách gọi của gia đình mình. Mọi quy tắc gợi ý Nói AI, Quét Bill, Gmail và Báo cáo vẫn hoạt động chính xác như cũ.
+        </div>
+
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
+          <button type="button" data-cltab="expense" onclick="switchCustomLabelTab('expense')" class="cl-tab py-2 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition">Khoản Chi</button>
+          <button type="button" data-cltab="income" onclick="switchCustomLabelTab('income')" class="cl-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition">Khoản Thu</button>
+          <button type="button" data-cltab="debt" onclick="switchCustomLabelTab('debt')" class="cl-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition">Vay / Nợ</button>
+        </div>
+
+        <div id="custom-labels-editor-body" class="space-y-3"></div>
+      </div>
+
+      <div class="p-3 bg-slate-50 border-t border-slate-200/80 flex items-center gap-2 shrink-0">
+        <button type="button" onclick="confirmResetCustomLabels()" class="px-3 py-2.5 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 text-xs font-medium transition">
+          Mặc định
+        </button>
+        <button type="button" onclick="saveCustomLabelsFromModal()" class="flex-1 py-2.5 rounded-2xl bg-gradient-to-r from-orange-600 to-amber-500 text-white text-xs font-semibold shadow-sm active:scale-98 transition">
+          Lưu Tên Hiển Thị
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ==================== 1. CẤU TRÚC DANH MỤC GIA ĐÌNH ====================
     const CATEGORY_TREE = {
@@ -675,7 +720,18 @@
     let dirtyTxIds = new Set();
     let deletedTxIds = new Set();
     let importedGmailIds = new Set();
-    const LATEST_APP_VERSION = "v1.65";
+    let customLabels = {
+      types: {
+        expense: "Khoản Chi",
+        income: "Khoản Thu",
+        debt: "Vay / Nợ"
+      },
+      majors: {},
+      minors: {}
+    };
+    let currentCustomLabelTab = "expense";
+    let draftCustomLabels = null;
+    const LATEST_APP_VERSION = "v1.66";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -692,24 +748,33 @@
     let exportedJpgBlob = null;
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
-    // Lịch sử phiên bản kèm cấu hình giao diện & chức năng đóng băng nguyên bản của từng mốc
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.66",
+        date: "22/11/2026",
+        title: "Cho phép tự đổi tên Loại, Mục lớn & Mục nhỏ ngay tại biểu tượng và tiêu đề Sổ thu chi (giữ nguyên toàn bộ đề xuất cá nhân hóa)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true },
+        changes: [
+          "Chạm trực tiếp vào biểu tượng chiếc ví hoặc tên 'Sổ thu chi' trên thanh tiêu đề để mở bảng đổi tên Loại, Mục lớn và Mục nhỏ theo ý muốn.",
+          "Liên kết ánh xạ thông minh giúp toàn bộ các đề xuất cá nhân hóa trong Nói AI, Quét Ảnh Bill, Quét Gmail và Báo cáo vẫn hoạt động chính xác 100% sau khi đổi tên."
+        ]
+      },
       {
         version: "v1.65",
         date: "22/11/2026",
-        title: "Khóa cô lập tính năng đèn hiệu đồng bộ rút gọn theo từng phiên bản (khôi phục v1.63 giữ nguyên bản gốc)",
+        title: "Cô lập chặt trạng thái đồng bộ & đèn hiệu theo từng mốc phiên bản (khôi phục về v1.63 giữ nguyên bản gốc 100%)",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true },
         changes: [
-          "Gắn cờ tách biệt giao diện trạng thái đồng bộ giữa v1.63 và từ v1.64 trở đi: khi bấm Khôi phục về v1.63, dòng trạng thái đồng bộ quay về nguyên bản gốc mà không bị lẫn cập nhật của bản mới."
+          "Gắn cờ điều kiện riêng biệt cho dòng đèn hiệu trạng thái đồng bộ rút gọn để khi khôi phục về v1.63 hay các bản cũ hơn sẽ giữ đúng 100% nguyên bản."
         ]
       },
       {
         version: "v1.64",
         date: "22/11/2026",
-        title: "Rút gọn dòng trạng thái đồng bộ kèm đèn hiệu rõ nét ngay dưới tiêu đề Sổ thu chi",
+        title: "Rút gọn dòng trạng thái đồng bộ kèm đèn hiệu phát sáng ngay dưới tiêu đề Sổ thu chi",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true },
         changes: [
-          "Rút gọn dòng chữ trạng thái dưới tiêu đề 'Sổ thu chi' kèm đèn hiệu sáng rõ ngay đầu dòng (Đã đồng bộ, Đang đồng bộ..., Chờ đẩy, Chưa gắn Sheets) để hiển thị trọn vẹn 100% chữ trên màn hình iPhone."
+          "Hiển thị gọn trạng thái đồng bộ kèm đèn báo sáng rõ ('Đã đồng bộ', 'Đang đồng bộ...', 'Chờ đẩy (N)', 'Chưa gắn Sheets') để không bao giờ bị mất chữ trên màn hình iPhone."
         ]
       },
       {
@@ -753,19 +818,313 @@
         ]
       },
       {
+        version: "v1.59",
+        date: "22/11/2026",
+        title: "Khóa bảo vệ kép tương thích ngược cho Đồng bộ tự động (chống xóa trắng Google Sheets ngay cả khi chưa cập nhật Mã.gs)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true },
+        changes: [
+          "Khóa bảo vệ kép tương thích ngược: Khi tự động đồng bộ giao dịch mới, ứng dụng luôn gửi kèm danh sách dự phòng để Mã.gs cũ không bao giờ xóa trắng Google Sheets nếu bạn chưa kịp cập nhật Apps Script.",
+          "Kết hợp đồng bộ gia tăng (chỉ thêm/sửa/xóa đúng giao dịch mới) ngay khi bạn cập nhật Mã.gs mới nhất."
+        ]
+      },
+      {
         version: "v1.58",
         date: "22/11/2026",
         title: "Đồng bộ gia tăng thông minh (chỉ thêm giao dịch mới) & tự động đẩy ngầm lên Google Sheets khi Lưu / Sửa / Xóa",
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true },
         changes: [
           "Tự động đẩy ngầm tức thì lên Google Sheets mỗi khi bạn Lưu giao dịch mới, Sửa hoặc Xóa giao dịch trên điện thoại.",
-          "Đồng bộ gia tăng (Delta Sync): Bỏ hoàn toàn lệnh xóa trắng trang tính, chỉ nối thêm giao dịch mới, cập nhật đúng dòng bị sửa và xóa đúng dòng bị xóa."
+          "Đồng bộ gia tăng (Delta Sync): Bỏ hoàn toàn lệnh xóa trắng trang tính, chỉ nối thêm giao dịch mới, cập nhật đúng dòng bị sửa và xóa đúng dòng bị xóa — nhanh gấp nhiều lần và an toàn tuyệt đối."
+        ]
+      },
+      {
+        version: "v1.57",
+        date: "22/11/2026",
+        title: "Ẩn các mục 0 ₫ trong Báo Cáo Tài Chính & Xuất Ảnh báo cáo định dạng JPG có thể lưu vào điện thoại hoặc chia sẻ",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true },
+        changes: [
+          "Tự động bỏ qua các Mục lớn và Mục nhỏ không có giá trị (0 ₫) trong tab Cơ Cấu Chi, Nguồn Thu và trên ảnh báo cáo xuất ra để trang báo cáo gọn gàng, súc tích.",
+          "Nâng cấp Xuất Ảnh Báo Cáo sang định dạng file ảnh JPG sắc nét, mở khung xem trước trực tiếp (chạm giữ để Lưu vào Ảnh iPhone) kèm nút Chia sẻ / Lưu Ảnh qua Zalo, Messenger, AirDrop."
+        ]
+      },
+      {
+        version: "v1.56",
+        date: "22/11/2026",
+        title: "Bổ sung mục nhỏ cho Bố (Trả lãi ngân hàng, Trả lãi cá nhân, Giải trí, Đóng họ, Lấy họ) & hiển thị đầy đủ tổng Mục lớn, Mục nhỏ trong Báo Cáo Tài Chính & Xuất Ảnh",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true },
+        changes: [
+          "Thêm vào Loại Chi • Mục lớn Bố (Hồng Việt) các mục nhỏ: Trả lãi ngân hàng, Trả lãi cá nhân, Giải trí, Đóng họ.",
+          "Thêm vào Loại Thu • Mục lớn Thu nhập Bố (Hồng Việt) mục nhỏ: Lấy họ (kèm từ khóa tự động nhận diện cho Nói AI).",
+          "Nâng cấp tab Cơ Cấu Chi & Nguồn Thu trong Báo Cáo Tài Chính & Xuất Ảnh: hiển thị đầy đủ giá trị tổng từng Mục lớn và toàn bộ Mục nhỏ bên trong."
+        ]
+      },
+      {
+        version: "v1.55",
+        date: "22/11/2026",
+        title: "Khóa an toàn chống xóa trắng Google Sheets khi máy trống dữ liệu & bổ sung Đồng bộ 2 chiều (Tải từ Sheets về máy)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true },
+        changes: [
+          "Khóa an toàn tuyệt đối: Khi thiết bị mới mở từ màn hình chính iPhone chưa có dữ liệu (0 giao dịch), ứng dụng tự động tải dữ liệu từ Google Sheets về máy thay vì ghi đè rỗng lên trang tính.",
+          "Bổ sung nút '📥 Tải từ Sheets về máy' (đồng bộ 2 chiều) trong hộp thoại Đồng bộ và nâng cấp Mã.gs hỗ trợ action=load."
+        ]
+      },
+      {
+        version: "v1.54",
+        date: "22/11/2026",
+        title: "Thiết kế lại Icon ứng dụng Mẫu 1 (Nền Trắng Tinh Khôi + Ví Cam & Trắng Chuẩn Ngân Hàng Số)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1" },
+        changes: [
+          "Áp dụng Icon Mẫu 1 phong cách Ngân hàng số (VietinBank iPay / ZaloPay) với tông màu Cam (#EA580C) – Trắng (#FFFFFF) chủ đạo: nền trắng tinh khôi nổi bật trên màn hình tối, thân ví cam chuyển sắc bo tròn sắc nét cùng khe thẻ trắng và huy hiệu đồng tiền ₫ tinh xảo.",
+          "Giữ nguyên tùy chọn khôi phục về Mẫu 2 (v1.53) hoặc các phiên bản trước bất cứ lúc nào."
+        ]
+      },
+      {
+        version: "v1.52",
+        date: "22/11/2026",
+        title: "Ghi đè trực tiếp bộ nhớ đệm HTTP của đường dẫn gốc iOS PWA (thoát ra mở lại luôn giữ đúng phiên bản mới nhất)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true },
+        changes: [
+          "Ép trình duyệt iOS Safari/PWA ghi đè trực tiếp tệp mới nhất vào bộ nhớ đệm HTTP của đường dẫn gốc (cache: 'reload') khi bấm 'Tải bản mới', giúp thoát ra mở lại biểu tượng màn hình chính luôn vào thẳng phiên bản mới nhất.",
+          "Cập nhật ngầm bộ đệm HTTP của đường dẫn gốc sau khi ứng dụng đã mở ổn định mà không tải lại trang hay gây chớp giật màn hình."
+        ]
+      },
+      {
+        version: "v1.51",
+        date: "22/11/2026",
+        title: "Nâng cấp giao diện chuẩn Ngân hàng số hiện đại: Phông chữ Be Vietnam Pro thanh nét, Icon SVG nét mảnh 2 tông màu & Thanh điều hướng viên thuốc nổi",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true },
+        changes: [
+          "Chuyển phông chữ sang Be Vietnam Pro với độ đậm tiết chế (Medium 500 – SemiBold 600 – Bold 700), nét tròn thoáng và dễ đọc lâu không mỏi mắt.",
+          "Thay thế toàn bộ Emoji nhiều màu bằng bộ Icon SVG nét mảnh 2 tông màu (Cam #EA580C & Xám than #1E293B) đồng bộ trên Header, 4 thẻ tổng quan, Lịch sử giao dịch và thanh thao tác đáy."
+        ]
+      },
+      {
+        version: "v1.50",
+        date: "22/11/2026",
+        title: "Mở khóa cuộn cảm ứng mượt 60fps cho Lịch sử giao dịch trên iPhone & chống kẹt cache bản cũ khi thoát app",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true },
+        changes: [
+          "Kích hoạt gia tốc phần cứng (-webkit-overflow-scrolling: touch; touch-action: pan-y) giúp vuốt Lịch sử giao dịch mượt ngay tức thì."
         ]
       }
     ];
 
     function getActiveVersionConfig() {
       return BUILTIN_VERSIONS.find(v => v.version === activeAppVersion) || BUILTIN_VERSIONS[0];
+    }
+
+    // ==================== ÁNH XẠ TÊN HIỂN THỊ LOẠI / MỤC LỚN / MỤC NHỎ ====================
+    function isCustomNamingEnabled() {
+      return Boolean(getActiveVersionConfig().features.customCategoryNaming);
+    }
+
+    function getTypeDisplayName(typeKey, shortMode = false) {
+      const defaultsFull = { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" };
+      const defaultsShort = { expense: "Chi", income: "Thu", debt: "Vay/Nợ" };
+      if (!isCustomNamingEnabled()) {
+        return shortMode ? (defaultsShort[typeKey] || typeKey) : (defaultsFull[typeKey] || typeKey);
+      }
+      const custom = (customLabels.types?.[typeKey] || "").trim();
+      if (!custom) {
+        return shortMode ? (defaultsShort[typeKey] || typeKey) : (defaultsFull[typeKey] || typeKey);
+      }
+      if (shortMode && custom === defaultsFull[typeKey]) {
+        return defaultsShort[typeKey];
+      }
+      return custom;
+    }
+
+    function getMajorDisplayName(canonicalMajor) {
+      if (!canonicalMajor) return "";
+      if (!isCustomNamingEnabled()) return canonicalMajor;
+      const custom = (customLabels.majors?.[canonicalMajor] || "").trim();
+      return custom || canonicalMajor;
+    }
+
+    function getMinorDisplayName(canonicalMinor) {
+      if (!canonicalMinor) return "";
+      if (!isCustomNamingEnabled()) return canonicalMinor;
+      const custom = (customLabels.minors?.[canonicalMinor] || "").trim();
+      return custom || canonicalMinor;
+    }
+
+    function resolveCanonicalMajor(name) {
+      if (!name) return "";
+      const clean = String(name).trim();
+      for (const t of ["expense", "income", "debt"]) {
+        if (CATEGORY_TREE[t]?.[clean]) return clean;
+      }
+      for (const [canon, custom] of Object.entries(customLabels.majors || {})) {
+        if (custom && custom.trim().toLowerCase() === clean.toLowerCase()) return canon;
+      }
+      return clean;
+    }
+
+    function resolveCanonicalMinor(name) {
+      if (!name) return "";
+      const clean = String(name).trim();
+      const allMinors = [
+        ...Object.values(CATEGORY_TREE.expense).flat(),
+        ...Object.values(CATEGORY_TREE.income).flat(),
+        ...Object.values(CATEGORY_TREE.debt).flat()
+      ];
+      if (allMinors.includes(clean)) return clean;
+      for (const [canon, custom] of Object.entries(customLabels.minors || {})) {
+        if (custom && custom.trim().toLowerCase() === clean.toLowerCase()) return canon;
+      }
+      return clean;
+    }
+
+    function handleBrandHeaderClick() {
+      if (!isCustomNamingEnabled()) return;
+      openCustomLabelsModal();
+    }
+
+    function openCustomLabelsModal() {
+      if (!isCustomNamingEnabled()) return;
+      draftCustomLabels = {
+        types: {
+          expense: (customLabels.types?.expense || "").trim() || "Khoản Chi",
+          income: (customLabels.types?.income || "").trim() || "Khoản Thu",
+          debt: (customLabels.types?.debt || "").trim() || "Vay / Nợ"
+        },
+        majors: { ...(customLabels.majors || {}) },
+        minors: { ...(customLabels.minors || {}) }
+      };
+      switchCustomLabelTab("expense");
+      openModal("modal-custom-labels");
+    }
+
+    function switchCustomLabelTab(tab) {
+      currentCustomLabelTab = tab;
+      document.querySelectorAll(".cl-tab").forEach(btn => {
+        if (btn.dataset.cltab === tab) {
+          btn.className = "cl-tab py-2 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition";
+        } else {
+          btn.className = "cl-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition";
+        }
+      });
+      renderCustomLabelsEditor();
+    }
+
+    function updateDraftTypeLabel(typeKey, val) {
+      if (!draftCustomLabels) return;
+      draftCustomLabels.types[typeKey] = val;
+    }
+
+    function updateDraftMajorLabel(canonMajor, val) {
+      if (!draftCustomLabels) return;
+      const trimmed = val.trim();
+      if (!trimmed || trimmed === canonMajor) {
+        delete draftCustomLabels.majors[canonMajor];
+      } else {
+        draftCustomLabels.majors[canonMajor] = val;
+      }
+    }
+
+    function updateDraftMinorLabel(canonMinor, val) {
+      if (!draftCustomLabels) return;
+      const trimmed = val.trim();
+      if (!trimmed || trimmed === canonMinor) {
+        delete draftCustomLabels.minors[canonMinor];
+      } else {
+        draftCustomLabels.minors[canonMinor] = val;
+      }
+    }
+
+    function renderCustomLabelsEditor() {
+      const body = document.getElementById("custom-labels-editor-body");
+      if (!body || !draftCustomLabels) return;
+      const tab = currentCustomLabelTab;
+      const defaultTypeNames = { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" };
+      const currentTypeVal = draftCustomLabels.types[tab] ?? defaultTypeNames[tab];
+      const majorsObj = CATEGORY_TREE[tab] || {};
+
+      body.innerHTML = `
+        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/90 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="text-[11px] font-semibold text-slate-700">Tên Loại giao dịch</label>
+            <span class="text-[10px] text-slate-400">Gốc: ${escapeHtml(defaultTypeNames[tab])}</span>
+          </div>
+          <input type="text" value="${escapeHtml(currentTypeVal)}" oninput="updateDraftTypeLabel('${tab}', this.value)" placeholder="${escapeHtml(defaultTypeNames[tab])}" class="ios-touch-field w-full rounded-xl border border-slate-200 focus:border-orange-500 focus:outline-none bg-white px-3 text-xs font-semibold text-orange-700" />
+        </div>
+
+        <div class="space-y-2.5">
+          ${Object.entries(majorsObj).map(([canonMajor, minorsList]) => {
+            const curMajVal = draftCustomLabels.majors[canonMajor] || canonMajor;
+            return `
+              <div class="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs space-y-2">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-semibold text-orange-700 uppercase tracking-wide">Mục Lớn</span>
+                    ${curMajVal !== canonMajor ? `<span class="text-[10px] text-slate-400">Gốc: ${escapeHtml(canonMajor)}</span>` : ""}
+                  </div>
+                  <input type="text" value="${escapeHtml(curMajVal)}" oninput="updateDraftMajorLabel('${escapeHtml(canonMajor)}', this.value)" placeholder="${escapeHtml(canonMajor)}" class="ios-touch-field w-full rounded-xl border border-orange-200 focus:border-orange-500 focus:outline-none bg-orange-50/40 px-3 text-xs font-semibold text-slate-800" />
+                </div>
+
+                <div class="pt-1 border-t border-slate-100 space-y-1.5">
+                  <span class="block text-[10px] font-medium text-slate-500">Các Mục Nhỏ bên trong:</span>
+                  <div class="grid grid-cols-1 gap-1.5">
+                    ${minorsList.map(canonMinor => {
+                      const curMinVal = draftCustomLabels.minors[canonMinor] || canonMinor;
+                      return `
+                        <div class="flex items-center gap-2">
+                          <span class="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0"></span>
+                          <input type="text" value="${escapeHtml(curMinVal)}" oninput="updateDraftMinorLabel('${escapeHtml(canonMinor)}', this.value)" placeholder="${escapeHtml(canonMinor)}" class="w-full min-h-[38px] rounded-xl border border-slate-200 focus:border-orange-500 focus:outline-none bg-slate-50/70 focus:bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700" />
+                        </div>
+                      `;
+                    }).join("")}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    function saveCustomLabelsFromModal() {
+      if (!draftCustomLabels) return;
+      const cleanTypes = {
+        expense: (draftCustomLabels.types.expense || "").trim() || "Khoản Chi",
+        income: (draftCustomLabels.types.income || "").trim() || "Khoản Thu",
+        debt: (draftCustomLabels.types.debt || "").trim() || "Vay / Nợ"
+      };
+      const cleanMajors = {};
+      Object.entries(draftCustomLabels.majors || {}).forEach(([k, v]) => {
+        const tv = String(v || "").trim();
+        if (tv && tv !== k) cleanMajors[k] = tv;
+      });
+      const cleanMinors = {};
+      Object.entries(draftCustomLabels.minors || {}).forEach(([k, v]) => {
+        const tv = String(v || "").trim();
+        if (tv && tv !== k) cleanMinors[k] = tv;
+      });
+
+      customLabels = { types: cleanTypes, majors: cleanMajors, minors: cleanMinors };
+      persistLocalState();
+      renderAll();
+      closeModal("modal-custom-labels");
+      showToast("Đã cập nhật tên Loại, Mục lớn & Mục nhỏ! Toàn bộ đề xuất thông minh vẫn hoạt động nguyên vẹn.", "✓");
+    }
+
+    function confirmResetCustomLabels() {
+      showConfirmDialog(
+        "Khôi phục tên mặc định?",
+        "Toàn bộ tên Loại, Mục lớn và Mục nhỏ sẽ quay về tên gốc ban đầu của gia đình.",
+        () => {
+          customLabels = {
+            types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" },
+            majors: {},
+            minors: {}
+          };
+          persistLocalState();
+          renderAll();
+          closeModal("modal-custom-labels");
+          showToast("Đã khôi phục tên danh mục mặc định!", "✓");
+        },
+        "i"
+      );
     }
 
     // ==================== 4. TIỆN ÍCH ĐỊNH DẠNG & HỘP THOẠI ====================
@@ -945,6 +1304,7 @@
       try {
         localStorage.setItem("stc_transactions_v1", JSON.stringify(transactions));
         localStorage.setItem("stc_learned_rules_v1", JSON.stringify(learnedRules));
+        localStorage.setItem("stc_custom_labels_v1", JSON.stringify(customLabels));
         localStorage.setItem("stc_synced_tx_ids_v1", JSON.stringify([...syncedTxIds]));
         localStorage.setItem("stc_dirty_tx_ids_v1", JSON.stringify([...dirtyTxIds]));
         localStorage.setItem("stc_deleted_tx_ids_v1", JSON.stringify([...deletedTxIds]));
@@ -960,6 +1320,17 @@
         if (txRaw) transactions = JSON.parse(txRaw) || [];
         const rulesRaw = localStorage.getItem("stc_learned_rules_v1");
         if (rulesRaw) learnedRules = JSON.parse(rulesRaw) || {};
+        const labelsRaw = localStorage.getItem("stc_custom_labels_v1");
+        if (labelsRaw) {
+          const parsedLabels = JSON.parse(labelsRaw);
+          if (parsedLabels && typeof parsedLabels === "object") {
+            customLabels = {
+              types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ", ...(parsedLabels.types || {}) },
+              majors: parsedLabels.majors || {},
+              minors: parsedLabels.minors || {}
+            };
+          }
+        }
         const syncedRaw = localStorage.getItem("stc_synced_tx_ids_v1");
         if (syncedRaw) {
           syncedTxIds = new Set(JSON.parse(syncedRaw) || []);
@@ -992,21 +1363,7 @@
     }
 
     // ==================== 6. VẼ BIỂU TƯỢNG ỨNG DỤNG PWA (CANVAS PNG) ====================
-    function drawRoundRectCompat(ctx, x, y, w, h, r) {
-      if (typeof ctx.roundRect === "function") {
-        ctx.roundRect(x, y, w, h, r);
-        return;
-      }
-      const radius = Math.min(r, w / 2, h / 2);
-      ctx.moveTo(x + radius, y);
-      ctx.arcTo(x + w, y, x + w, y + h, radius);
-      ctx.arcTo(x + w, y + h, x, y + h, radius);
-      ctx.arcTo(x, y + h, x, y, radius);
-      ctx.arcTo(x, y, x + w, y, radius);
-      ctx.closePath();
-    }
-
-    function renderIconDataURL(size) {
+    function renderIconDataURL(size, styleMode = "white-orange-v1") {
       const canvas = document.createElement("canvas");
       canvas.width = size;
       canvas.height = size;
@@ -1022,9 +1379,12 @@
       ctx.fillRect(0, 0, size, size);
 
       ctx.save();
+      ctx.shadowColor = "rgba(234, 88, 12, 0.14)";
+      ctx.shadowBlur = size * 0.05;
+      ctx.shadowOffsetY = size * 0.02;
       ctx.fillStyle = "#fff7ed";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, size * 0.22, size * 0.22, size * 0.54, size * 0.34, size * 0.08);
+      ctx.roundRect(size * 0.22, size * 0.22, size * 0.54, size * 0.34, size * 0.08);
       ctx.fill();
       ctx.lineWidth = Math.max(1.2, size * 0.011);
       ctx.strokeStyle = "#fdba74";
@@ -1038,14 +1398,27 @@
       const r = size * 0.105;
 
       ctx.save();
+      ctx.shadowColor = "rgba(234, 88, 12, 0.28)";
+      ctx.shadowBlur = size * 0.08;
+      ctx.shadowOffsetY = size * 0.035;
+
       const walletGrad = ctx.createLinearGradient(wX, wY, wX + wW, wY + wH);
       walletGrad.addColorStop(0, "#ea580c");
       walletGrad.addColorStop(0.6, "#f97316");
       walletGrad.addColorStop(1, "#fb923c");
       ctx.fillStyle = walletGrad;
       ctx.beginPath();
-      drawRoundRectCompat(ctx, wX, wY, wW, wH, r);
+      ctx.roundRect(wX, wY, wW, wH, r);
       ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+      ctx.lineWidth = Math.max(1, size * 0.007);
+      ctx.setLineDash([size * 0.022, size * 0.018]);
+      ctx.beginPath();
+      ctx.roundRect(wX + size * 0.032, wY + size * 0.032, wW - size * 0.064, wH - size * 0.064, r * 0.72);
+      ctx.stroke();
       ctx.restore();
 
       const flapW = wW * 0.31;
@@ -1054,9 +1427,12 @@
       const flapY = wY + (wH - flapH) / 2;
 
       ctx.save();
+      ctx.shadowColor = "rgba(124, 45, 18, 0.18)";
+      ctx.shadowBlur = size * 0.03;
+      ctx.shadowOffsetY = size * 0.012;
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, flapX, flapY, flapW, flapH, size * 0.055);
+      ctx.roundRect(flapX, flapY, flapW, flapH, size * 0.055);
       ctx.fill();
       ctx.restore();
 
@@ -1070,17 +1446,21 @@
       const cR = size * 0.135;
 
       ctx.save();
+      ctx.shadowColor = "rgba(234, 88, 12, 0.24)";
+      ctx.shadowBlur = size * 0.045;
+      ctx.shadowOffsetY = size * 0.018;
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
       ctx.arc(cX, cY, cR, 0, Math.PI * 2);
       ctx.fill();
+
       ctx.lineWidth = Math.max(1.5, size * 0.016);
       ctx.strokeStyle = "#ea580c";
       ctx.stroke();
       ctx.restore();
 
       ctx.fillStyle = "#ea580c";
-      ctx.font = `700 ${Math.round(cR * 1.25)}px 'Be Vietnam Pro', sans-serif`;
+      ctx.font = `700 ${Math.round(cR * 1.25)}px 'Be Vietnam Pro', Inter, sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("₫", cX, cY + size * 0.008);
@@ -1090,9 +1470,12 @@
 
     function generateAppIcons() {
       try {
-        const icon180 = renderIconDataURL(180);
-        const icon512 = renderIconDataURL(512);
+        const cfg = getActiveVersionConfig();
+        const styleMode = cfg.features.iconStyle || "white-orange-v1";
+        const icon180 = renderIconDataURL(180, styleMode);
+        const icon512 = renderIconDataURL(512, styleMode);
         currentAppIconPreviewUrl = icon180;
+
         document.getElementById("apple-touch-icon-link").href = icon180;
         document.getElementById("favicon-link").href = icon180;
 
@@ -1339,6 +1722,25 @@
         }
       }
 
+      let matchedCustomMajor = "";
+      let matchedCustomMinor = "";
+      if (isCustomNamingEnabled()) {
+        for (const [canonMin, customMin] of Object.entries(customLabels.minors || {})) {
+          const cmLower = String(customMin || "").trim().toLowerCase();
+          if (cmLower.length >= 2 && lower.includes(cmLower)) {
+            matchedCustomMinor = canonMin;
+            break;
+          }
+        }
+        for (const [canonMaj, customMaj] of Object.entries(customLabels.majors || {})) {
+          const cjLower = String(customMaj || "").trim().toLowerCase();
+          if (cjLower.length >= 2 && lower.includes(cjLower)) {
+            matchedCustomMajor = canonMaj;
+            break;
+          }
+        }
+      }
+
       const knownDebtNames = [...new Set(transactions.filter(t => t.type === "debt" && t.person).map(t => t.person.toLowerCase()))];
       const mentionsKnownDebtPartnerWithPay = /(?:trả|gửi|chuyển)/i.test(lower) && knownDebtNames.some(kp => {
         const core = kp.replace(/^(?:anh|chị|cô|chú|bác|em|bạn|ông|bà)\s+/i, "").trim();
@@ -1421,6 +1823,33 @@
         }
       }
 
+      if (!matchedLearned && matchedCustomMajor) {
+        for (const tKey of ["expense", "income", "debt"]) {
+          if (CATEGORY_TREE[tKey]?.[matchedCustomMajor]) {
+            type = tKey;
+            major = matchedCustomMajor;
+            if (!CATEGORY_TREE[tKey][major].includes(minor)) {
+              minor = CATEGORY_TREE[tKey][major][0];
+            }
+            break;
+          }
+        }
+      }
+      if (!matchedLearned && matchedCustomMinor) {
+        for (const tKey of ["expense", "income", "debt"]) {
+          for (const [majKey, minArr] of Object.entries(CATEGORY_TREE[tKey] || {})) {
+            if (minArr.includes(matchedCustomMinor)) {
+              type = tKey;
+              if (!matchedCustomMajor) major = majKey;
+              if ((CATEGORY_TREE[tKey][major] || []).includes(matchedCustomMinor)) {
+                minor = matchedCustomMinor;
+              }
+              break;
+            }
+          }
+        }
+      }
+
       let cleanNote = stripped
         .replace(/(?:^|[^a-zA-ZÀ-ỹ0-9_])(?:tôi|mình|vừa|mới|đi|hết|khoảng|tầm|hết khoảng)(?=$|[^a-zA-ZÀ-ỹ0-9_])/gi, " ")
         .replace(/[,;.!?]+$/g, "")
@@ -1448,19 +1877,24 @@
 
     function parseVoiceInputRealtime(rawText) {
       const text = (rawText || "").trim();
+      const cfg = getActiveVersionConfig();
       if (!text) {
-        nlpParsedItems = [{
-          type: "expense",
-          major: "Cả nhà",
-          minor: "Tiền ăn & Thực phẩm",
-          amount: 0,
-          date: toISODate(new Date()),
-          note: "",
-          person: "",
-          debtDirection: "receivable"
-        }];
-        renderVoiceSuggestionsBar("");
-        renderVoiceParsedCards();
+        if (cfg.features.alwaysShowVoiceTable) {
+          nlpParsedItems = [{
+            type: "expense",
+            major: "Cả nhà",
+            minor: "Tiền ăn & Thực phẩm",
+            amount: 0,
+            date: toISODate(new Date()),
+            note: "",
+            person: "",
+            debtDirection: "receivable"
+          }];
+          renderVoiceParsedCards();
+        } else {
+          nlpParsedItems = [];
+          document.getElementById("voice-parsed-container").innerHTML = "";
+        }
         return;
       }
 
@@ -1495,6 +1929,7 @@
     function renderVoiceSuggestionsBar(rawText) {
       const bar = document.getElementById("voice-suggestions-bar");
       if (!bar) return;
+
       const text = (rawText || "").trim();
       const item = nlpParsedItems[0];
 
@@ -1558,19 +1993,24 @@
       if (item.type !== "debt") {
         const actionOnly = coreAction || "ăn uống";
         const useAmt = amtText || "50.000";
+        const lblBo = getMajorDisplayName("Bố (Hồng Việt)");
+        const lblMe = getMajorDisplayName("Mẹ (Như Quỳnh)");
+        const lblBoCon = getMajorDisplayName("Bơ (Việt Anh - 9t)");
+        const lblPuCon = getMajorDisplayName("Pu (Quỳnh Anh - 2t)");
+        const lblCaNha = getMajorDisplayName("Cả nhà");
         if (!/(?:^|[^a-zA-ZÀ-ỹ])bơ(?=$|[^a-zA-ZÀ-ỹ])/i.test(lower)) {
-          addPhrase(`${datePrefix}Cho Bơ ${actionOnly} ${useAmt}`, "Mục Bơ");
+          addPhrase(`${datePrefix}Cho Bơ ${actionOnly} ${useAmt}`, `Mục ${lblBoCon}`);
         }
         if (!/(?:^|[^a-zA-ZÀ-ỹ])pu(?=$|[^a-zA-ZÀ-ỹ])/i.test(lower)) {
-          addPhrase(`${datePrefix}Mua cho Pu ${actionOnly} ${useAmt}`, "Mục Pu");
+          addPhrase(`${datePrefix}Mua cho Pu ${actionOnly} ${useAmt}`, `Mục ${lblPuCon}`);
         }
         if (!/(?:quỳnh|mẹ|vợ)/i.test(lower)) {
-          addPhrase(`${datePrefix}Mẹ Quỳnh ${actionOnly} ${useAmt}`, "Mục Mẹ");
+          addPhrase(`${datePrefix}Mẹ Quỳnh ${actionOnly} ${useAmt}`, `Mục ${lblMe}`);
         }
         if (!/(?:bố|tôi|mình)/i.test(lower)) {
-          addPhrase(`${datePrefix}Bố ${actionOnly} ${useAmt}`, "Mục Bố");
+          addPhrase(`${datePrefix}Bố ${actionOnly} ${useAmt}`, `Mục ${lblBo}`);
         }
-        addPhrase(`${datePrefix}Chi cả nhà đi chợ thực phẩm ${useAmt}`, "Mục Cả nhà");
+        addPhrase(`${datePrefix}Chi cả nhà đi chợ thực phẩm ${useAmt}`, `Mục ${lblCaNha}`);
       }
 
       if ((!coreAction || coreAction.length < 3) && amount > 0) {
@@ -1630,9 +2070,9 @@
               <div>
                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Loại giao dịch</label>
                 <select onchange="updateNlpItemField(${idx}, 'type', this.value)" class="ios-touch-field w-full rounded-xl border border-slate-200 bg-white px-2.5 text-xs font-medium">
-                  <option value="expense" ${item.type === "expense" ? "selected" : ""}>Khoản Chi</option>
-                  <option value="income" ${item.type === "income" ? "selected" : ""}>Khoản Thu</option>
-                  <option value="debt" ${item.type === "debt" ? "selected" : ""}>Vay / Nợ</option>
+                  <option value="expense" ${item.type === "expense" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("expense"))}</option>
+                  <option value="income" ${item.type === "income" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("income"))}</option>
+                  <option value="debt" ${item.type === "debt" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("debt"))}</option>
                 </select>
               </div>
               <div>
@@ -1645,13 +2085,13 @@
               <div>
                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Mục Lớn</label>
                 <select onchange="updateNlpItemField(${idx}, 'major', this.value)" class="ios-touch-field w-full rounded-xl border border-slate-200 bg-white px-2.5 text-xs font-medium">
-                  ${majors.map(m => `<option value="${escapeHtml(m)}" ${m === item.major ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
+                  ${majors.map(m => `<option value="${escapeHtml(m)}" ${m === item.major ? "selected" : ""}>${escapeHtml(getMajorDisplayName(m))}</option>`).join("")}
                 </select>
               </div>
               <div>
                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Mục Nhỏ</label>
                 <select onchange="updateNlpItemField(${idx}, 'minor', this.value)" class="ios-touch-field w-full rounded-xl border border-slate-200 bg-white px-2.5 text-xs font-medium">
-                  ${minors.map(m => `<option value="${escapeHtml(m)}" ${m === item.minor ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
+                  ${minors.map(m => `<option value="${escapeHtml(m)}" ${m === item.minor ? "selected" : ""}>${escapeHtml(getMinorDisplayName(m))}</option>`).join("")}
                 </select>
               </div>
             </div>
@@ -1776,23 +2216,38 @@
       renderAll();
       autoDeltaSyncInBackground({ added: [newTx] });
       nlpParsedItems.splice(idx, 1);
+      const cfg = getActiveVersionConfig();
       if (!nlpParsedItems.length) {
-        const inp = document.getElementById("voice-text-input");
-        if (inp) inp.value = "";
+        if (cfg.features.clearVoiceOnOpen) {
+          const inp = document.getElementById("voice-text-input");
+          if (inp) inp.value = "";
+        }
         closeModal("modal-voice-ai");
       } else {
         renderVoiceParsedCards();
       }
+      if (!cfg.features.noSaveSuccessPopup) {
+        showToast("Đã lưu giao dịch thành công!", "✓");
+      }
     }
 
     function openVoiceAIModal() {
+      const cfg = getActiveVersionConfig();
       const speechBtn = document.getElementById("btn-web-speech");
-      if (speechBtn) speechBtn.classList.add("hidden");
+      if (speechBtn) {
+        if (!cfg.features.keyboardMicOnly && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+          speechBtn.classList.remove("hidden");
+        } else {
+          speechBtn.classList.add("hidden");
+        }
+      }
       openModal("modal-voice-ai");
       const input = document.getElementById("voice-text-input");
-      input.value = "";
-      renderVoiceSuggestionsBar("");
-      parseVoiceInputRealtime("");
+      if (cfg.features.clearVoiceOnOpen) {
+        input.value = "";
+      }
+      renderVoiceSuggestionsBar(input.value);
+      parseVoiceInputRealtime(input.value);
       setTimeout(() => input.focus(), 120);
     }
 
@@ -1804,9 +2259,18 @@
       input.focus();
     }
 
+    function fillVoiceSample(sample) {
+      const input = document.getElementById("voice-text-input");
+      input.value = sample;
+      parseVoiceInputRealtime(sample);
+    }
+
     function toggleWebSpeech() {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) return;
+      if (!SR) {
+        showToast("Trình duyệt không hỗ trợ nghe trực tiếp, hãy dùng micro trên bàn phím điện thoại.", "!");
+        return;
+      }
       if (isRecording && speechRecognition) {
         speechRecognition.stop();
         return;
@@ -1865,7 +2329,9 @@
     function switchManualTab(tab) {
       currentManualTab = tab;
       document.querySelectorAll(".manual-tab").forEach(btn => {
-        if (btn.dataset.tab === tab) {
+        const tabKey = btn.dataset.tab;
+        btn.textContent = getTypeDisplayName(tabKey);
+        if (tabKey === tab) {
           btn.className = "manual-tab py-2 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition";
         } else {
           btn.className = "manual-tab py-2 rounded-xl text-xs font-medium text-slate-600 transition";
@@ -1873,7 +2339,7 @@
       });
       const majorSelect = document.getElementById("tx-major");
       const majors = Object.keys(CATEGORY_TREE[tab]);
-      majorSelect.innerHTML = majors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+      majorSelect.innerHTML = majors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMajorDisplayName(m))}</option>`).join("");
       onManualMajorChange();
 
       const debtBox = document.getElementById("tx-debt-fields");
@@ -1884,7 +2350,7 @@
     function onManualMajorChange() {
       const major = document.getElementById("tx-major").value;
       const minors = CATEGORY_TREE[currentManualTab][major] || [];
-      document.getElementById("tx-minor").innerHTML = minors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+      document.getElementById("tx-minor").innerHTML = minors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMinorDisplayName(m))}</option>`).join("");
       onManualMinorChange();
     }
 
@@ -1983,6 +2449,10 @@
         autoDeltaSyncInBackground({ added: [newTx] });
       }
       closeModal("modal-manual-tx");
+      const cfg = getActiveVersionConfig();
+      if (!cfg.features.noSaveSuccessPopup) {
+        showToast(editId ? "Đã cập nhật giao dịch!" : "Đã lưu giao dịch mới!", "✓");
+      }
     }
 
     function deleteTransaction(id) {
@@ -2036,9 +2506,16 @@
 
     function updateBillCategoryOptions() {
       const typeSelect = document.getElementById("bill-type");
+      const curType = typeSelect.value || "expense";
+      typeSelect.innerHTML = `
+        <option value="expense">${escapeHtml(getTypeDisplayName("expense"))}</option>
+        <option value="income">${escapeHtml(getTypeDisplayName("income"))}</option>
+        <option value="debt">${escapeHtml(getTypeDisplayName("debt"))}</option>
+      `;
+      typeSelect.value = curType;
       const type = typeSelect.value;
       const majors = Object.keys(CATEGORY_TREE[type] || {});
-      document.getElementById("bill-major").innerHTML = majors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+      document.getElementById("bill-major").innerHTML = majors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMajorDisplayName(m))}</option>`).join("");
       onBillMajorChange();
 
       const debtFields = document.getElementById("bill-debt-fields");
@@ -2056,7 +2533,7 @@
       const type = document.getElementById("bill-type").value;
       const major = document.getElementById("bill-major").value;
       const minors = (CATEGORY_TREE[type]?.[major]) || [];
-      document.getElementById("bill-minor").innerHTML = minors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+      document.getElementById("bill-minor").innerHTML = minors.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(getMinorDisplayName(m))}</option>`).join("");
       onBillMinorChange();
     }
 
@@ -2215,7 +2692,9 @@
         .map(l => l.replace(/^\d+[\.\)]\s*/, "").replace(/\s+\d+\s*[x*]\s*[\d.,]+.*$/i, "").trim())
         .filter(l => l.length >= 3 && !/^[\d.,\s₫vnd+-]*$/i.test(l));
 
-      if (transferNote) cleanItems.unshift(transferNote);
+      if (transferNote) {
+        cleanItems.unshift(transferNote);
+      }
 
       const uniqueCleanItems = [...new Set(cleanItems)];
       const mainNote = transferNote || uniqueCleanItems.slice(0, 2).join(", ") || "Hóa đơn quét ảnh";
@@ -2271,20 +2750,20 @@
           }
         };
 
-        if (cls.type === "expense") addCatSug("expense", cls.major, cls.minor, `${cls.major} • ${cls.minor}`);
-        if (/sữa|bỉm|baby|nhi|trẻ em|\bpu\b/i.test(sanitizedText)) addCatSug("expense", "Pu (Quỳnh Anh - 2t)", "Sữa & Bỉm", "Pu • Sữa & Bỉm");
-        if (/học phí|trường|tiểu học|sách|vở|vi[ệe]t\s*anh|dky\s*mua|\bbơ\b/i.test(sanitizedText)) addCatSug("expense", "Bơ (Việt Anh - 9t)", "Sách vở & Đồ dùng học tập", "Bơ • Sách vở & Đồ dùng");
-        if (/điện|evn/i.test(sanitizedText)) addCatSug("expense", "Cả nhà", "Điện", "Cả nhà • Tiền Điện");
-        if (/nước|cấp nước/i.test(sanitizedText)) addCatSug("expense", "Cả nhà", "Nước", "Cả nhà • Tiền Nước");
-        if (/siêu thị|winmart|coop|bách hóa|thực phẩm|thịt|rau|chợ/i.test(sanitizedText)) addCatSug("expense", "Cả nhà", "Tiền ăn & Thực phẩm", "Cả nhà • Tiền ăn & Thực phẩm");
-        if (/xăng|petrolimex|pvoil|gửi xe/i.test(sanitizedText)) addCatSug("expense", "Bố (Hồng Việt)", "Xăng xe & Gửi xe", "Bố • Xăng xe & Gửi xe");
-        if (/ăn|uống|phở|bún|cơm|cà phê|cafe|trà sữa/i.test(sanitizedText)) addCatSug("expense", "Bố (Hồng Việt)", "Tiền ăn & Cà phê", "Bố • Tiền ăn & Cà phê");
-        addCatSug("expense", "Cả nhà", "Tiền ăn & Thực phẩm", "Cả nhà • Tiền ăn & Thực phẩm");
-        addCatSug("expense", "Cả nhà", "Mua sắm đồ gia dụng", "Cả nhà • Mua sắm đồ gia dụng");
+        if (cls.type === "expense") addCatSug("expense", cls.major, cls.minor, `${getMajorDisplayName(cls.major)} • ${getMinorDisplayName(cls.minor)}`);
+        if (/sữa|bỉm|baby|nhi|trẻ em|\bpu\b/i.test(sanitizedText)) addCatSug("expense", "Pu (Quỳnh Anh - 2t)", "Sữa & Bỉm", `${getMajorDisplayName("Pu (Quỳnh Anh - 2t)")} • ${getMinorDisplayName("Sữa & Bỉm")}`);
+        if (/học phí|trường|tiểu học|sách|vở|vi[ệe]t\s*anh|dky\s*mua|\bbơ\b/i.test(sanitizedText)) addCatSug("expense", "Bơ (Việt Anh - 9t)", "Sách vở & Đồ dùng học tập", `${getMajorDisplayName("Bơ (Việt Anh - 9t)")} • ${getMinorDisplayName("Sách vở & Đồ dùng học tập")}`);
+        if (/điện|evn/i.test(sanitizedText)) addCatSug("expense", "Cả nhà", "Điện", `${getMajorDisplayName("Cả nhà")} • ${getMinorDisplayName("Điện")}`);
+        if (/nước|cấp nước/i.test(sanitizedText)) addCatSug("expense", "Cả nhà", "Nước", `${getMajorDisplayName("Cả nhà")} • ${getMinorDisplayName("Nước")}`);
+        if (/siêu thị|winmart|coop|bách hóa|thực phẩm|thịt|rau|chợ/i.test(sanitizedText)) addCatSug("expense", "Cả nhà", "Tiền ăn & Thực phẩm", `${getMajorDisplayName("Cả nhà")} • ${getMinorDisplayName("Tiền ăn & Thực phẩm")}`);
+        if (/xăng|petrolimex|pvoil|gửi xe/i.test(sanitizedText)) addCatSug("expense", "Bố (Hồng Việt)", "Xăng xe & Gửi xe", `${getMajorDisplayName("Bố (Hồng Việt)")} • ${getMinorDisplayName("Xăng xe & Gửi xe")}`);
+        if (/ăn|uống|phở|bún|cơm|cà phê|cafe|trà sữa/i.test(sanitizedText)) addCatSug("expense", "Bố (Hồng Việt)", "Tiền ăn & Cà phê", `${getMajorDisplayName("Bố (Hồng Việt)")} • ${getMinorDisplayName("Tiền ăn & Cà phê")}`);
+        addCatSug("expense", "Cả nhà", "Tiền ăn & Thực phẩm", `${getMajorDisplayName("Cả nhà")} • ${getMinorDisplayName("Tiền ăn & Thực phẩm")}`);
+        addCatSug("expense", "Cả nhà", "Mua sắm đồ gia dụng", `${getMajorDisplayName("Cả nhà")} • ${getMinorDisplayName("Mua sắm đồ gia dụng")}`);
 
         if (/chuyển khoản|chuyển tiền|momo|zalopay|vcb|vietinbank|techcombank|bidv|agribank|mb/i.test(sanitizedText)) {
-          addCatSug("debt", "Vay / Nợ", "Trả nợ", "Vay/Nợ • Trả nợ");
-          addCatSug("debt", "Vay / Nợ", "Cho vay mới", "Vay/Nợ • Cho vay mới");
+          addCatSug("debt", "Vay / Nợ", "Trả nợ", `${getMajorDisplayName("Vay / Nợ")} • ${getMinorDisplayName("Trả nợ")}`);
+          addCatSug("debt", "Vay / Nợ", "Cho vay mới", `${getMajorDisplayName("Vay / Nợ")} • ${getMinorDisplayName("Cho vay mới")}`);
         }
 
         window.__BILL_CAT_SUGGESTIONS__ = categorySuggestions;
@@ -2449,14 +2928,20 @@
       renderAll();
       autoDeltaSyncInBackground({ added: [newTx] });
       closeModal("modal-bill");
+      const cfg = getActiveVersionConfig();
+      if (!cfg.features.noSaveSuccessPopup) {
+        showToast("Đã lưu giao dịch từ hóa đơn!", "✓");
+      }
     }
 
-    // ==================== 10. KẾT XUẤT GIAO DIỆN CHÍNH ====================
+    // ==================== 10. KẾT XUẤT GIAO DIỆN ĐỘNG THEO TỪNG MỐC PHIÊN BẢN ====================
     function renderHeaderAndDockChrome() {
+      const cfg = getActiveVersionConfig();
       const brandIcon = document.getElementById("header-brand-icon");
       const actionsMount = document.getElementById("header-actions-mount");
       const historyHeaderMount = document.getElementById("history-header-mount");
       const bottomDockMount = document.getElementById("bottom-dock-mount");
+      const manualLbl = cfg.features.manualDockLabelText || "Nhập tay";
 
       if (brandIcon) brandIcon.innerHTML = DUOTONE_ICONS.walletHeader;
       if (actionsMount) {
@@ -2498,13 +2983,15 @@
               ${DUOTONE_ICONS.scanBill}
               <span class="text-[12px] font-medium">Ảnh Bill</span>
             </button>
+
             <button onclick="openVoiceAIModal()" class="ai-mic-btn shrink-0 -mt-5 w-14 h-14 rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-white active:scale-95 shadow-lg shadow-orange-500/35 flex flex-col items-center justify-center border-4 border-white transition">
               ${DUOTONE_ICONS.micAI}
               <span class="text-[9px] font-semibold leading-none mt-0.5">Nói AI</span>
             </button>
+
             <button onclick="openManualTxModal()" class="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-full hover:bg-slate-50 active:scale-95 text-slate-700 transition">
               ${DUOTONE_ICONS.penManual}
-              <span id="manual-dock-label" class="text-[12px] font-medium">Nhập tay</span>
+              <span id="manual-dock-label" class="text-[12px] font-medium">${escapeHtml(manualLbl)}</span>
             </button>
           </div>
         `;
@@ -2598,6 +3085,11 @@
 
       const overall = computeOverallFinancialSummary();
       const mount = document.getElementById("summary-cards-mount");
+      const shortBo = getMajorDisplayName("Bơ (Việt Anh - 9t)").split("(")[0].trim();
+      const shortPu = getMajorDisplayName("Pu (Quỳnh Anh - 2t)").split("(")[0].trim();
+      const childCardTitle = isCustomNamingEnabled()
+        ? `CHI ${shortBo} & ${shortPu}`.toUpperCase()
+        : "CHI BƠ & PU";
 
       mount.innerHTML = `
         <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-[0_2px_10px_rgba(15,23,42,0.03)] transition">
@@ -2629,7 +3121,7 @@
 
         <div class="bg-white p-3.5 rounded-2xl border border-orange-200/90 shadow-[0_2px_10px_rgba(234,88,12,0.04)] transition">
           <div class="flex items-center justify-between gap-1">
-            <span class="text-[11px] font-semibold text-slate-600 tracking-wide">CHI BƠ & PU</span>
+            <span class="text-[11px] font-semibold text-slate-600 tracking-wide truncate">${escapeHtml(childCardTitle)}</span>
             <span class="px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200 text-orange-700 text-[10px] font-semibold">${boPuPct}%</span>
           </div>
           <p class="text-[17px] font-bold text-orange-600 mt-1.5 tracking-tight truncate">${formatVND(boPuExpense)}</p>
@@ -2664,14 +3156,14 @@
 
           <select id="filter-type-select" onchange="setTypeFilter(this.value)" class="shrink-0 max-w-[76px] rounded-xl border px-1.5 py-1.5 text-[11px] font-medium focus:outline-none ${activeTypeFilter !== "all" ? "bg-orange-50 border-orange-300 text-orange-800" : "bg-slate-50 border-slate-200/90 text-slate-700"}">
             <option value="all" ${activeTypeFilter === "all" ? "selected" : ""}>Loại ▾</option>
-            <option value="expense" ${activeTypeFilter === "expense" ? "selected" : ""}>Chi</option>
-            <option value="income" ${activeTypeFilter === "income" ? "selected" : ""}>Thu</option>
-            <option value="debt" ${activeTypeFilter === "debt" ? "selected" : ""}>Vay/Nợ</option>
+            <option value="expense" ${activeTypeFilter === "expense" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("expense", true))}</option>
+            <option value="income" ${activeTypeFilter === "income" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("income", true))}</option>
+            <option value="debt" ${activeTypeFilter === "debt" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("debt", true))}</option>
           </select>
 
           <select id="filter-major" onchange="onFilterMajorChange()" class="shrink-0 max-w-[84px] rounded-xl border px-1.5 py-1.5 text-[11px] font-medium focus:outline-none ${prevMajor ? "bg-orange-50 border-orange-300 text-orange-800" : "bg-slate-50 border-slate-200/90 text-slate-700"}">
             <option value="">Mục lớn ▾</option>
-            ${allMajors.map(m => `<option value="${escapeHtml(m)}" ${m === prevMajor ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
+            ${allMajors.map(m => `<option value="${escapeHtml(m)}" ${m === prevMajor ? "selected" : ""}>${escapeHtml(getMajorDisplayName(m))}</option>`).join("")}
           </select>
 
           <select id="filter-minor" onchange="renderTransactions()" class="shrink-0 max-w-[84px] rounded-xl border px-1.5 py-1.5 text-[11px] font-medium focus:outline-none ${prevMinor ? "bg-orange-50 border-orange-300 text-orange-800" : "bg-slate-50 border-slate-200/90 text-slate-700"}">
@@ -2697,7 +3189,7 @@
         minors = [...new Set(sets)];
       }
       minorSelect.innerHTML = `<option value="">Mục nhỏ ▾</option>` +
-        minors.map(m => `<option value="${escapeHtml(m)}" ${m === selectedMinor ? "selected" : ""}>${escapeHtml(m)}</option>`).join("");
+        minors.map(m => `<option value="${escapeHtml(m)}" ${m === selectedMinor ? "selected" : ""}>${escapeHtml(getMinorDisplayName(m))}</option>`).join("");
     }
 
     function onFilterMajorChange() {
@@ -2735,7 +3227,7 @@
         if (majorFilter && tx.major !== majorFilter) return false;
         if (minorFilter && tx.minor !== minorFilter) return false;
         if (keyword) {
-          const hay = `${tx.note} ${tx.major} ${tx.minor} ${tx.person || ""} ${tx.amount}`.toLowerCase();
+          const hay = `${tx.note} ${tx.major} ${getMajorDisplayName(tx.major)} ${tx.minor} ${getMinorDisplayName(tx.minor)} ${tx.person || ""} ${tx.amount}`.toLowerCase();
           if (!hay.includes(keyword)) return false;
         }
         return true;
@@ -2770,7 +3262,7 @@
           <div class="bg-white p-3 rounded-2xl border ${tx.needsReview ? "border-amber-400 bg-amber-50/30" : "border-slate-200/90 shadow-[0_2px_8px_rgba(15,23,42,0.02)]"} flex items-start justify-between gap-2">
             <div class="min-w-0 flex-1 space-y-1">
               <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="px-2 py-0.5 rounded-lg text-[10px] font-medium ${badgeBg}">${escapeHtml(tx.major)} • ${escapeHtml(tx.minor)}</span>
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-medium ${badgeBg}">${escapeHtml(getMajorDisplayName(tx.major))} • ${escapeHtml(getMinorDisplayName(tx.minor))}</span>
                 ${tx.person ? `<span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-medium">${DUOTONE_ICONS.userSmall}${escapeHtml(tx.person)}</span>` : ""}
                 ${tx.needsReview ? `<span class="px-1.5 py-0.5 rounded-md bg-amber-500 text-white text-[10px] font-semibold">Bổ sung mục</span>` : ""}
               </div>
@@ -2991,7 +3483,7 @@
                   <div class="flex items-center justify-between text-[11px]">
                     <span class="flex items-center gap-1.5 font-medium text-slate-700 truncate">
                       <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:${colors[i % colors.length]}"></span>
-                      <span class="truncate">${escapeHtml(m.major)}</span>
+                      <span class="truncate">${escapeHtml(getMajorDisplayName(m.major))}</span>
                     </span>
                     <span class="font-semibold text-slate-900 shrink-0">${Math.round((m.total / total) * 100)}%</span>
                   </div>
@@ -3009,7 +3501,7 @@
                   <div class="px-3 py-2.5 bg-slate-50/90 border-b border-slate-200/70 flex items-center justify-between gap-2">
                     <div class="flex items-center gap-2 min-w-0">
                       <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:${dotColor}"></span>
-                      <span class="text-xs font-semibold text-slate-800 truncate">${escapeHtml(m.major)}</span>
+                      <span class="text-xs font-semibold text-slate-800 truncate">${escapeHtml(getMajorDisplayName(m.major))}</span>
                       ${m.total > 0 ? `<span class="px-1.5 py-0.5 rounded-md bg-orange-50 text-orange-700 text-[10px] font-semibold shrink-0">${pct}%</span>` : ""}
                     </div>
                     <span class="text-xs font-bold ${m.total > 0 ? amountColor : "text-slate-400"} shrink-0">${formatVND(m.total)}</span>
@@ -3017,7 +3509,7 @@
                   <div class="divide-y divide-slate-100">
                     ${m.minors.map(sub => `
                       <div class="px-3 py-1.5 flex items-center justify-between gap-2 text-[11px]">
-                        <span class="${sub.amount > 0 ? "font-medium text-slate-700" : "font-normal text-slate-400"} truncate">• ${escapeHtml(sub.minor)}</span>
+                        <span class="${sub.amount > 0 ? "font-medium text-slate-700" : "font-normal text-slate-400"} truncate">• ${escapeHtml(getMinorDisplayName(sub.minor))}</span>
                         <span class="${sub.amount > 0 ? "font-semibold text-slate-900" : "font-normal text-slate-400"} shrink-0">${formatVND(sub.amount)}</span>
                       </div>
                     `).join("")}
@@ -3085,6 +3577,7 @@
       const s = computeFinancialSummaryByScope(true);
       const overallAllTime = computeFinancialSummaryByScope(false);
       const periodTitle = getSelectedPeriodDisplayTitle();
+
       const expBreakdown = buildMajorMinorBreakdown("expense", true, true);
       const incBreakdown = buildMajorMinorBreakdown("income", true, true);
 
@@ -3107,26 +3600,26 @@
       ctx.fillRect(0, 0, canvas.width, 110);
 
       ctx.fillStyle = "#ffffff";
-      ctx.font = "700 28px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 28px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText("SỔ THU CHI THÔNG MINH", 32, 52);
-      ctx.font = "500 18px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "500 18px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText(`Kỳ báo cáo: ${periodTitle} • Xuất ngày: ${formatDisplayDate(toISODate(new Date()))}`, 32, 84);
 
       const cardW = (canvas.width - 84) / 2;
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, 32, 134, cardW, 166, 20);
+      ctx.roundRect(32, 134, cardW, 166, 20);
       ctx.fill();
       ctx.strokeStyle = "#fed7aa";
       ctx.lineWidth = 2;
       ctx.stroke();
       ctx.fillStyle = "#9a3412";
-      ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText("SỐ DƯ KỲ (THU - CHI)", 50, 168);
       ctx.fillStyle = "#0f172a";
-      ctx.font = "700 25px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 25px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText(formatVND(s.allBalance), 50, 208);
-      ctx.font = "500 15px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "500 15px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillStyle = "#059669";
       ctx.fillText(`Tổng Thu: ${formatVND(s.allIncome)}`, 50, 244);
       ctx.fillStyle = "#e11d48";
@@ -3135,52 +3628,53 @@
       const rightCardX = 32 + cardW + 20;
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, rightCardX, 134, cardW, 166, 20);
+      ctx.roundRect(rightCardX, 134, cardW, 166, 20);
       ctx.fill();
       ctx.strokeStyle = "#bae6fd";
       ctx.lineWidth = 2;
       ctx.stroke();
       ctx.fillStyle = "#0369a1";
-      ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText("VAY / NỢ TRONG KỲ", rightCardX + 18, 168);
       ctx.fillStyle = "#0f172a";
-      ctx.font = "700 25px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 25px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText(`${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}`, rightCardX + 18, 208);
-      ctx.font = "500 15px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "500 15px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillStyle = "#059669";
       ctx.fillText(`Người nợ mình: +${formatVND(s.receivableTotal)}`, rightCardX + 18, 244);
       ctx.fillStyle = "#e11d48";
       ctx.fillText(`Mình đang nợ: -${formatVND(s.payableTotal)}`, rightCardX + 18, 272);
 
-      const nextY = 322;
+      let nextY = 322;
       const colBoxH = extraHeight - 24;
+
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, 32, nextY, cardW, colBoxH, 20);
+      ctx.roundRect(32, nextY, cardW, colBoxH, 20);
       ctx.fill();
       ctx.strokeStyle = "#fecdd3";
       ctx.lineWidth = 2;
       ctx.stroke();
 
       ctx.fillStyle = "#be123c";
-      ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText(`CƠ CẤU CHI (${formatVND(expBreakdown.total)})`, 48, nextY + 34);
 
       let curY = nextY + 64;
       if (!expBreakdown.majorsList.length) {
         ctx.fillStyle = "#94a3b8";
-        ctx.font = "500 14px 'Be Vietnam Pro', sans-serif";
+        ctx.font = "500 14px 'Be Vietnam Pro', Inter, sans-serif";
         ctx.fillText("Không phát sinh khoản chi", 48, curY);
       } else {
         expBreakdown.majorsList.forEach(m => {
           ctx.fillStyle = "#0f172a";
-          ctx.font = "700 14px 'Be Vietnam Pro', sans-serif";
-          ctx.fillText(`${m.major}: ${formatVND(m.total)}`, 48, curY);
+          ctx.font = "700 14px 'Be Vietnam Pro', Inter, sans-serif";
+          ctx.fillText(`${getMajorDisplayName(m.major)}: ${formatVND(m.total)}`, 48, curY);
           curY += 22;
           m.minors.filter(sub => sub.amount > 0).forEach(sub => {
             ctx.fillStyle = "#475569";
-            ctx.font = "500 13px 'Be Vietnam Pro', sans-serif";
-            ctx.fillText(`  • ${sub.minor}: ${formatVND(sub.amount)}`, 52, curY);
+            ctx.font = "500 13px 'Be Vietnam Pro', Inter, sans-serif";
+            ctx.fillText(`  • ${getMinorDisplayName(sub.minor)}: ${formatVND(sub.amount)}`, 52, curY);
             curY += 20;
           });
           curY += 4;
@@ -3189,53 +3683,54 @@
 
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, rightCardX, nextY, cardW, colBoxH, 20);
+      ctx.roundRect(rightCardX, nextY, cardW, colBoxH, 20);
       ctx.fill();
       ctx.strokeStyle = "#a7f3d0";
       ctx.lineWidth = 2;
       ctx.stroke();
 
       ctx.fillStyle = "#047857";
-      ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillText(`NGUỒN THU (${formatVND(incBreakdown.total)})`, rightCardX + 16, nextY + 34);
 
       let curIncY = nextY + 64;
       if (!incBreakdown.majorsList.length) {
         ctx.fillStyle = "#94a3b8";
-        ctx.font = "500 14px 'Be Vietnam Pro', sans-serif";
+        ctx.font = "500 14px 'Be Vietnam Pro', Inter, sans-serif";
         ctx.fillText("Không phát sinh nguồn thu", rightCardX + 16, curIncY);
       } else {
         incBreakdown.majorsList.forEach(m => {
           ctx.fillStyle = "#0f172a";
-          ctx.font = "700 14px 'Be Vietnam Pro', sans-serif";
-          ctx.fillText(`${m.major}: ${formatVND(m.total)}`, rightCardX + 16, curIncY);
+          ctx.font = "700 14px 'Be Vietnam Pro', Inter, sans-serif";
+          ctx.fillText(`${getMajorDisplayName(m.major)}: ${formatVND(m.total)}`, rightCardX + 16, curIncY);
           curIncY += 22;
           m.minors.filter(sub => sub.amount > 0).forEach(sub => {
             ctx.fillStyle = "#475569";
-            ctx.font = "500 13px 'Be Vietnam Pro', sans-serif";
-            ctx.fillText(`  • ${sub.minor}: ${formatVND(sub.amount)}`, rightCardX + 20, curIncY);
+            ctx.font = "500 13px 'Be Vietnam Pro', Inter, sans-serif";
+            ctx.fillText(`  • ${getMinorDisplayName(sub.minor)}: ${formatVND(sub.amount)}`, rightCardX + 20, curIncY);
             curIncY += 20;
           });
           curIncY += 4;
         });
       }
 
-      const footerY = nextY + colBoxH + 20;
+      nextY += colBoxH + 20;
+
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      drawRoundRectCompat(ctx, 32, footerY, canvas.width - 64, 146, 20);
+      ctx.roundRect(32, nextY, canvas.width - 64, 146, 20);
       ctx.fill();
       ctx.strokeStyle = "#e2e8f0";
       ctx.lineWidth = 2;
       ctx.stroke();
       ctx.fillStyle = "#334155";
-      ctx.font = "700 18px 'Be Vietnam Pro', sans-serif";
-      ctx.fillText(`Lũy kế toàn sổ (${transactions.filter(t => !t.needsReview).length} giao dịch)`, 52, footerY + 38);
-      ctx.font = "600 17px 'Be Vietnam Pro', sans-serif";
+      ctx.font = "700 18px 'Be Vietnam Pro', Inter, sans-serif";
+      ctx.fillText(`Lũy kế toàn sổ (${transactions.filter(t => !t.needsReview).length} giao dịch)`, 52, nextY + 38);
+      ctx.font = "600 17px 'Be Vietnam Pro', Inter, sans-serif";
       ctx.fillStyle = "#059669";
-      ctx.fillText(`• Số dư thực tế toàn bộ: ${formatVND(overallAllTime.allBalance)} (Thu ${formatVND(overallAllTime.allIncome)} - Chi ${formatVND(overallAllTime.allExpense)})`, 52, footerY + 76);
+      ctx.fillText(`• Số dư thực tế toàn bộ: ${formatVND(overallAllTime.allBalance)} (Thu ${formatVND(overallAllTime.allIncome)} - Chi ${formatVND(overallAllTime.allExpense)})`, 52, nextY + 76);
       ctx.fillStyle = "#0369a1";
-      ctx.fillText(`• Công nợ ròng toàn sổ: ${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}`, 52, footerY + 112);
+      ctx.fillText(`• Công nợ ròng toàn sổ: ${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}`, 52, nextY + 112);
 
       const jpgDataUrl = canvas.toDataURL("image/jpeg", 0.95);
       exportedJpgFileName = `Bao_Cao_Thu_Chi_${toISODate(new Date())}.jpg`;
@@ -3265,34 +3760,48 @@
       const line = document.getElementById("sync-status-line");
       if (!line) return;
       const cfg = getActiveVersionConfig();
-      const isCompact = Boolean(cfg.features.compactSyncStatusBeacon);
+      const useBeacon = Boolean(cfg.features.compactSyncStatusBeacon);
+
+      if (!useBeacon) {
+        if (!url) {
+          line.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200"></span><span>Chưa gắn link Google Sheets</span>`;
+          return;
+        }
+        if (customStatusText) {
+          line.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-200 animate-pulse"></span><span>${escapeHtml(customStatusText)}</span>`;
+          return;
+        }
+        const { added, updated, deletedIds } = getPendingDeltaItems();
+        const pendingTotal = added.length + updated.length + deletedIds.length;
+        if (pendingTotal > 0) {
+          line.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200"></span><span>Đã kết nối • ${pendingTotal} thay đổi chờ đẩy</span>`;
+        } else {
+          line.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-300"></span><span>Đã đồng bộ tức thì với Sheets</span>`;
+        }
+        return;
+      }
 
       if (!url) {
-        line.innerHTML = isCompact
-          ? `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0"></span><span>Chưa gắn Sheets</span>`
-          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200"></span><span>Chưa gắn link Google Sheets</span>`;
+        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 shadow-[0_0_6px_rgba(252,211,77,0.9)] shrink-0"></span><span>Chưa gắn Sheets</span>`;
         return;
       }
       if (customStatusText) {
-        line.innerHTML = isCompact
-          ? `<span class="inline-block w-2 h-2 rounded-full bg-sky-300 animate-pulse shrink-0"></span><span>${escapeHtml(customStatusText)}</span>`
-          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-200 animate-pulse"></span><span>${escapeHtml(customStatusText)}</span>`;
+        const shortSyncText = /tải/i.test(customStatusText) ? "Đang tải về..." : "Đang đồng bộ...";
+        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-sky-300 shadow-[0_0_6px_rgba(125,211,252,0.95)] animate-pulse shrink-0"></span><span>${shortSyncText}</span>`;
         return;
       }
       const { added, updated, deletedIds } = getPendingDeltaItems();
       const pendingTotal = added.length + updated.length + deletedIds.length;
       if (pendingTotal > 0) {
-        line.innerHTML = isCompact
-          ? `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 animate-pulse shrink-0"></span><span>Chờ đẩy (${pendingTotal})</span>`
-          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200"></span><span>Đã kết nối • ${pendingTotal} thay đổi chờ đẩy</span>`;
+        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-amber-300 shadow-[0_0_6px_rgba(252,211,77,0.95)] animate-pulse shrink-0"></span><span>Chờ đẩy (${pendingTotal})</span>`;
       } else {
-        line.innerHTML = isCompact
-          ? `<span class="inline-block w-2 h-2 rounded-full bg-emerald-300 shadow-[0_0_6px_#6ee7b7] shrink-0"></span><span>Đã đồng bộ</span>`
-          : `<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-300"></span><span>Đã đồng bộ tức thì với Sheets</span>`;
+        line.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-emerald-300 shadow-[0_0_6px_rgba(110,231,183,0.95)] shrink-0"></span><span>Đã đồng bộ</span>`;
       }
     }
 
     async function autoDeltaSyncInBackground(explicitDelta = null) {
+      const cfg = getActiveVersionConfig();
+      if (!cfg.features.incrementalDeltaAutoSync) return;
       const { url } = await SevenLayerStorage.load();
       if (!url) return;
 
@@ -3303,8 +3812,7 @@
       if (!added.length && !updated.length && !deletedIds.length) return;
       if (!transactions.length && !deletedIds.length) return;
 
-      const isCompact = Boolean(getActiveVersionConfig().features.compactSyncStatusBeacon);
-      updateSyncStatusUI(url, isCompact ? "Đang đồng bộ..." : "Đang đẩy giao dịch mới lên Sheets...");
+      updateSyncStatusUI(url, "Đang đẩy giao dịch mới lên Sheets...");
       try {
         const safePayload = {
           action: "deltaSync",
@@ -3357,8 +3865,7 @@
         return;
       }
       await SevenLayerStorage.save(url);
-      const isCompact = Boolean(getActiveVersionConfig().features.compactSyncStatusBeacon);
-      updateSyncStatusUI(url, isCompact ? "Đang tải về..." : "Đang kiểm tra giao dịch mới từ Sheets...");
+      updateSyncStatusUI(url, "Đang tải về...");
       try {
         const existingIds = new Set(transactions.map(t => t.id));
         const resp = await fetch(`${url}?action=load`);
@@ -3385,8 +3892,8 @@
                 gmailId: extractedGmId || undefined,
                 date: String(item.date || toISODate(new Date())).slice(0, 10),
                 type: item.type || "expense",
-                major: item.major || "Cả nhà",
-                minor: item.minor || "Chi khác",
+                major: resolveCanonicalMajor(item.major) || "Cả nhà",
+                minor: resolveCanonicalMinor(item.minor) || "Chi khác",
                 amount: Number(item.amount) || 0,
                 note: item.note || item.minor || "",
                 person: item.person || "",
@@ -3650,15 +4157,15 @@
 
             <div class="grid grid-cols-3 gap-1.5">
               <select onchange="updateGmailCandidateField(${idx}, 'type', this.value)" class="rounded-lg border border-slate-200 bg-white px-1.5 py-1 text-[10px] font-medium">
-                <option value="expense" ${item.type === "expense" ? "selected" : ""}>Chi</option>
-                <option value="income" ${item.type === "income" ? "selected" : ""}>Thu</option>
-                <option value="debt" ${item.type === "debt" ? "selected" : ""}>Vay/Nợ</option>
+                <option value="expense" ${item.type === "expense" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("expense", true))}</option>
+                <option value="income" ${item.type === "income" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("income", true))}</option>
+                <option value="debt" ${item.type === "debt" ? "selected" : ""}>${escapeHtml(getTypeDisplayName("debt", true))}</option>
               </select>
               <select onchange="updateGmailCandidateField(${idx}, 'major', this.value)" class="rounded-lg border border-slate-200 bg-white px-1.5 py-1 text-[10px] font-medium">
-                ${majors.map(m => `<option value="${escapeHtml(m)}" ${m === item.major ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
+                ${majors.map(m => `<option value="${escapeHtml(m)}" ${m === item.major ? "selected" : ""}>${escapeHtml(getMajorDisplayName(m))}</option>`).join("")}
               </select>
               <select onchange="updateGmailCandidateField(${idx}, 'minor', this.value)" class="rounded-lg border border-slate-200 bg-white px-1.5 py-1 text-[10px] font-medium">
-                ${minors.map(m => `<option value="${escapeHtml(m)}" ${m === item.minor ? "selected" : ""}>${escapeHtml(m)}</option>`).join("")}
+                ${minors.map(m => `<option value="${escapeHtml(m)}" ${m === item.minor ? "selected" : ""}>${escapeHtml(getMinorDisplayName(m))}</option>`).join("")}
               </select>
             </div>
             <div class="flex items-center justify-end gap-1.5">
@@ -3803,7 +4310,8 @@
     }
 
     function applyMobileSettingsVisibility() {
-      const shouldHide = isMobileDevice();
+      const cfg = getActiveVersionConfig();
+      const shouldHide = Boolean(cfg.features.hideSettingsOnMobile) && isMobileDevice();
       const headerBtn = document.getElementById("btn-open-settings");
       const syncSettingsBtn = document.getElementById("btn-sync-open-settings");
       if (headerBtn) headerBtn.classList.toggle("hidden", shouldHide);
@@ -3812,7 +4320,10 @@
     }
 
     async function openSettingsModal() {
-      if (isMobileDevice()) return;
+      const cfg = getActiveVersionConfig();
+      if (cfg.features.hideSettingsOnMobile && isMobileDevice()) {
+        return;
+      }
       const { url } = await SevenLayerStorage.load();
       document.getElementById("settings-exec-url").value = url || "";
       document.getElementById("selftest-output").classList.add("hidden");
@@ -4144,7 +4655,7 @@ function scanGmailTransactions_() {
     function openVersionModal() {
       const latestVer = BUILTIN_VERSIONS[0].version;
       const container = document.getElementById("version-list-container");
-      const previewIconSrc = currentAppIconPreviewUrl || renderIconDataURL(180);
+      const previewIconSrc = currentAppIconPreviewUrl || renderIconDataURL(180, getActiveVersionConfig().features.iconStyle || "white-orange-v1");
       const refreshBanner = `
         <div class="p-2.5 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-between gap-2.5">
           <img src="${previewIconSrc}" alt="Icon App" class="w-11 h-11 rounded-2xl shadow-sm border border-orange-200/80 shrink-0" />
@@ -4191,9 +4702,9 @@ function scanGmailTransactions_() {
         async () => {
           activeAppVersion = ver;
           persistLocalState();
+          renderAll();
           const { url } = await SevenLayerStorage.load();
           updateSyncStatusUI(url);
-          renderAll();
           closeModal("modal-versions");
           showToast(`Đã khôi phục nguyên bản phiên bản ${ver}!`, "✓");
         },
@@ -4204,6 +4715,10 @@ function scanGmailTransactions_() {
     // ==================== 14. KHỞI TẠO ỨNG DỤNG ====================
     function renderAll() {
       generateAppIcons();
+      const brandTrigger = document.getElementById("header-brand-trigger");
+      if (brandTrigger) {
+        brandTrigger.classList.toggle("cursor-pointer", isCustomNamingEnabled());
+      }
       renderHeaderAndDockChrome();
       applyMobileSettingsVisibility();
       renderPeriodBar();
@@ -4266,8 +4781,8 @@ function scanGmailTransactions_() {
                   gmailId: extractedGmId || undefined,
                   date: String(item.date || toISODate(new Date())).slice(0, 10),
                   type: item.type || "expense",
-                  major: item.major || "Cả nhà",
-                  minor: item.minor || "Chi khác",
+                  major: resolveCanonicalMajor(item.major) || "Cả nhà",
+                  minor: resolveCanonicalMinor(item.minor) || "Chi khác",
                   amount: Number(item.amount) || 0,
                   note: item.note || item.minor || "",
                   person: item.person || "",
