@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.68";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.69";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -186,7 +186,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.68
+            v1.69
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -629,25 +629,25 @@
   </div>
 
   <!-- 10. Hộp thoại Quản Lý Loại, Mục Lớn & Mục Nhỏ (Mở từ Icon & Tên Sổ thu chi) -->
-  <div id="modal-custom-labels" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
-    <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col">
-      <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
+  <div id="modal-custom-labels" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-start sm:items-center justify-center pt-12 px-2.5 pb-2.5">
+    <div id="custom-labels-dialog-card" class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden h-[82dvh] max-h-[82dvh] flex flex-col">
+      <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between shrink-0">
         <div class="flex items-center gap-2.5">
           <svg class="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
           <div>
             <h3 id="custom-labels-modal-title" class="font-semibold text-sm">Quản Lý Loại, Mục Lớn &amp; Mục Nhỏ</h3>
-            <p class="text-[11px] text-orange-100">Chạm mục cần sửa • Giữ nguyên đề xuất &amp; lịch sử cũ</p>
+            <p id="custom-labels-modal-sub" class="text-[11px] text-orange-100">Chạm mục cần sửa • Giữ nguyên đề xuất &amp; lịch sử cũ</p>
           </div>
         </div>
         <button onclick="closeModal('modal-custom-labels')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
       </div>
 
-      <div class="p-3.5 space-y-2.5 overflow-y-auto ios-smooth-scroll">
+      <div class="p-3.5 space-y-2.5 flex-1 min-h-0 overflow-y-auto ios-smooth-scroll">
         <div id="custom-labels-helper-note" class="bg-orange-50/80 px-3 py-2 rounded-2xl border border-orange-200/80 text-[11px] text-orange-950 leading-snug">
           Chạm vào thẻ <b>Mục Lớn</b> bên dưới để xem và sửa tên tại chỗ, ẩn bớt hoặc thêm mới. Toàn bộ giao dịch cũ tự động cập nhật theo tên mới.
         </div>
 
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200/70 shrink-0">
           <button type="button" data-cltab="expense" onclick="switchCustomLabelTab('expense')" class="cl-tab py-1.5 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition">Khoản Chi</button>
           <button type="button" data-cltab="income" onclick="switchCustomLabelTab('income')" class="cl-tab py-1.5 rounded-xl text-xs font-medium text-slate-600 transition">Khoản Thu</button>
           <button type="button" data-cltab="debt" onclick="switchCustomLabelTab('debt')" class="cl-tab py-1.5 rounded-xl text-xs font-medium text-slate-600 transition">Vay / Nợ</button>
@@ -757,7 +757,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.68";
+    const LATEST_APP_VERSION = "v1.69";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -775,6 +775,15 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.69",
+        date: "22/11/2026",
+        title: "Cố định vị trí tiêu đề phía trên cùng của hộp thoại Quản lý Loại, Mục Lớn & Mục Nhỏ khi chuyển tab",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true },
+        changes: [
+          "Cố định tiêu đề cam, thanh chuyển tab Loại và chiều cao khung hộp thoại Quản lý Loại, Mục Lớn & Mục Nhỏ ở phía trên màn hình để không bị nhảy lên xuống khi chuyển giữa Khoản Chi, Khoản Thu và Vay/Nợ."
+        ]
+      },
       {
         version: "v1.68",
         date: "22/11/2026",
@@ -957,8 +966,22 @@
 
     function openCustomLabelsModal() {
       if (!isCustomNamingEnabled()) return;
+      const cfg = getActiveVersionConfig();
       const flexEnabled = isFlexibleCategoryEnabled();
       const compactEnabled = isCompactCategoryUIEnabled();
+      const fixedTopEnabled = Boolean(cfg.features.fixedTopCategoryModal);
+      const modalWrap = document.getElementById("modal-custom-labels");
+      const dialogCard = document.getElementById("custom-labels-dialog-card");
+      if (modalWrap) {
+        modalWrap.className = fixedTopEnabled
+          ? "fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-start sm:items-center justify-center pt-12 px-2.5 pb-2.5"
+          : "fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5";
+      }
+      if (dialogCard) {
+        dialogCard.className = fixedTopEnabled
+          ? "bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden h-[82dvh] max-h-[82dvh] flex flex-col"
+          : "bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col";
+      }
       const titleEl = document.getElementById("custom-labels-modal-title");
       const subEl = document.getElementById("custom-labels-modal-sub");
       const noteEl = document.getElementById("custom-labels-helper-note");
