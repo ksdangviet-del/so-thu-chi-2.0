@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.83";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.84";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -203,7 +203,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.83
+            v1.84
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -783,7 +783,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.83";
+    const LATEST_APP_VERSION = "v1.84";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -803,6 +803,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.84",
+        date: "23/11/2026",
+        title: "Đặt làm Mặc Định Mới toàn bộ thay đổi danh mục của bạn ở v1.83 (Bố (Việt Chuôi), Tiền ăn sáng, Công việc & các mục đã tùy chỉnh)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true, zaloDarkAndLightFastOcr: true, habitBasedBillAutoFillNoBox: true, cleanOverviewCardsNoTruncation: true, iosGlobalBounceGuardZeroLag: true, smartLinkedFilterForMembers: true, v183CustomDefaultBaseline: true },
+        changes: [
+          "Khóa toàn bộ thiết lập danh mục bạn đã tinh chỉnh ở v1.83 (bao gồm 'Bố (Việt Chuôi)', 'Thu nhập Bố (Việt Chuôi)', 'Tiền ăn sáng', 'Công việc' cùng mọi mục ẩn/thêm/đổi tên) làm Mặc Định Mới từ v1.84.",
+          "Khi bấm nút 'Đặt lại mặc định' trong Quản Lý Loại, Mục Lớn & Mục Nhỏ, hệ thống khôi phục về đúng bộ danh mục chuẩn v1.83 của bạn (còn nếu khôi phục về v1.82 trở về trước vẫn giữ nguyên mặc định cũ)."
+        ]
+      },
       {
         version: "v1.83",
         date: "23/11/2026",
@@ -1053,6 +1063,81 @@
 
     function isFamilyWorkSplitEnabled() {
       return Boolean(getActiveVersionConfig().features.familyAndWorkLedgerSplit);
+    }
+
+    function isV183DefaultBaselineEnabled() {
+      return Boolean(getActiveVersionConfig().features.v183CustomDefaultBaseline);
+    }
+
+    const BUILTIN_V183_BASE_LABELS = {
+      types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" },
+      majors: {
+        "Bố (Hồng Việt)": "Bố (Việt Chuôi)",
+        "Thu nhập Bố (Hồng Việt)": "Thu nhập Bố (Việt Chuôi)"
+      },
+      minors: {
+        "Tiền ăn & Cà phê": "Tiền ăn sáng"
+      },
+      hiddenMajors: [],
+      hiddenMinors: [],
+      customTree: { expense: {}, income: {}, debt: {} },
+      customKeywords: {}
+    };
+
+    function getDefaultCustomLabelsSnapshot() {
+      if (!isV183DefaultBaselineEnabled()) {
+        return {
+          types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" },
+          majors: {},
+          minors: {},
+          hiddenMajors: [],
+          hiddenMinors: [],
+          customTree: { expense: {}, income: {}, debt: {} },
+          customKeywords: {}
+        };
+      }
+      try {
+        const savedBaselineRaw = localStorage.getItem("stc_v183_custom_default_baseline_v1");
+        if (savedBaselineRaw) {
+          const parsed = JSON.parse(savedBaselineRaw);
+          if (parsed && typeof parsed === "object") {
+            return {
+              types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ", ...(parsed.types || {}) },
+              majors: { ...BUILTIN_V183_BASE_LABELS.majors, ...(parsed.majors || {}) },
+              minors: { ...BUILTIN_V183_BASE_LABELS.minors, ...(parsed.minors || {}) },
+              hiddenMajors: Array.isArray(parsed.hiddenMajors) ? [...parsed.hiddenMajors] : [],
+              hiddenMinors: Array.isArray(parsed.hiddenMinors) ? [...parsed.hiddenMinors] : [],
+              customTree: {
+                expense: JSON.parse(JSON.stringify(parsed.customTree?.expense || {})),
+                income: JSON.parse(JSON.stringify(parsed.customTree?.income || {})),
+                debt: JSON.parse(JSON.stringify(parsed.customTree?.debt || {}))
+              },
+              customKeywords: { ...(parsed.customKeywords || {}) }
+            };
+          }
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(BUILTIN_V183_BASE_LABELS));
+    }
+
+    function captureV183BaselineIfNeeded() {
+      try {
+        if (localStorage.getItem("stc_v183_custom_default_baseline_v1")) return;
+        const snapshot = {
+          types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ", ...(customLabels.types || {}) },
+          majors: { ...BUILTIN_V183_BASE_LABELS.majors, ...(customLabels.majors || {}) },
+          minors: { ...BUILTIN_V183_BASE_LABELS.minors, ...(customLabels.minors || {}) },
+          hiddenMajors: Array.isArray(customLabels.hiddenMajors) ? [...customLabels.hiddenMajors] : [],
+          hiddenMinors: Array.isArray(customLabels.hiddenMinors) ? [...customLabels.hiddenMinors] : [],
+          customTree: {
+            expense: JSON.parse(JSON.stringify(customLabels.customTree?.expense || {})),
+            income: JSON.parse(JSON.stringify(customLabels.customTree?.income || {})),
+            debt: JSON.parse(JSON.stringify(customLabels.customTree?.debt || {}))
+          },
+          customKeywords: { ...(customLabels.customKeywords || {}) }
+        };
+        localStorage.setItem("stc_v183_custom_default_baseline_v1", JSON.stringify(snapshot));
+      } catch (e) {}
     }
 
     const WORK_CANONICAL_MINORS = ["Công việc"];
@@ -1811,21 +1896,16 @@
     }
 
     function confirmResetCustomLabels() {
+      const hasV183Default = isV183DefaultBaselineEnabled();
       showConfirmDialog(
-        "Đặt lại mặc định ban đầu?",
-        "Toàn bộ tên Loại, Mục lớn, Mục nhỏ và danh sách hiển thị sẽ quay về cấu trúc cá nhân hóa gốc ban đầu của gia đình.",
+        "Đặt lại mặc định?",
+        hasV183Default
+          ? "Toàn bộ tên Loại, Mục lớn, Mục nhỏ và danh sách hiển thị sẽ quay về đúng cấu trúc mặc định chuẩn v1.83 của bạn."
+          : "Toàn bộ tên Loại, Mục lớn, Mục nhỏ và danh sách hiển thị sẽ quay về cấu trúc cá nhân hóa gốc ban đầu của gia đình.",
         () => {
           const cfg = getActiveVersionConfig();
           const prevLabelsSnapshot = JSON.parse(JSON.stringify(customLabels));
-          customLabels = {
-            types: { expense: "Khoản Chi", income: "Khoản Thu", debt: "Vay / Nợ" },
-            majors: {},
-            minors: {},
-            hiddenMajors: [],
-            hiddenMinors: [],
-            customTree: { expense: {}, income: {}, debt: {} },
-            customKeywords: {}
-          };
+          customLabels = getDefaultCustomLabelsSnapshot();
 
           const affectedTxList = [];
           if (cfg.features.deltaSyncRenamedCategories) {
@@ -1833,7 +1913,7 @@
             const getPrevMin = (m) => (prevLabelsSnapshot.minors?.[m] || "").trim() || m;
             transactions.forEach(t => {
               if (!t || Number(t.amount) <= 0) return;
-              if (getPrevMaj(t.major) !== t.major || getPrevMin(t.minor) !== t.minor) {
+              if (getPrevMaj(t.major) !== getMajorDisplayName(t.major) || getPrevMin(t.minor) !== getMinorDisplayName(t.minor)) {
                 dirtyTxIds.add(t.id);
                 affectedTxList.push(buildSheetPayloadTx(t));
               }
@@ -1845,9 +1925,9 @@
           closeModal("modal-custom-labels");
           if (affectedTxList.length > 0) {
             autoDeltaSyncInBackground({ updated: affectedTxList });
-            showToast(`Đã đặt lại mặc định và cập nhật ${affectedTxList.length} giao dịch về tên gốc trên Google Sheets!`, "✓");
+            showToast(`Đã đặt lại mặc định và cập nhật ${affectedTxList.length} giao dịch lên Google Sheets!`, "✓");
           } else {
-            showToast("Đã đặt lại về danh mục cá nhân hóa mặc định ban đầu!", "✓");
+            showToast(hasV183Default ? "Đã đặt lại về danh mục mặc định chuẩn v1.83 của bạn!" : "Đã đặt lại về danh mục cá nhân hóa mặc định ban đầu!", "✓");
           }
         },
         "i"
@@ -2094,6 +2174,16 @@
           activeAppVersion = verRaw;
         }
         localStorage.setItem("stc_latest_known_version_v1", LATEST_APP_VERSION);
+
+        if (isV183DefaultBaselineEnabled()) {
+          captureV183BaselineIfNeeded();
+          const baseline = getDefaultCustomLabelsSnapshot();
+          customLabels.majors = { ...baseline.majors, ...(customLabels.majors || {}) };
+          customLabels.minors = { ...baseline.minors, ...(customLabels.minors || {}) };
+          if (!labelsRaw) {
+            customLabels = baseline;
+          }
+        }
       } catch (e) {}
     }
 
