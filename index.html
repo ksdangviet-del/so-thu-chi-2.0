@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.74";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.77";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -46,13 +46,14 @@
   <!-- Google Fonts: Be Vietnam Pro & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <style>
     * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
       font-variant-numeric: tabular-nums;
+      letter-spacing: -0.01em;
     }
     html.clean-banking-ui * {
       font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -65,7 +66,13 @@
       font-weight: 600 !important;
     }
     html.clean-banking-ui .font-bold {
-      font-weight: 500 !important;
+      font-weight: 600 !important;
+    }
+    html.unified-banking-modals input,
+    html.unified-banking-modals select,
+    html.unified-banking-modals textarea,
+    html.unified-banking-modals button {
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
     }
     html.larger-typography {
       font-size: 17px;
@@ -187,7 +194,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.74
+            v1.77
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -764,7 +771,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.74";
+    const LATEST_APP_VERSION = "v1.77";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -782,6 +789,36 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.77",
+        date: "23/11/2026",
+        title: "Kết nối dòng tiền Vay / Trả nợ thực tế vào Tiền Thực Tế Hiện Có & liệt kê chi tiết trong Cơ Cấu Chi, Nguồn Thu & Ảnh JPG (loại trừ Nợ cũ đầu kỳ)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true },
+        changes: [
+          "Tự động cộng/trừ dòng tiền Vay & Trả nợ phát sinh thực tế vào Tiền Thực Tế Hiện Có: cộng (+) Thu hồi nợ và Đi vay mới; trừ (-) Cho vay mới và Trả nợ; tự động loại trừ 'Nợ cũ đầu kỳ' để không làm sai lệch tiền mặt đang giữ.",
+          "Bổ sung nhóm liệt kê chi tiết 'Thu từ Vay / Thu hồi nợ' trong tab Nguồn Thu và 'Chi Cho vay / Trả nợ' trong tab Cơ Cấu Chi (kèm tên người & nội dung giao dịch) và trên Ảnh Báo Cáo (JPG)."
+        ]
+      },
+      {
+        version: "v1.76",
+        date: "23/11/2026",
+        title: "Đồng bộ phông chữ & giao diện chuẩn Ngân hàng số toàn app + Thiết kế lại Báo Cáo Tổng Quan gọn thông minh (có Số Dư Tiền Thực Tế toàn sổ)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true },
+        changes: [
+          "Thống nhất 100% phông chữ Be Vietnam Pro thanh nét, bo góc và chuẩn viền Ngân hàng số xuyên suốt mọi hộp thoại con (Nói AI, Nhập tay, Ảnh Bill, Gmail, Quản lý danh mục, Đồng bộ, Báo cáo) và trên ảnh xuất JPG.",
+          "Thiết kế lại tab Tổng Quan & Ảnh Báo Cáo (JPG) cực gọn thông minh: đặt thẻ 'Tiền Thực Tế Hiện Có' (lũy kế toàn sổ, kèm Quỹ Gia Đình & Quỹ Công Việc lũy kế) ngay đầu bảng để đối chiếu tiền mặt/tài khoản, kết hợp Bảng đối chiếu 3 dòng × 3 cột (Gia đình, Công việc, Tổng cộng kỳ) gọn gàng không cần cuộn dài."
+        ]
+      },
+      {
+        version: "v1.75",
+        date: "23/11/2026",
+        title: "Tách Sổ Ngầm Gia Đình & Công Việc trong Báo Cáo Tổng Quan & Xuất Ảnh JPG (kèm mục nhỏ Công việc cho cả Thu & Chi)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true },
+        changes: [
+          "Tự động bổ sung mục nhỏ 'Công việc' cho cả Khoản Chi (Bố) và Khoản Thu (Thu nhập Bố), kèm từ khóa nhận diện tự động cho Nói AI.",
+          "Tách bạch 2 quỹ đối chiếu tiền thực tế ngay trong tab Tổng Quan của Báo Cáo Tài Chính & trên Ảnh Báo Cáo (JPG): Quỹ Gia Đình & Cá Nhân (Thu / Chi / Số dư) và Quỹ Công Việc (Thu / Chi / Số dư), kèm Tổng tiền thực tế đang giữ và Vay/Nợ ròng."
+        ]
+      },
       {
         version: "v1.74",
         date: "23/11/2026",
@@ -939,6 +976,21 @@
       return Boolean(getActiveVersionConfig().features.linkedIncomeExpenseCategories);
     }
 
+    function isFamilyWorkSplitEnabled() {
+      return Boolean(getActiveVersionConfig().features.familyAndWorkLedgerSplit);
+    }
+
+    const WORK_CANONICAL_MINORS = ["Công việc"];
+
+    function isWorkTransaction(tx) {
+      if (!tx) return false;
+      const canonMin = String(tx.minor || "").trim();
+      const dispMin = getMinorDisplayName(canonMin).trim();
+      if (WORK_CANONICAL_MINORS.some(w => w.toLowerCase() === canonMin.toLowerCase())) return true;
+      if (dispMin.toLowerCase() === "công việc") return true;
+      return false;
+    }
+
     const LINKED_MAJOR_PAIRS = {
       "Bố (Hồng Việt)": "Thu nhập Bố (Hồng Việt)",
       "Thu nhập Bố (Hồng Việt)": "Bố (Hồng Việt)",
@@ -972,8 +1024,11 @@
         const baseMajors = CATEGORY_TREE[tKey] || {};
         Object.entries(baseMajors).forEach(([maj, mins]) => {
           if (!includeHidden && hiddenMajSet.has(maj)) return;
+          const workBuiltInExtra = (isFamilyWorkSplitEnabled() && ((tKey === "expense" && maj === "Bố (Hồng Việt)") || (tKey === "income" && maj === "Thu nhập Bố (Hồng Việt)")))
+            ? WORK_CANONICAL_MINORS
+            : [];
           const customExtraMins = isFlexibleCategoryEnabled() ? (customLabels.customTree?.[tKey]?.[maj] || []) : [];
-          const combinedMins = [...new Set([...mins, ...customExtraMins])]
+          const combinedMins = [...new Set([...mins, ...workBuiltInExtra, ...customExtraMins])]
             .filter(m => includeHidden || !hiddenMinSet.has(m));
           merged[tKey][maj] = combinedMins.length ? combinedMins : [mins[0]];
         });
@@ -1373,7 +1428,10 @@
         const isBuiltInMajor = Boolean(baseMajorsObj[canonMajor]);
         const isMajorHidden = draftCustomLabels.hiddenMajors.includes(canonMajor);
         const curMajVal = draftCustomLabels.majors[canonMajor] || canonMajor;
-        const baseMins = baseMajorsObj[canonMajor] || [];
+        const workBuiltInExtra = (isFamilyWorkSplitEnabled() && ((tab === "expense" && canonMajor === "Bố (Hồng Việt)") || (tab === "income" && canonMajor === "Thu nhập Bố (Hồng Việt)")))
+          ? WORK_CANONICAL_MINORS
+          : [];
+        const baseMins = [...new Set([...(baseMajorsObj[canonMajor] || []), ...workBuiltInExtra])];
         const extraMins = customMajorsObj[canonMajor] || [];
         const combinedMins = [...new Set([...baseMins, ...extraMins])];
         const curKw = draftCustomLabels.customKeywords?.[canonMajor] || "";
@@ -2367,102 +2425,6 @@
               if (matchedCustomMinor) break;
             }
             if (matchedCustomMinor) break;
-          }
-        }
-      }
-
-      const knownDebtNames = [...new Set(transactions.filter(t => t.type === "debt" && t.person).map(t => t.person.toLowerCase()))];
-      const mentionsKnownDebtPartnerWithPay = /(?:trả|gửi|chuyển)/i.test(lower) && knownDebtNames.some(kp => {
-        const core = kp.replace(/^(?:anh|chị|cô|chú|bác|em|bạn|ông|bà)\s+/i, "").trim();
-        return lower.includes(kp) || (core.length >= 2 && lower.includes(core));
-      });
-
-      if (/(?:vay|mượn|trả nợ|thu hồi nợ|thu nợ|đòi nợ|nợ cũ|chốt nợ|trả tiền vay|trả tiền mượn|trả lại|trả bớt)/i.test(lower) || mentionsKnownDebtPartnerWithPay) {
-        type = "debt";
-        major = "Vay / Nợ";
-        const dInfo = parseDebtContext(stripped);
-        minor = dInfo.minor;
-        debtDirection = dInfo.debtDirection;
-        person = dInfo.person;
-      } else if (!matchedLearned && (
-        /(?:lấy họ|hốt họ|bốc họ|nhận tiền họ|nhận lương|lương về|lương tháng|thưởng|phụ cấp|hoa hồng|bán hàng|lãi tiết kiệm|hoàn tiền|nhặt được|trúng số|xin\s+(?:mẹ|bố|ông|bà|anh|chị|vợ))/i.test(lower) ||
-        /(?:^|[^a-zA-ZÀ-ỹ])(?:được\s+cho|[a-zA-ZÀ-ỹ]+(?:\s+[a-zA-ZÀ-ỹ]+){0,2}\s+(?:cho|tặng|lì xì)(?:\s+(?:tôi|mình|bố|mẹ|quỳnh|bơ|pu|cả nhà))?)(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(stripped) &&
-        !/^(?:tôi|mình|bố|em|con)\s+(?:cho|biếu|tặng)/i.test(stripped.trim())
-      )) {
-        type = "income";
-        if (/(?:lấy họ|hốt họ|bốc họ|nhận tiền họ)/i.test(lower)) {
-          major = "Thu nhập Bố (Hồng Việt)";
-          minor = "Lấy họ";
-        } else if (/(?:quỳnh|mẹ|vợ)/i.test(lower)) {
-          major = "Thu nhập Mẹ (Như Quỳnh)";
-          minor = /(?:lương)/i.test(lower) ? "Lương chính" : (/(?:thưởng|phụ cấp)/i.test(lower) ? "Thưởng & Phụ cấp" : (/(?:bán hàng)/i.test(lower) ? "Thu nhập ngoài / Bán hàng" : "Thu khác"));
-        } else if (/(?:cả nhà|chung|lãi tiết kiệm|hoàn tiền|bơ|pu)/i.test(lower)) {
-          major = "Thu nhập Cả nhà";
-          minor = /(?:lãi tiết kiệm)/i.test(lower) ? "Lãi tiết kiệm & Đầu tư" : (/(?:hoàn tiền|quà|tặng|lì xì|cho)/i.test(lower) ? "Quà tặng / Hoàn tiền" : "Thu khác");
-        } else {
-          major = "Thu nhập Bố (Hồng Việt)";
-          minor = /(?:lương)/i.test(lower) ? "Lương chính" : (/(?:thưởng|phụ cấp)/i.test(lower) ? "Thưởng & Phụ cấp" : (/(?:làm thêm|hoa hồng)/i.test(lower) ? "Thu nhập ngoài / Làm thêm" : "Thu khác"));
-        }
-      } else if (!matchedLearned) {
-        type = "expense";
-        if (/(?:trả lãi ngân hàng|lãi ngân hàng|trả lãi bank|lãi vay ngân hàng)/i.test(lower)) {
-          major = "Bố (Hồng Việt)";
-          minor = "Trả lãi ngân hàng";
-        } else if (/(?:trả lãi cá nhân|lãi cá nhân|trả lãi ngoài|tiền lãi|đóng lãi)/i.test(lower)) {
-          major = "Bố (Hồng Việt)";
-          minor = "Trả lãi cá nhân";
-        } else if (/(?:đóng họ|nộp họ|góp họ|tiền họ)/i.test(lower)) {
-          major = "Bố (Hồng Việt)";
-          minor = "Đóng họ";
-        } else if (/(?:^|[^a-zA-ZÀ-ỹ0-9_])pu(?=$|[^a-zA-ZÀ-ỹ0-9_])|qu[ỳy]nh\s*anh|bỉm/i.test(lower)) {
-          major = "Pu (Quỳnh Anh - 2t)";
-          minor = /sữa|bỉm/i.test(lower) ? "Sữa & Bỉm" : (/thuốc|khám/i.test(lower) ? "Y tế & Thuốc men" : "Ăn dặm & Dinh dưỡng");
-        } else if (/(?:^|[^a-zA-ZÀ-ỹ0-9_])bơ(?=$|[^a-zA-ZÀ-ỹ0-9_])|vi[ệe]t\s*anh|h[ọo]c\s*ph[íi]|h[ọo]c\s*th[êe]m|dky\s*mua/i.test(lower)) {
-          major = "Bơ (Việt Anh - 9t)";
-          minor = /h[ọo]c\s*ph[íi]|ti[ềe]n\s*h[ọo]c/i.test(lower) ? "Tiền học & Học phí" : (/h[ọo]c\s*th[êe]m|n[ăa]ng\s*khi[ếe]u/i.test(lower) ? "Học thêm & Năng khiếu" : (/s[áa]ch|v[ởo]|b[úu]t|dky\s*mua/i.test(lower) ? "Sách vở & Đồ dùng học tập" : "Ăn uống & Sữa"));
-        } else if (/nh[ưư]\s*qu[ỳy]nh|(?:^|[^a-zA-ZÀ-ỹ0-9_])(?:qu[ỳy]nh|mẹ|vợ)(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(lower)) {
-          major = "Mẹ (Như Quỳnh)";
-          minor = /chợ|nấu ăn/i.test(lower) ? "Đi chợ & Nấu ăn" : (/quần áo|mỹ phẩm|làm đẹp/i.test(lower) ? "Quần áo & Làm đẹp" : "Tiền ăn & Cà phê");
-        } else if (/giải trí|xem phim|bida|bi-a|karaoke|game|nhậu/i.test(lower) && !/cả nhà|gia đình|du lịch/i.test(lower)) {
-          major = "Bố (Hồng Việt)";
-          minor = "Giải trí";
-        } else if (/xăng|gửi xe|rửa xe|sửa xe|bảo dưỡng/i.test(lower)) {
-          major = "Bố (Hồng Việt)";
-          minor = /sửa|bảo dưỡng/i.test(lower) ? "Bảo dưỡng & Sửa xe" : "Xăng xe & Gửi xe";
-        } else if (/ăn sáng|ăn trưa|cà phê|cafe|bát mì|phở|bún|cơm bụi/i.test(lower) && !/cả nhà|gia đình/i.test(lower)) {
-          major = "Bố (Hồng Việt)";
-          minor = "Tiền ăn & Cà phê";
-        } else if (/tiền điện|(?:^|[^a-zA-ZÀ-ỹ0-9_])điện(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(lower)) {
-          major = "Cả nhà";
-          minor = "Điện";
-        } else if (/tiền nước|(?:^|[^a-zA-ZÀ-ỹ0-9_])nước(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(lower)) {
-          major = "Cả nhà";
-          minor = "Nước";
-        } else if (/internet|wifi|mạng|truyền hình/i.test(lower)) {
-          major = "Cả nhà";
-          minor = "Internet & Truyền hình";
-        } else if (/đi chợ|thực phẩm|tiền ăn|siêu thị/i.test(lower)) {
-          major = "Cả nhà";
-          minor = "Tiền ăn & Thực phẩm";
-        } else if (/rubik|rubic|đồ chơi/i.test(lower)) {
-          major = "Bơ (Việt Anh - 9t)";
-          minor = "Đồ chơi & Giải trí";
-        } else if (/biếu|mừng cưới|hiếu hỉ|quà/i.test(lower)) {
-          major = "Cả nhà";
-          minor = "Hiếu hỉ & Quà biếu";
-        }
-      }
-
-      if (!matchedLearned && matchedCustomMajor) {
-        const mergedTree = getMergedCategoryTree(true);
-        for (const tKey of ["expense", "income", "debt"]) {
-          if (mergedTree[tKey]?.[matchedCustomMajor]) {
-            type = tKey;
-            major = matchedCustomMajor;
-            if (!mergedTree[tKey][major].includes(minor)) {
-              minor = mergedTree[tKey][major][0];
-            }
-            break;
           }
         }
       }
@@ -3971,11 +3933,40 @@
     }
 
     // ==================== 11. BÁO CÁO TÀI CHÍNH & XUẤT ẢNH JPG ====================
+    function isDebtCashflowIncludedInReports() {
+      return Boolean(getActiveVersionConfig().features.debtCashflowInReportsAndRealBalance);
+    }
+
+    function getDebtRealCashInflow(tx) {
+      if (!tx || tx.type !== "debt" || tx.needsReview) return 0;
+      if (tx.minor === "Thu hồi nợ" || tx.minor === "Đi vay mới") return Number(tx.amount) || 0;
+      return 0;
+    }
+
+    function getDebtRealCashOutflow(tx) {
+      if (!tx || tx.type !== "debt" || tx.needsReview) return 0;
+      if (tx.minor === "Cho vay mới" || tx.minor === "Trả nợ") return Number(tx.amount) || 0;
+      return 0;
+    }
+
     function computeFinancialSummaryByScope(useSelectedPeriod = false) {
+      const includeDebtCash = isDebtCashflowIncludedInReports();
       const valid = transactions.filter(t => !t.needsReview && (!useSelectedPeriod || isTxInCurrentPeriod(t)));
       const allIncome = valid.filter(t => t.type === "income").reduce((s, t) => s + t.amount, 0);
       const allExpense = valid.filter(t => t.type === "expense").reduce((s, t) => s + t.amount, 0);
-      const allBalance = allIncome - allExpense;
+      const debtCashIn = valid.reduce((s, t) => s + getDebtRealCashInflow(t), 0);
+      const debtCashOut = valid.reduce((s, t) => s + getDebtRealCashOutflow(t), 0);
+      const debtCashNet = debtCashIn - debtCashOut;
+      const allBalance = (allIncome - allExpense) + (includeDebtCash ? debtCashNet : 0);
+
+      const workValid = valid.filter(t => isWorkTransaction(t));
+      const workIncome = workValid.filter(t => t.type === "income").reduce((s, t) => s + t.amount, 0);
+      const workExpense = workValid.filter(t => t.type === "expense").reduce((s, t) => s + t.amount, 0);
+      const workBalance = workIncome - workExpense;
+
+      const familyIncome = allIncome - workIncome;
+      const familyExpense = allExpense - workExpense;
+      const familyBalance = (familyIncome - familyExpense) + (includeDebtCash ? debtCashNet : 0);
 
       const periodValid = transactions.filter(t => !t.needsReview && isTxInCurrentPeriod(t));
       const periodIncome = periodValid.filter(t => t.type === "income").reduce((s, t) => s + t.amount, 0);
@@ -4011,7 +4002,14 @@
       });
       const netDebt = receivableTotal - payableTotal;
 
-      return { allIncome, allExpense, allBalance, periodIncome, periodExpense, receivableTotal, payableTotal, netDebt, ledger, personStats, txCount: valid.length };
+      return {
+        allIncome, allExpense, allBalance,
+        debtCashIn, debtCashOut, debtCashNet,
+        familyIncome, familyExpense, familyBalance,
+        workIncome, workExpense, workBalance,
+        periodIncome, periodExpense, receivableTotal, payableTotal, netDebt,
+        ledger, personStats, txCount: valid.length
+      };
     }
 
     function computeOverallFinancialSummary() {
@@ -4059,7 +4057,33 @@
         })
         .sort((a, b) => b.total - a.total);
 
-      return { total, majorsList };
+      const debtCashItems = [];
+      let debtCashTotal = 0;
+      if (isDebtCashflowIncludedInReports()) {
+        const targetMinors = type === "income" ? ["Thu hồi nợ", "Đi vay mới"] : ["Cho vay mới", "Trả nợ"];
+        const debtValid = transactions.filter(t =>
+          !t.needsReview &&
+          t.type === "debt" &&
+          targetMinors.includes(t.minor) &&
+          (!useSelectedPeriod || isTxInCurrentPeriod(t))
+        );
+        debtValid.forEach(t => {
+          const amt = Number(t.amount) || 0;
+          if (amt <= 0) return;
+          debtCashTotal += amt;
+          debtCashItems.push({
+            id: t.id,
+            minor: t.minor,
+            person: normalizePersonName(t.person) || "Chưa rõ tên",
+            note: t.note || t.minor,
+            date: t.date,
+            amount: amt
+          });
+        });
+        debtCashItems.sort((a, b) => (b.date || "").localeCompare(a.date || "") || b.amount - a.amount);
+      }
+
+      return { total, majorsList, debtCashTotal, debtCashItems, combinedCashTotal: total + debtCashTotal };
     }
 
     function openAnalyticsModal(tab = "overview") {
@@ -4104,61 +4128,249 @@
       const s = computeFinancialSummaryByScope(true);
       const overallAllTime = computeFinancialSummaryByScope(false);
       const periodName = getSelectedPeriodDisplayTitle();
+      const cfg = getActiveVersionConfig();
+      const showSplit = Boolean(cfg.features.familyAndWorkLedgerSplit);
+      const useCompactMatrix = Boolean(cfg.features.compactOverviewMatrixAndUnifiedUI);
 
       if (tab === "overview") {
-        content.innerHTML = `
-          <div class="bg-orange-50 px-3 py-2 rounded-2xl border border-orange-200 flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-orange-950">Kỳ báo cáo: ${escapeHtml(periodName)}</span>
-            <span class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-semibold">${s.txCount} giao dịch</span>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-slate-800">Số Dư Thực Tế (${escapeHtml(periodName)})</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div class="bg-white p-2.5 rounded-xl border border-slate-200/80">
-                <p class="text-[10px] font-medium text-slate-500">Tổng Thu Trong Kỳ</p>
-                <p class="text-xs font-bold text-emerald-600 mt-0.5">${formatVND(s.allIncome)}</p>
+        if (useCompactMatrix) {
+          const workLabel = getMinorDisplayName("Công việc");
+          const includeDebtCash = isDebtCashflowIncludedInReports();
+          content.innerHTML = `
+            <!-- 1. Thẻ nổi bật trên cùng: Tiền Thực Tế Hiện Có (Lũy kế toàn sổ) -->
+            <div class="bg-gradient-to-br from-orange-50/90 via-white to-amber-50/50 p-3.5 rounded-2xl border border-orange-200 shadow-[0_2px_10px_rgba(234,88,12,0.05)] space-y-2.5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-100/80 text-orange-800 text-[10px] font-semibold">
+                    Đối chiếu tiền mặt &amp; tài khoản
+                  </span>
+                  <p class="text-xs font-semibold text-slate-700 mt-1">Tiền Thực Tế Hiện Có (Lũy kế toàn sổ)</p>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-600 text-[10px] font-medium shrink-0">
+                  ${overallAllTime.txCount} GD
+                </span>
               </div>
-              <div class="bg-white p-2.5 rounded-xl border border-slate-200/80">
-                <p class="text-[10px] font-medium text-slate-500">Tổng Chi Trong Kỳ</p>
-                <p class="text-xs font-bold text-rose-600 mt-0.5">${formatVND(s.allExpense)}</p>
-              </div>
-            </div>
-            <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
-              <div>
-                <p class="text-[11px] font-semibold text-slate-800">Số Dư Kỳ (${escapeHtml(periodName)})</p>
-                <p class="text-[10px] text-slate-400">Không bao gồm các khoản vay/nợ</p>
-              </div>
-              <p class="text-sm font-bold ${s.allBalance >= 0 ? "text-orange-600" : "text-rose-600"}">${s.allBalance >= 0 ? "+" : ""}${formatVND(s.allBalance)}</p>
-            </div>
-          </div>
 
-          <div class="bg-sky-50/60 p-3 rounded-2xl border border-sky-200/80 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-sky-950">Vay / Nợ Trong Kỳ (${escapeHtml(periodName)})</span>
-              <span class="text-xs font-bold ${s.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"}">${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div class="bg-white p-2 rounded-xl border border-sky-100">
-                <p class="text-[10px] font-medium text-slate-500">Người khác nợ mình (+)</p>
-                <p class="text-xs font-bold text-emerald-600 mt-0.5">+${formatVND(s.receivableTotal)}</p>
+              <div class="space-y-0.5">
+                <div class="flex items-baseline justify-between gap-2">
+                  <p class="text-xl font-bold ${overallAllTime.allBalance >= 0 ? "text-slate-900" : "text-rose-600"} tracking-tight">
+                    ${overallAllTime.allBalance >= 0 ? "" : "-"}${formatVND(Math.abs(overallAllTime.allBalance))}
+                  </p>
+                  <span class="text-[10px] text-slate-500">Thu ${formatVND(overallAllTime.allIncome)} • Chi ${formatVND(overallAllTime.allExpense)}</span>
+                </div>
+                ${includeDebtCash && (overallAllTime.debtCashIn > 0 || overallAllTime.debtCashOut > 0) ? `
+                  <p class="text-[10px] text-sky-800">
+                    Dòng tiền Vay/Trả thực tế: <b class="font-semibold text-emerald-700">+${formatVND(overallAllTime.debtCashIn)}</b> <span class="text-slate-400">(Thu hồi nợ/Đi vay)</span> • <b class="font-semibold text-rose-600">-${formatVND(overallAllTime.debtCashOut)}</b> <span class="text-slate-400">(Cho vay/Trả nợ)</span>
+                  </p>
+                ` : ""}
               </div>
-              <div class="bg-white p-2 rounded-xl border border-sky-100">
-                <p class="text-[10px] font-medium text-slate-500">Mình đang nợ (-)</p>
-                <p class="text-xs font-bold text-rose-600 mt-0.5">-${formatVND(s.payableTotal)}</p>
-              </div>
-            </div>
-          </div>
 
-          <div class="bg-slate-50 p-2.5 rounded-2xl border border-slate-200 flex items-center justify-between text-[11px]">
-            <span class="font-medium text-slate-600">Lũy kế toàn sổ:</span>
-            <span class="font-semibold text-slate-800">Dư ${formatVND(overallAllTime.allBalance)} • Nợ ròng ${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}</span>
-          </div>
-        `;
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-orange-200/60">
+                <div class="bg-white/90 px-2.5 py-1.5 rounded-xl border border-slate-200/80">
+                  <p class="text-[10px] text-slate-500">Quỹ Gia đình lũy kế</p>
+                  <p class="text-xs font-bold ${overallAllTime.familyBalance >= 0 ? "text-emerald-700" : "text-rose-600"} mt-0.5 truncate">${formatVND(overallAllTime.familyBalance)}</p>
+                </div>
+                <div class="bg-white/90 px-2.5 py-1.5 rounded-xl border border-amber-200/80">
+                  <p class="text-[10px] text-slate-500">Quỹ ${escapeHtml(workLabel)} lũy kế</p>
+                  <p class="text-xs font-bold ${overallAllTime.workBalance >= 0 ? "text-orange-600" : "text-rose-600"} mt-0.5 truncate">${formatVND(overallAllTime.workBalance)}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Bảng đối chiếu gọn 3 dòng × 3 cột theo kỳ đang xem -->
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-[0_2px_8px_rgba(15,23,42,0.02)] overflow-hidden">
+              <div class="px-3 py-2 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-800">Chi tiết kỳ: ${escapeHtml(periodName)}</span>
+                <span class="text-[10px] font-medium text-slate-500">${s.txCount} giao dịch</span>
+              </div>
+
+              <div class="grid grid-cols-12 px-3 py-1.5 bg-slate-50/50 border-b border-slate-100 text-[10px] font-semibold text-slate-500">
+                <div class="col-span-3">Phân quỹ</div>
+                <div class="col-span-3 text-right">Tổng Thu</div>
+                <div class="col-span-3 text-right">Tổng Chi</div>
+                <div class="col-span-3 text-right">Số Dư</div>
+              </div>
+
+              <div class="divide-y divide-slate-100 text-[11px]">
+                <div class="grid grid-cols-12 px-3 py-2 items-center">
+                  <div class="col-span-3 font-medium text-slate-700 truncate">Gia đình</div>
+                  <div class="col-span-3 text-right font-medium text-emerald-600 truncate">${formatVND(s.familyIncome + (includeDebtCash ? s.debtCashIn : 0))}</div>
+                  <div class="col-span-3 text-right font-medium text-rose-600 truncate">${formatVND(s.familyExpense + (includeDebtCash ? s.debtCashOut : 0))}</div>
+                  <div class="col-span-3 text-right font-semibold ${s.familyBalance >= 0 ? "text-slate-800" : "text-rose-600"} truncate">${formatVND(s.familyBalance)}</div>
+                </div>
+
+                <div class="grid grid-cols-12 px-3 py-2 items-center bg-amber-50/25">
+                  <div class="col-span-3 font-medium text-amber-900 truncate">${escapeHtml(workLabel)}</div>
+                  <div class="col-span-3 text-right font-medium text-emerald-600 truncate">${formatVND(s.workIncome)}</div>
+                  <div class="col-span-3 text-right font-medium text-rose-600 truncate">${formatVND(s.workExpense)}</div>
+                  <div class="col-span-3 text-right font-semibold ${s.workBalance >= 0 ? "text-orange-600" : "text-rose-600"} truncate">${formatVND(s.workBalance)}</div>
+                </div>
+
+                <div class="grid grid-cols-12 px-3 py-2.5 items-center bg-slate-50/80 font-semibold">
+                  <div class="col-span-3 text-slate-900 truncate">Tổng kỳ</div>
+                  <div class="col-span-3 text-right text-emerald-700 truncate">${formatVND(s.allIncome + (includeDebtCash ? s.debtCashIn : 0))}</div>
+                  <div class="col-span-3 text-right text-rose-700 truncate">${formatVND(s.allExpense + (includeDebtCash ? s.debtCashOut : 0))}</div>
+                  <div class="col-span-3 text-right font-bold ${s.allBalance >= 0 ? "text-slate-900" : "text-rose-600"} truncate">${formatVND(s.allBalance)}</div>
+                </div>
+              </div>
+              ${includeDebtCash && (s.debtCashIn > 0 || s.debtCashOut > 0) ? `
+                <div class="px-3 py-1.5 bg-sky-50/50 border-t border-slate-100 text-[10px] text-sky-900 flex items-center justify-between">
+                  <span>Đã tính Vay/Trả thực tế kỳ (trừ nợ cũ đầu kỳ):</span>
+                  <span class="font-semibold">+${formatVND(s.debtCashIn)} / -${formatVND(s.debtCashOut)}</span>
+                </div>
+              ` : ""}
+            </div>
+
+            <!-- 3. Thẻ Vay / Nợ thu gọn 1 khối -->
+            <div class="bg-sky-50/60 px-3 py-2.5 rounded-2xl border border-sky-200/80 space-y-1.5">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="font-semibold text-sky-950">Vay / Nợ trong kỳ (${escapeHtml(periodName)}):</span>
+                <span class="font-bold ${s.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"}">${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}</span>
+              </div>
+              <div class="flex items-center justify-between text-[10px] text-slate-600">
+                <span>Người nợ mình: <b class="font-semibold text-emerald-700">+${formatVND(s.receivableTotal)}</b></span>
+                <span>Mình nợ: <b class="font-semibold text-rose-600">-${formatVND(s.payableTotal)}</b></span>
+              </div>
+              <div class="pt-1 border-t border-sky-200/60 flex items-center justify-between text-[10px] text-sky-950">
+                <span>Nợ ròng lũy kế toàn sổ:</span>
+                <span class="font-semibold ${overallAllTime.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"}">${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}</span>
+              </div>
+            </div>
+          `;
+        } else if (showSplit) {
+          const workLabel = getMinorDisplayName("Công việc");
+          content.innerHTML = `
+            <div class="bg-orange-50 px-3 py-2 rounded-2xl border border-orange-200 flex items-center justify-between">
+              <span class="text-[11px] font-semibold text-orange-950">Kỳ đối chiếu: ${escapeHtml(periodName)}</span>
+              <span class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-semibold">${s.txCount} giao dịch</span>
+            </div>
+
+            <!-- Khối 1: Quỹ Gia Đình & Cá Nhân -->
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-800">1. Quỹ Gia Đình &amp; Cá Nhân</span>
+                <span class="text-[10px] font-medium text-slate-500">Ngoài mục ${escapeHtml(workLabel)}</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-white p-2 rounded-xl border border-slate-200/80">
+                  <p class="text-[10px] font-medium text-slate-500">Thu Gia Đình</p>
+                  <p class="text-xs font-bold text-emerald-600 mt-0.5">${formatVND(s.familyIncome)}</p>
+                </div>
+                <div class="bg-white p-2 rounded-xl border border-slate-200/80">
+                  <p class="text-[10px] font-medium text-slate-500">Chi Gia Đình</p>
+                  <p class="text-xs font-bold text-rose-600 mt-0.5">${formatVND(s.familyExpense)}</p>
+                </div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-800">Số Dư Gia Đình:</span>
+                <span class="text-sm font-bold ${s.familyBalance >= 0 ? "text-emerald-700" : "text-rose-600"}">${s.familyBalance >= 0 ? "+" : ""}${formatVND(s.familyBalance)}</span>
+              </div>
+            </div>
+
+            <!-- Khối 2: Quỹ Công Việc -->
+            <div class="bg-amber-50/60 p-3 rounded-2xl border border-amber-200/90 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-amber-950">2. Quỹ ${escapeHtml(workLabel)}</span>
+                <span class="px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-semibold">Tách riêng đối chiếu</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-white p-2 rounded-xl border border-amber-200/70">
+                  <p class="text-[10px] font-medium text-slate-500">Thu ${escapeHtml(workLabel)}</p>
+                  <p class="text-xs font-bold text-emerald-600 mt-0.5">${formatVND(s.workIncome)}</p>
+                </div>
+                <div class="bg-white p-2 rounded-xl border border-amber-200/70">
+                  <p class="text-[10px] font-medium text-slate-500">Chi ${escapeHtml(workLabel)}</p>
+                  <p class="text-xs font-bold text-rose-600 mt-0.5">${formatVND(s.workExpense)}</p>
+                </div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-amber-200 flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-amber-950">Số Dư ${escapeHtml(workLabel)}:</span>
+                <span class="text-sm font-bold ${s.workBalance >= 0 ? "text-orange-600" : "text-rose-600"}">${s.workBalance >= 0 ? "+" : ""}${formatVND(s.workBalance)}</span>
+              </div>
+            </div>
+
+            <!-- Khối 3: Tổng Tiền Thực Tế & Công Nợ -->
+            <div class="bg-sky-50/60 p-3 rounded-2xl border border-sky-200/80 space-y-2">
+              <div class="bg-white p-2.5 rounded-xl border border-sky-200 flex items-center justify-between">
+                <div>
+                  <p class="text-[11px] font-semibold text-slate-900">Tổng Tiền Thực Tế Trong Kỳ</p>
+                  <p class="text-[10px] text-slate-400">Gia đình + ${escapeHtml(workLabel)} (Thu ${formatVND(s.allIncome)} - Chi ${formatVND(s.allExpense)})</p>
+                </div>
+                <p class="text-sm font-bold ${s.allBalance >= 0 ? "text-slate-900" : "text-rose-600"}">${s.allBalance >= 0 ? "+" : ""}${formatVND(s.allBalance)}</p>
+              </div>
+              <div class="flex items-center justify-between px-1 text-[11px]">
+                <span class="font-medium text-sky-950">Vay / Nợ ròng trong kỳ:</span>
+                <span class="font-bold ${s.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"}">${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)} <span class="font-normal text-slate-500">(+${formatVND(s.receivableTotal)} / -${formatVND(s.payableTotal)})</span></span>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-2.5 rounded-2xl border border-slate-200 space-y-1 text-[11px]">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-slate-700">Lũy kế tiền thực tế toàn sổ:</span>
+                <span class="font-bold text-slate-900">${formatVND(overallAllTime.allBalance)}</span>
+              </div>
+              <div class="flex items-center justify-between text-[10px] text-slate-500">
+                <span>• Dư Gia đình: <b class="text-slate-700 font-semibold">${formatVND(overallAllTime.familyBalance)}</b></span>
+                <span>• Dư ${escapeHtml(workLabel)}: <b class="text-orange-700 font-semibold">${formatVND(overallAllTime.workBalance)}</b></span>
+              </div>
+            </div>
+          `;
+        } else {
+          content.innerHTML = `
+            <div class="bg-orange-50 px-3 py-2 rounded-2xl border border-orange-200 flex items-center justify-between">
+              <span class="text-[11px] font-semibold text-orange-950">Kỳ báo cáo: ${escapeHtml(periodName)}</span>
+              <span class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-semibold">${s.txCount} giao dịch</span>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-800">Số Dư Thực Tế (${escapeHtml(periodName)})</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <p class="text-[10px] font-medium text-slate-500">Tổng Thu Trong Kỳ</p>
+                  <p class="text-xs font-bold text-emerald-600 mt-0.5">${formatVND(s.allIncome)}</p>
+                </div>
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <p class="text-[10px] font-medium text-slate-500">Tổng Chi Trong Kỳ</p>
+                  <p class="text-xs font-bold text-rose-600 mt-0.5">${formatVND(s.allExpense)}</p>
+                </div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <p class="text-[11px] font-semibold text-slate-800">Số Dư Kỳ (${escapeHtml(periodName)})</p>
+                  <p class="text-[10px] text-slate-400">Không bao gồm các khoản vay/nợ</p>
+                </div>
+                <p class="text-sm font-bold ${s.allBalance >= 0 ? "text-orange-600" : "text-rose-600"}">${s.allBalance >= 0 ? "+" : ""}${formatVND(s.allBalance)}</p>
+              </div>
+            </div>
+
+            <div class="bg-sky-50/60 p-3 rounded-2xl border border-sky-200/80 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-sky-950">Vay / Nợ Trong Kỳ (${escapeHtml(periodName)})</span>
+                <span class="text-xs font-bold ${s.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"}">${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-white p-2 rounded-xl border border-sky-100">
+                  <p class="text-[10px] font-medium text-slate-500">Người khác nợ mình (+)</p>
+                  <p class="text-xs font-bold text-emerald-600 mt-0.5">+${formatVND(s.receivableTotal)}</p>
+                </div>
+                <div class="bg-white p-2 rounded-xl border border-sky-100">
+                  <p class="text-[10px] font-medium text-slate-500">Mình đang nợ (-)</p>
+                  <p class="text-xs font-bold text-rose-600 mt-0.5">-${formatVND(s.payableTotal)}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-2.5 rounded-2xl border border-slate-200 flex items-center justify-between text-[11px]">
+              <span class="font-medium text-slate-600">Lũy kế toàn sổ:</span>
+              <span class="font-semibold text-slate-800">Dư ${formatVND(overallAllTime.allBalance)} • Nợ ròng ${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}</span>
+            </div>
+          `;
+        }
       } else if (tab === "expense" || tab === "income") {
         const colors = ["#ea580c", "#f59e0b", "#10b981", "#0284c7", "#64748b"];
-        const { total, majorsList } = buildMajorMinorBreakdown(tab, true, true);
+        const { total, majorsList, debtCashTotal, debtCashItems, combinedCashTotal } = buildMajorMinorBreakdown(tab, true, true);
+        const includeDebtCash = isDebtCashflowIncludedInReports();
         const nonZeroMajors = majorsList.filter(m => m.total > 0);
         let offset = 0;
         const circles = total > 0 ? nonZeroMajors.map((m, i) => {
@@ -4170,11 +4382,41 @@
         }).join("") : `<circle r="15.915" cx="20" cy="20" fill="transparent" stroke="#e2e8f0" stroke-width="6"></circle>`;
 
         const amountColor = tab === "expense" ? "text-rose-600" : "text-emerald-600";
+        const headerTotalDisplay = (includeDebtCash && debtCashTotal > 0)
+          ? `${formatVND(combinedCashTotal)} <span class="text-[10px] font-normal text-slate-500">(gồm ${formatVND(debtCashTotal)} vay/trả)</span>`
+          : formatVND(total);
+
+        const debtCashSectionHtml = (includeDebtCash && debtCashItems.length > 0) ? `
+          <div class="bg-sky-50/70 rounded-2xl border border-sky-200/90 overflow-hidden shadow-2xs">
+            <div class="px-3 py-2.5 bg-sky-100/70 border-b border-sky-200/80 flex items-center justify-between gap-2">
+              <div class="min-w-0">
+                <span class="text-xs font-semibold text-sky-950 block">${tab === "income" ? "Thu từ Vay / Thu hồi nợ" : "Chi Cho vay / Trả nợ"}</span>
+                <span class="text-[10px] text-sky-800">Phát sinh tiền thực tế (không tính Nợ cũ đầu kỳ)</span>
+              </div>
+              <span class="text-xs font-bold ${amountColor} shrink-0">${formatVND(debtCashTotal)}</span>
+            </div>
+            <div class="divide-y divide-sky-100 bg-white">
+              ${debtCashItems.map(d => `
+                <div class="px-3 py-2 flex items-start justify-between gap-2 text-[11px]">
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="px-1.5 py-0.5 rounded-md bg-amber-50 border border-amber-200/80 text-amber-900 text-[10px] font-semibold">${escapeHtml(getMinorDisplayName(d.minor))}</span>
+                      <span class="font-semibold text-slate-800">${escapeHtml(d.person)}</span>
+                      <span class="text-[10px] text-slate-400">• ${formatDisplayDate(d.date)}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-600 mt-0.5 break-words">${escapeHtml(d.note)}</p>
+                  </div>
+                  <span class="font-semibold ${amountColor} shrink-0">${tab === "income" ? "+" : "-"}${formatVND(d.amount)}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        ` : "";
 
         content.innerHTML = `
-          <div class="bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-200 flex items-center justify-between text-[11px]">
-            <span class="font-semibold text-orange-950">${tab === "expense" ? "Cơ cấu chi" : "Nguồn thu"} • ${escapeHtml(periodName)}</span>
-            <span class="font-bold ${amountColor}">${formatVND(total)}</span>
+          <div class="bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-200 flex items-center justify-between gap-2 text-[11px]">
+            <span class="font-semibold text-orange-950 shrink-0">${tab === "expense" ? "Cơ cấu chi" : "Nguồn thu"} • ${escapeHtml(periodName)}</span>
+            <span class="font-bold ${amountColor} text-right">${headerTotalDisplay}</span>
           </div>
 
           ${total > 0 ? `
@@ -4192,7 +4434,7 @@
                 `).join("")}
               </div>
             </div>
-          ` : `<p class="text-xs text-center text-slate-400 py-6">Chưa có dữ liệu ${tab === "expense" ? "chi tiêu" : "thu nhập"} phát sinh trong ${escapeHtml(periodName)}.</p>`}
+          ` : (!debtCashItems.length ? `<p class="text-xs text-center text-slate-400 py-6">Chưa có dữ liệu ${tab === "expense" ? "chi tiêu" : "thu nhập"} phát sinh trong ${escapeHtml(periodName)}.</p>` : "")}
 
           <div class="space-y-2.5">
             ${majorsList.map((m, idx) => {
@@ -4219,6 +4461,7 @@
                 </div>
               `;
             }).join("")}
+            ${debtCashSectionHtml}
           </div>
         `;
       } else {
@@ -4276,20 +4519,28 @@
     }
 
     function exportReportPNG() {
+      const cfg = getActiveVersionConfig();
+      const showSplit = Boolean(cfg.features.familyAndWorkLedgerSplit);
+      const useCompactMatrix = Boolean(cfg.features.compactOverviewMatrixAndUnifiedUI);
+      const includeDebtCash = isDebtCashflowIncludedInReports();
       const s = computeFinancialSummaryByScope(true);
       const overallAllTime = computeFinancialSummaryByScope(false);
       const periodTitle = getSelectedPeriodDisplayTitle();
+      const workLabel = getMinorDisplayName("Công việc").toUpperCase();
 
       const expBreakdown = buildMajorMinorBreakdown("expense", true, true);
       const incBreakdown = buildMajorMinorBreakdown("income", true, true);
 
-      const expLines = expBreakdown.majorsList.reduce((acc, m) => acc + 1 + m.minors.filter(sub => sub.amount > 0).length, 0);
-      const incLines = incBreakdown.majorsList.reduce((acc, m) => acc + 1 + m.minors.filter(sub => sub.amount > 0).length, 0);
+      const expDebtExtraLines = (includeDebtCash && expBreakdown.debtCashItems.length > 0) ? (1 + expBreakdown.debtCashItems.length) : 0;
+      const incDebtExtraLines = (includeDebtCash && incBreakdown.debtCashItems.length > 0) ? (1 + incBreakdown.debtCashItems.length) : 0;
+      const expLines = expBreakdown.majorsList.reduce((acc, m) => acc + 1 + m.minors.filter(sub => sub.amount > 0).length, 0) + expDebtExtraLines;
+      const incLines = incBreakdown.majorsList.reduce((acc, m) => acc + 1 + m.minors.filter(sub => sub.amount > 0).length, 0) + incDebtExtraLines;
+      const splitBlockOffset = useCompactMatrix ? 210 : (showSplit ? 164 : 0);
       const extraHeight = 110 + Math.max(expLines, incLines, 2) * 24;
 
       const canvas = document.createElement("canvas");
       canvas.width = 760;
-      canvas.height = 510 + extraHeight;
+      canvas.height = (useCompactMatrix ? 360 : 510) + splitBlockOffset + extraHeight;
       const ctx = canvas.getContext("2d");
 
       ctx.fillStyle = "#f8fafc";
@@ -4302,52 +4553,189 @@
       ctx.fillRect(0, 0, canvas.width, 110);
 
       ctx.fillStyle = "#ffffff";
-      ctx.font = "700 28px 'Be Vietnam Pro', Inter, sans-serif";
+      ctx.font = "700 28px 'Be Vietnam Pro', sans-serif";
       ctx.fillText("SỔ THU CHI THÔNG MINH", 32, 52);
-      ctx.font = "500 18px 'Be Vietnam Pro', Inter, sans-serif";
+      ctx.font = "500 18px 'Be Vietnam Pro', sans-serif";
       ctx.fillText(`Kỳ báo cáo: ${periodTitle} • Xuất ngày: ${formatDisplayDate(toISODate(new Date()))}`, 32, 84);
 
       const cardW = (canvas.width - 84) / 2;
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.roundRect(32, 134, cardW, 166, 20);
-      ctx.fill();
-      ctx.strokeStyle = "#fed7aa";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = "#9a3412";
-      ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText("SỐ DƯ KỲ (THU - CHI)", 50, 168);
-      ctx.fillStyle = "#0f172a";
-      ctx.font = "700 25px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText(formatVND(s.allBalance), 50, 208);
-      ctx.font = "500 15px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillStyle = "#059669";
-      ctx.fillText(`Tổng Thu: ${formatVND(s.allIncome)}`, 50, 244);
-      ctx.fillStyle = "#e11d48";
-      ctx.fillText(`Tổng Chi: ${formatVND(s.allExpense)}`, 50, 272);
-
       const rightCardX = 32 + cardW + 20;
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.roundRect(rightCardX, 134, cardW, 166, 20);
-      ctx.fill();
-      ctx.strokeStyle = "#bae6fd";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = "#0369a1";
-      ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText("VAY / NỢ TRONG KỲ", rightCardX + 18, 168);
-      ctx.fillStyle = "#0f172a";
-      ctx.font = "700 25px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText(`${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}`, rightCardX + 18, 208);
-      ctx.font = "500 15px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillStyle = "#059669";
-      ctx.fillText(`Người nợ mình: +${formatVND(s.receivableTotal)}`, rightCardX + 18, 244);
-      ctx.fillStyle = "#e11d48";
-      ctx.fillText(`Mình đang nợ: -${formatVND(s.payableTotal)}`, rightCardX + 18, 272);
+      let nextY = 134;
 
-      let nextY = 322;
+      if (useCompactMatrix) {
+        // Khối 1: Tiền Thực Tế Hiện Có (Lũy kế toàn sổ)
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.roundRect(32, nextY, canvas.width - 64, 128, 20);
+        ctx.fill();
+        ctx.strokeStyle = "#fdba74";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = "#9a3412";
+        ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(`TIỀN THỰC TẾ HIỆN CÓ (LŨY KẾ TOÀN SỔ • ${overallAllTime.txCount} GIAO DỊCH)`, 50, nextY + 34);
+
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "700 28px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(formatVND(overallAllTime.allBalance), 50, nextY + 74);
+
+        ctx.font = "600 15px 'Be Vietnam Pro', sans-serif";
+        ctx.fillStyle = "#047857";
+        ctx.fillText(`Quỹ Gia đình lũy kế: ${formatVND(overallAllTime.familyBalance)}`, 50, nextY + 106);
+        ctx.fillStyle = "#ea580c";
+        ctx.fillText(`Quỹ ${getMinorDisplayName("Công việc")} lũy kế: ${formatVND(overallAllTime.workBalance)}`, 390, nextY + 106);
+
+        nextY += 146;
+
+        // Khối 2: Bảng đối chiếu gọn 3 dòng × 3 cột theo kỳ
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.roundRect(32, nextY, canvas.width - 64, 196, 20);
+        ctx.fill();
+        ctx.strokeStyle = "#cbd5e1";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = "#1e293b";
+        ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(`CHI TIẾT KỲ: ${periodTitle.toUpperCase()}`, 50, nextY + 34);
+        ctx.fillStyle = "#0369a1";
+        ctx.font = "600 15px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(`Vay/Nợ ròng kỳ: ${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}`, 460, nextY + 34);
+
+        // Header bảng
+        ctx.fillStyle = "#64748b";
+        ctx.font = "600 14px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText("PHÂN QUỸ", 50, nextY + 68);
+        ctx.fillText("TỔNG THU", 230, nextY + 68);
+        ctx.fillText("TỔNG CHI", 405, nextY + 68);
+        ctx.fillText("SỐ DƯ", 575, nextY + 68);
+
+        // Dòng Gia đình
+        ctx.fillStyle = "#334155";
+        ctx.font = "600 15px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText("Gia đình", 50, nextY + 102);
+        ctx.fillStyle = "#059669";
+        ctx.fillText(formatVND(s.familyIncome + (includeDebtCash ? s.debtCashIn : 0)), 230, nextY + 102);
+        ctx.fillStyle = "#e11d48";
+        ctx.fillText(formatVND(s.familyExpense + (includeDebtCash ? s.debtCashOut : 0)), 405, nextY + 102);
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText(formatVND(s.familyBalance), 575, nextY + 102);
+
+        // Dòng Công việc
+        ctx.fillStyle = "#92400e";
+        ctx.fillText(getMinorDisplayName("Công việc"), 50, nextY + 136);
+        ctx.fillStyle = "#059669";
+        ctx.fillText(formatVND(s.workIncome), 230, nextY + 136);
+        ctx.fillStyle = "#e11d48";
+        ctx.fillText(formatVND(s.workExpense), 405, nextY + 136);
+        ctx.fillStyle = "#ea580c";
+        ctx.fillText(formatVND(s.workBalance), 575, nextY + 136);
+
+        // Dòng Tổng kỳ
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(50, nextY + 150);
+        ctx.lineTo(canvas.width - 50, nextY + 150);
+        ctx.stroke();
+
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText("Tổng cộng kỳ", 50, nextY + 176);
+        ctx.fillStyle = "#047857";
+        ctx.fillText(formatVND(s.allIncome + (includeDebtCash ? s.debtCashIn : 0)), 230, nextY + 176);
+        ctx.fillStyle = "#be123c";
+        ctx.fillText(formatVND(s.allExpense + (includeDebtCash ? s.debtCashOut : 0)), 405, nextY + 176);
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText(formatVND(s.allBalance), 575, nextY + 176);
+
+        nextY += 216;
+      } else {
+        if (showSplit) {
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.roundRect(32, nextY, cardW, 148, 20);
+          ctx.fill();
+          ctx.strokeStyle = "#cbd5e1";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.fillStyle = "#1e293b";
+          ctx.font = "700 15px 'Be Vietnam Pro', sans-serif";
+          ctx.fillText("1. QUỸ GIA ĐÌNH & CÁ NHÂN", 48, nextY + 32);
+          ctx.fillStyle = "#059669";
+          ctx.font = "700 23px 'Be Vietnam Pro', sans-serif";
+          ctx.fillText(`Dư: ${formatVND(s.familyBalance)}`, 48, nextY + 68);
+          ctx.font = "500 14px 'Be Vietnam Pro', sans-serif";
+          ctx.fillStyle = "#059669";
+          ctx.fillText(`Thu Gia Đình: ${formatVND(s.familyIncome)}`, 48, nextY + 100);
+          ctx.fillStyle = "#e11d48";
+          ctx.fillText(`Chi Gia Đình: ${formatVND(s.familyExpense)}`, 48, nextY + 126);
+
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.roundRect(rightCardX, nextY, cardW, 148, 20);
+          ctx.fill();
+          ctx.strokeStyle = "#fcd34d";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.fillStyle = "#92400e";
+          ctx.font = "700 15px 'Be Vietnam Pro', sans-serif";
+          ctx.fillText(`2. QUỸ ${workLabel}`, rightCardX + 16, nextY + 32);
+          ctx.fillStyle = "#ea580c";
+          ctx.font = "700 23px 'Be Vietnam Pro', sans-serif";
+          ctx.fillText(`Dư: ${formatVND(s.workBalance)}`, rightCardX + 16, nextY + 68);
+          ctx.font = "500 14px 'Be Vietnam Pro', sans-serif";
+          ctx.fillStyle = "#059669";
+          ctx.fillText(`Thu ${getMinorDisplayName("Công việc")}: ${formatVND(s.workIncome)}`, rightCardX + 16, nextY + 100);
+          ctx.fillStyle = "#e11d48";
+          ctx.fillText(`Chi ${getMinorDisplayName("Công việc")}: ${formatVND(s.workExpense)}`, rightCardX + 16, nextY + 126);
+
+          nextY += 164;
+        }
+
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.roundRect(32, nextY, cardW, 166, 20);
+        ctx.fill();
+        ctx.strokeStyle = "#fed7aa";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = "#9a3412";
+        ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(showSplit ? "TỔNG TIỀN THỰC TẾ KỲ" : "SỐ DƯ KỲ (THU - CHI)", 50, nextY + 34);
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "700 25px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(formatVND(s.allBalance), 50, nextY + 74);
+        ctx.font = "500 15px 'Be Vietnam Pro', sans-serif";
+        ctx.fillStyle = "#059669";
+        ctx.fillText(`Tổng Thu: ${formatVND(s.allIncome)}`, 50, nextY + 110);
+        ctx.fillStyle = "#e11d48";
+        ctx.fillText(`Tổng Chi: ${formatVND(s.allExpense)}`, 50, nextY + 138);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.roundRect(rightCardX, nextY, cardW, 166, 20);
+        ctx.fill();
+        ctx.strokeStyle = "#bae6fd";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = "#0369a1";
+        ctx.font = "700 16px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText("VAY / NỢ TRONG KỲ", rightCardX + 18, nextY + 34);
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "700 25px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(`${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}`, rightCardX + 18, nextY + 74);
+        ctx.font = "500 15px 'Be Vietnam Pro', sans-serif";
+        ctx.fillStyle = "#059669";
+        ctx.fillText(`Người nợ mình: +${formatVND(s.receivableTotal)}`, rightCardX + 18, nextY + 110);
+        ctx.fillStyle = "#e11d48";
+        ctx.fillText(`Mình đang nợ: -${formatVND(s.payableTotal)}`, rightCardX + 18, nextY + 138);
+
+        nextY += 188;
+      }
+
       const colBoxH = extraHeight - 24;
 
       ctx.fillStyle = "#ffffff";
@@ -4360,10 +4748,10 @@
 
       ctx.fillStyle = "#be123c";
       ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText(`CƠ CẤU CHI (${formatVND(expBreakdown.total)})`, 48, nextY + 34);
+      ctx.fillText(`CƠ CẤU CHI (${formatVND(includeDebtCash ? expBreakdown.combinedCashTotal : expBreakdown.total)})`, 48, nextY + 34);
 
       let curY = nextY + 64;
-      if (!expBreakdown.majorsList.length) {
+      if (!expBreakdown.majorsList.length && (!includeDebtCash || !expBreakdown.debtCashItems.length)) {
         ctx.fillStyle = "#94a3b8";
         ctx.font = "500 14px 'Be Vietnam Pro', Inter, sans-serif";
         ctx.fillText("Không phát sinh khoản chi", 48, curY);
@@ -4381,6 +4769,19 @@
           });
           curY += 4;
         });
+        if (includeDebtCash && expBreakdown.debtCashItems.length > 0) {
+          ctx.fillStyle = "#0369a1";
+          ctx.font = "700 14px 'Be Vietnam Pro', sans-serif";
+          ctx.fillText(`Chi Cho vay / Trả nợ: ${formatVND(expBreakdown.debtCashTotal)}`, 48, curY);
+          curY += 22;
+          expBreakdown.debtCashItems.forEach(d => {
+            ctx.fillStyle = "#475569";
+            ctx.font = "500 13px 'Be Vietnam Pro', sans-serif";
+            const itemTxt = `  • ${d.person} (${getMinorDisplayName(d.minor)}): ${formatVND(d.amount)}`;
+            ctx.fillText(itemTxt.slice(0, 44), 52, curY);
+            curY += 20;
+          });
+        }
       }
 
       ctx.fillStyle = "#ffffff";
@@ -4393,10 +4794,10 @@
 
       ctx.fillStyle = "#047857";
       ctx.font = "700 16px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText(`NGUỒN THU (${formatVND(incBreakdown.total)})`, rightCardX + 16, nextY + 34);
+      ctx.fillText(`NGUỒN THU (${formatVND(includeDebtCash ? incBreakdown.combinedCashTotal : incBreakdown.total)})`, rightCardX + 16, nextY + 34);
 
       let curIncY = nextY + 64;
-      if (!incBreakdown.majorsList.length) {
+      if (!incBreakdown.majorsList.length && (!includeDebtCash || !incBreakdown.debtCashItems.length)) {
         ctx.fillStyle = "#94a3b8";
         ctx.font = "500 14px 'Be Vietnam Pro', Inter, sans-serif";
         ctx.fillText("Không phát sinh nguồn thu", rightCardX + 16, curIncY);
@@ -4414,25 +4815,42 @@
           });
           curIncY += 4;
         });
+        if (includeDebtCash && incBreakdown.debtCashItems.length > 0) {
+          ctx.fillStyle = "#0369a1";
+          ctx.font = "700 14px 'Be Vietnam Pro', sans-serif";
+          ctx.fillText(`Thu Vay / Thu hồi nợ: ${formatVND(incBreakdown.debtCashTotal)}`, rightCardX + 16, curIncY);
+          curIncY += 22;
+          incBreakdown.debtCashItems.forEach(d => {
+            ctx.fillStyle = "#475569";
+            ctx.font = "500 13px 'Be Vietnam Pro', sans-serif";
+            const itemTxt = `  • ${d.person} (${getMinorDisplayName(d.minor)}): ${formatVND(d.amount)}`;
+            ctx.fillText(itemTxt.slice(0, 44), rightCardX + 20, curIncY);
+            curIncY += 20;
+          });
+        }
       }
 
       nextY += colBoxH + 20;
 
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.roundRect(32, nextY, canvas.width - 64, 146, 20);
-      ctx.fill();
-      ctx.strokeStyle = "#e2e8f0";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = "#334155";
-      ctx.font = "700 18px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillText(`Lũy kế toàn sổ (${transactions.filter(t => !t.needsReview).length} giao dịch)`, 52, nextY + 38);
-      ctx.font = "600 17px 'Be Vietnam Pro', Inter, sans-serif";
-      ctx.fillStyle = "#059669";
-      ctx.fillText(`• Số dư thực tế toàn bộ: ${formatVND(overallAllTime.allBalance)} (Thu ${formatVND(overallAllTime.allIncome)} - Chi ${formatVND(overallAllTime.allExpense)})`, 52, nextY + 76);
-      ctx.fillStyle = "#0369a1";
-      ctx.fillText(`• Công nợ ròng toàn sổ: ${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}`, 52, nextY + 112);
+      if (!useCompactMatrix) {
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.roundRect(32, nextY, canvas.width - 64, 146, 20);
+        ctx.fill();
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = "#334155";
+        ctx.font = "700 18px 'Be Vietnam Pro', sans-serif";
+        ctx.fillText(`Lũy kế toàn sổ (${transactions.filter(t => !t.needsReview).length} giao dịch)`, 52, nextY + 38);
+        ctx.font = "600 16px 'Be Vietnam Pro', sans-serif";
+        ctx.fillStyle = "#059669";
+        ctx.fillText(showSplit
+          ? `• Tiền thực tế toàn sổ: ${formatVND(overallAllTime.allBalance)} (Gia đình: ${formatVND(overallAllTime.familyBalance)} | ${getMinorDisplayName("Công việc")}: ${formatVND(overallAllTime.workBalance)})`
+          : `• Số dư thực tế toàn bộ: ${formatVND(overallAllTime.allBalance)} (Thu ${formatVND(overallAllTime.allIncome)} - Chi ${formatVND(overallAllTime.allExpense)})`, 52, nextY + 76);
+        ctx.fillStyle = "#0369a1";
+        ctx.fillText(`• Công nợ ròng toàn sổ: ${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}`, 52, nextY + 112);
+      }
 
       const jpgDataUrl = canvas.toDataURL("image/jpeg", 0.95);
       exportedJpgFileName = `Bao_Cao_Thu_Chi_${toISODate(new Date())}.jpg`;
@@ -5429,6 +5847,8 @@ function scanGmailTransactions_() {
     // ==================== 14. KHỞI TẠO ỨNG DỤNG ====================
     function renderAll() {
       generateAppIcons();
+      const cfg = getActiveVersionConfig();
+      document.documentElement.classList.toggle("unified-banking-modals", Boolean(cfg.features.compactOverviewMatrixAndUnifiedUI));
       const brandTrigger = document.getElementById("header-brand-trigger");
       if (brandTrigger) {
         brandTrigger.classList.toggle("cursor-pointer", isCustomNamingEnabled());
