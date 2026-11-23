@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.78";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.80";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -194,7 +194,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.78
+            v1.80
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -774,7 +774,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.78";
+    const LATEST_APP_VERSION = "v1.80";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -794,6 +794,26 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.80",
+        date: "23/11/2026",
+        title: "Bỏ hộp đề xuất hóa đơn rườm rà & Tự động điền chính xác 1 chạm theo thói quen lịch sử giao dịch của bạn",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true, zaloDarkAndLightFastOcr: true, habitBasedBillAutoFillNoBox: true },
+        changes: [
+          "Gỡ bỏ hoàn toàn khung 'Đề xuất từ ảnh hóa đơn' trong bảng Quét Ảnh Bill để giao diện gọn thoáng, tập trung vào kết quả.",
+          "Tự động đối chiếu toàn bộ lịch sử giao dịch thật của bạn (cửa hàng, nội dung quen thuộc, tên người trong Sổ Vay Nợ, giao dịch công việc) và tự học quy tắc mỗi khi bạn lưu Bill để tự điền thẳng Loại, Mục Lớn & Mục Nhỏ chính xác nhất."
+        ]
+      },
+      {
+        version: "v1.79",
+        date: "23/11/2026",
+        title: "Hỗ trợ ảnh chụp Zalo cả Chế độ Tối (Dark Mode) & Sáng + Tăng tốc quét OCR nhanh gấp 4 lần & loại bỏ hoàn toàn tin nhắn người khác",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true, zaloDarkAndLightFastOcr: true },
+        changes: [
+          "Tự động nhận diện và cắt lọc bong bóng tin nhắn của bạn ở lề phải trên cả Zalo Chế độ Tối (Dark Mode nền xanh than tối) lẫn Chế độ Sáng (Light Mode), tự đảo ngược màu chữ trắng sang chữ đen nền trắng để đọc chính xác 100%.",
+          "Nén kích thước chuẩn trước khi đưa vào OCR giúp quét ảnh trên iPhone nhanh gấp 4 lần và không bao giờ quét nhầm tin nhắn của HIẾU KA-HOME hay SEN KA-HOME bên trái."
+        ]
+      },
       {
         version: "v1.78",
         date: "23/11/2026",
@@ -2177,6 +2197,10 @@
       return Boolean(getActiveVersionConfig().features.zaloWorkBatchParserAndBlueBubbleCrop);
     }
 
+    function isZaloDarkAndLightFastOcrEnabled() {
+      return Boolean(getActiveVersionConfig().features.zaloDarkAndLightFastOcr);
+    }
+
     function parseZaloWorkBatchText(rawText) {
       if (!isZaloWorkBatchEnabled()) return null;
       const lines = String(rawText || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -2187,7 +2211,7 @@
       const items = [];
 
       for (const line of lines) {
-        // Bỏ qua các dòng tiêu đề/giờ chat Zalo thuần túy (VD: "08:27", "T3 27/10/2026", "HIẾU KA-HOME", "SEN KA-HOME")
+        // Bỏ qua các dòng tiêu đề/giờ chat Zalo thuần túy
         if (/^(?:[01]?\d|2[0-3]):[0-5]\d(?:\s+\d{1,2}\/\d{1,2}\/\d{4})?$/.test(line)) continue;
         if (/^(?:T[2-7]|CN)\s+\d{1,2}\/\d{1,2}\/\d{4}$/i.test(line)) {
           const dm = line.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
@@ -2195,7 +2219,7 @@
           continue;
         }
 
-        // Bắt cụm ngày dạng: "Ngày 21/11/2026:" hoặc "Ngày 27/10/2026"
+        // Bắt cụm ngày dạng: "Ngày 21/11/2026:" hoặc "Ngày 01/11/2026"
         const dateHeaderMatch = line.match(/^[-•*]?\s*Ngày\s+(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?\s*:?\s*$/i);
         if (dateHeaderMatch) {
           const d = String(Number(dateHeaderMatch[1])).padStart(2, "0");
@@ -2209,8 +2233,8 @@
           continue;
         }
 
-        // Bắt dòng giao dịch Zalo dạng: "- Thu: 200.000.000 a Tỵ tt ct TG-A TỴ K1HA" hoặc "- Chi: 50.000.000 tt VLXD..."
-        const entryMatch = line.match(/^[-•*]?\s*(Thu|Chi)\s*[:\-]\s*(.+)$/i);
+        // Bắt dòng giao dịch Zalo dạng: "- Thu: 200.000.000 a Tỵ..." hoặc "- Chi: 4.000.000 tt dọn vệ sinh..."
+        const entryMatch = line.match(/^[-•*–—]?\s*(Thu|Chi)\s*[:\-]\s*(.+)$/i);
         if (entryMatch) {
           const kindRaw = entryMatch[1].toLowerCase();
           const rest = entryMatch[2].trim();
@@ -3551,6 +3575,75 @@
       return toISODate(new Date());
     }
 
+    function isHabitBasedBillAutoFillEnabled() {
+      return Boolean(getActiveVersionConfig().features.habitBasedBillAutoFillNoBox);
+    }
+
+    function inferCategoryFromUserHabit(rawText, amount = 0) {
+      const clean = String(rawText || "").toLowerCase().replace(/\s+/g, " ").trim();
+      if (!clean) return null;
+
+      // 1. Đối chiếu trực tiếp với tên người đang có trong Sổ Vay Nợ
+      const knownPeople = [...new Set(transactions.map(t => normalizePersonName(t.person)).filter(Boolean))];
+      for (const pName of knownPeople) {
+        const pLower = pName.toLowerCase();
+        const pCore = pLower.replace(/^(?:anh|chị|cô|chú|bác|em|bạn|ông|bà)\s+/i, "").trim();
+        if ((pLower.length >= 3 && clean.includes(pLower)) || (pCore.length >= 3 && new RegExp(`(?:^|[^a-zA-ZÀ-ỹ])${pCore.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=$|[^a-zA-ZÀ-ỹ])`, "i").test(clean))) {
+          const isIncoming = /(?:biến động\s*\+|ghi có|nhận được|trả nợ|\+\s*\d)/i.test(clean);
+          return {
+            type: "debt",
+            major: "Vay / Nợ",
+            minor: isIncoming ? "Thu hồi nợ" : "Trả nợ",
+            person: pName,
+            debtDirection: isIncoming ? "receivable" : "payable"
+          };
+        }
+      }
+
+      // 2. Chấm điểm từ lịch sử giao dịch thật đã lưu của người dùng (ưu tiên giao dịch lặp lại nhiều & gần đây)
+      const tokens = [...new Set(
+        clean
+          .replace(/[^\p{L}\p{N}\s]/gu, " ")
+          .split(/\s+/)
+          .filter(w => w.length >= 3 && !/^(?:thanh|toan|chuyen|khoan|tien|ngay|thang|nam|vnd|vnđ|giao|dich|thanh|cong|noi|dung|hoa|don|phieu|so|tai|ngan|hang|vietinbank|vietcombank|techcombank|bidv|agribank|mbbank|momo|zalopay)$/i.test(w))
+      )];
+
+      if (!tokens.length || !transactions.length) return null;
+
+      const bucketScores = {};
+      const totalTx = transactions.length;
+      transactions.forEach((tx, idx) => {
+        if (!tx || tx.needsReview || !tx.note) return;
+        const txNoteLower = String(tx.note).toLowerCase();
+        let matchScore = 0;
+
+        if (txNoteLower.length >= 4 && clean.includes(txNoteLower)) {
+          matchScore += 12;
+        }
+        tokens.forEach(tok => {
+          if (txNoteLower.includes(tok)) matchScore += 3;
+        });
+
+        if (matchScore > 0) {
+          // Ưu tiên nhẹ các giao dịch gần đây và số tiền tương đồng
+          const recencyBoost = 1 + ((totalTx - idx) / Math.max(1, totalTx)) * 0.35;
+          const amountBoost = (amount > 0 && Math.abs(Number(tx.amount) - amount) <= amount * 0.15) ? 1.25 : 1;
+          const key = `${tx.type}|||${tx.major}|||${tx.minor}`;
+          bucketScores[key] = (bucketScores[key] || 0) + matchScore * recencyBoost * amountBoost;
+        }
+      });
+
+      const ranked = Object.entries(bucketScores).sort((a, b) => b[1] - a[1]);
+      if (ranked.length && ranked[0][1] >= 4.5) {
+        const [type, major, minor] = ranked[0][0].split("|||");
+        const tree = getMergedCategoryTree(false);
+        if (tree[type]?.[major]?.includes(minor)) {
+          return { type, major, minor, person: "", debtDirection: "" };
+        }
+      }
+      return null;
+    }
+
     function applyExtractedBillText(rawText) {
       const sanitizedText = sanitizeBankReceiptText(rawText);
       const lines = sanitizedText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -3580,15 +3673,30 @@
       const mainNote = transferNote || uniqueCleanItems.slice(0, 2).join(", ") || "Hóa đơn quét ảnh";
       let cls = classifySingleClause(`${sanitizedText.replace(/\n/g, " ")} ${bestAmount}`, detectedDate);
 
+      if (isHabitBasedBillAutoFillEnabled()) {
+        const habitMatch = inferCategoryFromUserHabit(`${mainNote} ${sanitizedText}`, bestAmount);
+        if (habitMatch) {
+          cls = {
+            ...cls,
+            type: habitMatch.type,
+            major: habitMatch.major,
+            minor: habitMatch.minor,
+            person: habitMatch.person || cls.person,
+            debtDirection: habitMatch.debtDirection || cls.debtDirection
+          };
+        }
+      }
+
       const isExplicitIncome = /(?:biến động\s*\+|ghi có|nhận được tiền|nhận lương|lương về|hoàn tiền|\+\s*\d{1,3}(?:[.,]\d{3})+)/i.test(sanitizedText);
-      const isExplicitDebt = /(?:cho vay|đi vay|trả nợ|thu hồi nợ|mượn tiền)/i.test(transferNote || sanitizedText);
+      const isExplicitDebt = cls.type === "debt" || /(?:cho vay|đi vay|trả nợ|thu hồi nợ|mượn tiền)/i.test(transferNote || sanitizedText);
       if (!isExplicitIncome && !isExplicitDebt && cls.type !== "expense") {
         const expCls = classifySingleClause(`chi ${sanitizedText.replace(/\n/g, " ")} ${bestAmount}`, detectedDate);
+        const mergedExpTree = getMergedCategoryTree(false).expense || {};
         cls = {
           ...expCls,
           type: "expense",
-          major: CATEGORY_TREE.expense[expCls.major] ? expCls.major : "Cả nhà",
-          minor: (CATEGORY_TREE.expense[expCls.major] || []).includes(expCls.minor) ? expCls.minor : "Chi khác"
+          major: mergedExpTree[expCls.major] ? expCls.major : "Cả nhà",
+          minor: (mergedExpTree[expCls.major] || []).includes(expCls.minor) ? expCls.minor : "Chi khác"
         };
       }
 
@@ -3596,10 +3704,11 @@
       document.getElementById("bill-type").value = cls.type;
       updateBillCategoryOptions();
 
-      if (CATEGORY_TREE[cls.type]?.[cls.major]) {
+      const activeTree = getMergedCategoryTree(false);
+      if (activeTree[cls.type]?.[cls.major]) {
         document.getElementById("bill-major").value = cls.major;
         onBillMajorChange();
-        if ((CATEGORY_TREE[cls.type][cls.major] || []).includes(cls.minor)) {
+        if ((activeTree[cls.type][cls.major] || []).includes(cls.minor)) {
           document.getElementById("bill-minor").value = cls.minor;
           onBillMinorChange();
         }
@@ -3623,6 +3732,11 @@
 
       const smartBox = document.getElementById("bill-smart-suggestions");
       if (smartBox) {
+        if (isHabitBasedBillAutoFillEnabled()) {
+          smartBox.classList.add("hidden");
+          smartBox.innerHTML = "";
+          return;
+        }
         const categorySuggestions = [];
         const addCatSug = (type, major, minor, label) => {
           if (!categorySuggestions.some(s => s.type === type && s.major === major && s.minor === minor)) {
@@ -3665,7 +3779,7 @@
           <div class="flex items-center gap-1.5 flex-wrap">
             <span class="text-[10px] font-normal text-slate-500">Phân loại gợi ý:</span>
             ${categorySuggestions.slice(0, 5).map((s, i) => `
-              <button type="button" onclick="applyBillCatSuggestion(${i})" class="px-2 py-0.5 rounded-lg bg-white hover:bg-amber-100 border border-amber-300 text-[10px] font-medium text-amber-950">
+              <button type="button" onclick="applyBillCategorySuggestion(${i})" class="px-2 py-0.5 rounded-lg bg-white hover:bg-orange-100 border border-amber-300 text-[10px] font-semibold text-amber-900">
                 ${escapeHtml(s.label)}
               </button>
             `).join("")}
@@ -3673,38 +3787,35 @@
         `;
         smartBox.classList.remove("hidden");
       }
-
-      document.getElementById("bill-result-box").classList.remove("hidden");
     }
 
-    function applyBillCatSuggestion(idx) {
-      const sug = window.__BILL_CAT_SUGGESTIONS__?.[idx];
-      if (!sug) return;
-      document.getElementById("bill-type").value = sug.type;
+    function applyBillCategorySuggestion(idx) {
+      const s = window.__BILL_CAT_SUGGESTIONS__?.[idx];
+      if (!s) return;
+      document.getElementById("bill-type").value = s.type;
       updateBillCategoryOptions();
-      if (CATEGORY_TREE[sug.type]?.[sug.major]) {
-        document.getElementById("bill-major").value = sug.major;
-        onBillMajorChange();
-        if ((CATEGORY_TREE[sug.type][sug.major] || []).includes(sug.minor)) {
-          document.getElementById("bill-minor").value = sug.minor;
-          onBillMinorChange();
-        }
-      }
+      document.getElementById("bill-major").value = s.major;
+      onBillMajorChange();
+      document.getElementById("bill-minor").value = s.minor;
+      onBillMinorChange();
     }
 
-    // Tự động phát hiện và cắt lọc riêng vùng bong bóng xanh dương bên phải của bạn trên ảnh chụp màn hình nhóm chat Zalo
+    // Tự động phát hiện và cắt lọc riêng vùng bong bóng của bạn bên phải trên ảnh chụp màn hình nhóm chat Zalo (cả Dark Mode & Light Mode)
     function extractZaloBlueBubbleCanvas(file) {
       return new Promise((resolve) => {
         if (!isZaloWorkBatchEnabled()) {
-          resolve({ isZaloChat: false, canvas: null });
+          resolve({ isZaloChat: false, isDarkModeScreen: false, canvas: null });
           return;
         }
         const img = new Image();
         const url = URL.createObjectURL(file);
         img.onload = () => {
           try {
-            const w = img.width;
-            const h = img.height;
+            // Giảm kích thước về tối đa 960px để quét pixel và OCR siêu nhanh
+            const maxDim = 960;
+            const ratio = Math.min(1, maxDim / Math.max(img.width, img.height));
+            const w = Math.round(img.width * ratio);
+            const h = Math.round(img.height * ratio);
             const scanCanvas = document.createElement("canvas");
             scanCanvas.width = w;
             scanCanvas.height = h;
@@ -3712,23 +3823,41 @@
             sCtx.drawImage(img, 0, 0, w, h);
 
             const imgData = sCtx.getImageData(0, 0, w, h).data;
+
+            // 1. Kiểm tra xem ảnh có phải nền tối (Dark Mode) hay nền sáng (Light Mode)
+            let darkPixels = 0;
+            let totalSampled = 0;
+            for (let y = Math.floor(h * 0.12); y < Math.floor(h * 0.9); y += 6) {
+              for (let x = 10; x < w - 10; x += 6) {
+                const idx = (y * w + x) * 4;
+                const lum = 0.299 * imgData[idx] + 0.587 * imgData[idx + 1] + 0.114 * imgData[idx + 2];
+                if (lum < 45) darkPixels++;
+                totalSampled++;
+              }
+            }
+            const isDarkBg = totalSampled > 0 && (darkPixels / totalSampled) > 0.42;
+
+            // 2. Quét từ cột 42% sang phải để tìm đúng bong bóng của bạn (nền xanh nhạt Light Mode HOẶC nền xanh than tối Dark Mode)
             let minX = w, minY = h, maxX = 0, maxY = 0;
-            let bluePixelCount = 0;
-
-            // Quét từ cột 42% sang phải (bỏ qua cột danh sách nhóm chat bên trái & tin nhắn người khác lệch trái)
+            let bubblePixelCount = 0;
             const startX = Math.floor(w * 0.42);
-            const step = Math.max(1, Math.floor(Math.min(w, h) / 600));
+            const topBound = Math.floor(h * 0.08);
+            const bottomBound = Math.floor(h * 0.92);
 
-            for (let y = 0; y < h; y += step) {
-              for (let x = startX; x < w; x += step) {
+            for (let y = topBound; y < bottomBound; y += 2) {
+              for (let x = startX; x < w - 6; x += 2) {
                 const idx = (y * w + x) * 4;
                 const r = imgData[idx];
                 const g = imgData[idx + 1];
                 const b = imgData[idx + 2];
-                // Màu nền bong bóng chat Zalo của người gửi: xanh dương nhạt (B > R + 12, B >= 225, R >= 195, G >= 215)
-                const isZaloOutgoingBlue = (b - r >= 12) && (b - g >= 5) && b >= 225 && r >= 190 && g >= 210;
-                if (isZaloOutgoingBlue) {
-                  bluePixelCount++;
+
+                const isLightOutgoing = !isDarkBg && (b - r >= 12) && (b - g >= 5) && b >= 220 && r >= 185 && g >= 205;
+                // Zalo Dark Mode iOS: bong bóng của bạn màu xanh than đậm (#1F334A - #2D4A6B), có sắc xanh dương cao hơn đỏ rõ rệt (b - r >= 14) và sáng hơn nền đen (#000/#121212)
+                const isDarkOutgoing = isDarkBg && isZaloDarkAndLightFastOcrEnabled() &&
+                  (b - r >= 14) && (b - g >= 6) && b >= 55 && b <= 155 && r >= 18 && r <= 95;
+
+                if (isLightOutgoing || isDarkOutgoing) {
+                  bubblePixelCount++;
                   if (x < minX) minX = x;
                   if (y < minY) minY = y;
                   if (x > maxX) maxX = x;
@@ -3739,14 +3868,14 @@
 
             const boxW = maxX - minX;
             const boxH = maxY - minY;
-            if (bluePixelCount >= 80 && boxW > w * 0.14 && boxH > 28) {
-              const pad = Math.round(Math.max(12, w * 0.015));
+            if (bubblePixelCount >= 60 && boxW > w * 0.16 && boxH > 24 && maxX > w * 0.82) {
+              const pad = Math.round(Math.max(8, w * 0.012));
               const cropX = Math.max(0, minX - pad);
               const cropY = Math.max(0, minY - pad);
               const cropW = Math.min(w - cropX, boxW + pad * 2);
               const cropH = Math.min(h - cropY, boxH + pad * 2);
 
-              const scale = cropW < 900 ? 2.2 : 1.6;
+              const scale = cropW < 650 ? 1.8 : 1.3;
               const outCanvas = document.createElement("canvas");
               outCanvas.width = Math.round(cropW * scale);
               outCanvas.height = Math.round(cropH * scale);
@@ -3755,32 +3884,38 @@
               oCtx.fillRect(0, 0, outCanvas.width, outCanvas.height);
               oCtx.drawImage(scanCanvas, cropX, cropY, cropW, cropH, 0, 0, outCanvas.width, outCanvas.height);
 
-              // Tăng độ tương phản chữ đen trên nền xanh dương nhạt để OCR đọc chuẩn 100%
+              // Chuẩn hóa về chữ đen sắc nét trên nền trắng tinh (tự đảo màu nếu là Dark Mode)
               const outData = oCtx.getImageData(0, 0, outCanvas.width, outCanvas.height);
               const d = outData.data;
               for (let i = 0; i < d.length; i += 4) {
                 const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-                const val = lum > 170 ? 255 : (lum < 105 ? 0 : Math.min(255, Math.max(0, (lum - 105) * 3.8)));
+                let val;
+                if (isDarkBg) {
+                  // Nền xanh tối (lum ~45-70) -> trắng 255; chữ trắng (lum > 145) -> đen 0
+                  val = lum < 115 ? 255 : (lum > 180 ? 0 : Math.min(255, Math.max(0, 255 - (lum - 115) * 3.9)));
+                } else {
+                  val = lum > 170 ? 255 : (lum < 105 ? 0 : Math.min(255, Math.max(0, (lum - 105) * 3.8)));
+                }
                 d[i] = val;
                 d[i + 1] = val;
                 d[i + 2] = val;
               }
               oCtx.putImageData(outData, 0, 0);
               URL.revokeObjectURL(url);
-              resolve({ isZaloChat: true, canvas: outCanvas });
+              resolve({ isZaloChat: true, isDarkModeScreen: isDarkBg, canvas: outCanvas });
               return;
             }
 
             URL.revokeObjectURL(url);
-            resolve({ isZaloChat: false, canvas: null });
+            resolve({ isZaloChat: false, isDarkModeScreen: isDarkBg, canvas: null });
           } catch (err) {
             URL.revokeObjectURL(url);
-            resolve({ isZaloChat: false, canvas: null });
+            resolve({ isZaloChat: false, isDarkModeScreen: false, canvas: null });
           }
         };
         img.onerror = () => {
           URL.revokeObjectURL(url);
-          resolve({ isZaloChat: false, canvas: null });
+          resolve({ isZaloChat: false, isDarkModeScreen: false, canvas: null });
         };
         img.src = url;
       });
@@ -3807,7 +3942,7 @@
         <div class="bg-emerald-50/90 p-3 rounded-2xl border border-emerald-200 space-y-1.5">
           <div class="flex items-center justify-between gap-2">
             <div>
-              <p class="text-xs font-semibold text-emerald-950">Đã lọc đúng bong bóng xanh của bạn (${billZaloBatchItems.length} dòng)</p>
+              <p class="text-xs font-semibold text-emerald-950">Đã lọc đúng bong bóng của bạn (${billZaloBatchItems.length} dòng)</p>
               <p class="text-[10px] text-emerald-700">Đã tự động bỏ qua tin nhắn người khác trong nhóm • Tự điền Bố • Công việc</p>
             </div>
             <button type="button" onclick="saveAllBillZaloBatchItems()" class="shrink-0 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm active:scale-95 transition">
@@ -3828,13 +3963,13 @@
                 </button>
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <div>
+                <div class="min-w-0">
                   <label class="block text-[10px] font-medium text-slate-500 mb-0.5">Số tiền (₫)</label>
-                  <input type="text" inputmode="numeric" value="${formatNumberOnly(it.amount)}" oninput="formatCurrencyInput(this); billZaloBatchItems[${idx}].amount = parseFormattedNumber(this.value);" class="w-full min-h-[38px] rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-orange-600" />
+                  <input type="text" inputmode="numeric" value="${formatNumberOnly(it.amount)}" oninput="formatCurrencyInput(this); billZaloBatchItems[${idx}].amount = parseFormattedNumber(this.value);" class="w-full min-w-0 min-h-[38px] rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-orange-600" />
                 </div>
-                <div>
+                <div class="min-w-0">
                   <label class="block text-[10px] font-medium text-slate-500 mb-0.5">Ngày giao dịch</label>
-                  <input type="date" value="${it.date}" onchange="billZaloBatchItems[${idx}].date = this.value;" class="w-full min-h-[38px] rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700" />
+                  <input type="date" value="${it.date}" onchange="billZaloBatchItems[${idx}].date = this.value;" class="w-full min-w-0 min-h-[38px] rounded-xl border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-700" />
                 </div>
               </div>
               <div>
@@ -3885,7 +4020,9 @@
         const url = URL.createObjectURL(file);
         img.onload = () => {
           try {
-            const scale = img.width < 1000 ? 2 : 1.35;
+            // Giữ chiều rộng chuẩn 850px để OCR chạy cực nhanh trên cả iPhone lẫn ảnh chụp màn hình PC
+            const targetMaxW = isZaloDarkAndLightFastOcrEnabled() ? 880 : 1200;
+            const scale = img.width > targetMaxW ? (targetMaxW / img.width) : (img.width < 600 ? 1.5 : 1);
             const w = Math.round(img.width * scale);
             const h = Math.round(img.height * scale);
             const canvas = document.createElement("canvas");
@@ -3941,36 +4078,38 @@
       if (zaloBatchBox) zaloBatchBox.classList.add("hidden");
 
       const status = document.getElementById("bill-ocr-status");
-      status.textContent = "Đang phân tích ảnh & nhận diện nội dung...";
+      status.textContent = "Đang phân tích nhanh vùng tin nhắn của bạn...";
       status.classList.remove("hidden");
       try {
         await ensureTesseractLoaded();
         if (window.Tesseract) {
-          // 1. Kiểm tra nếu là ảnh chụp màn hình nhóm Zalo: cắt lọc riêng bong bóng xanh dương bên phải của bạn
+          // 1. Tự động cắt lọc riêng bong bóng của bạn bên phải trên ảnh nhóm Zalo (hỗ trợ cả Chế độ Tối Dark Mode & Sáng)
           const zaloCrop = await extractZaloBlueBubbleCanvas(file);
           if (zaloCrop.isZaloChat && zaloCrop.canvas) {
-            status.textContent = "Phát hiện ảnh nhóm chat Zalo! Đang trích xuất riêng tin nhắn bong bóng xanh của bạn...";
-            const zaloRes = await Tesseract.recognize(zaloCrop.canvas, "vie+eng");
+            status.textContent = `Phát hiện ảnh nhóm Zalo (${zaloCrop.isDarkModeScreen ? "Chế độ tối" : "Chế độ sáng"})! Đang đọc nhanh tin nhắn của bạn...`;
+            const zaloRes = await Tesseract.recognize(zaloCrop.canvas, "vie");
             const zaloItems = parseZaloWorkBatchText(zaloRes.data.text || "");
             if (zaloItems && zaloItems.length > 0) {
               billZaloBatchItems = zaloItems;
-              status.textContent = `Hoàn tất! Đã trích xuất ${zaloItems.length} dòng từ bong bóng xanh của bạn:`;
+              status.textContent = `Hoàn tất! Đã trích xuất ${zaloItems.length} dòng từ tin nhắn của bạn:`;
               renderBillZaloBatchList();
               event.target.value = "";
               return;
             }
           }
 
-          // 2. Xử lý hóa đơn / biên lai chuyển khoản thông thường
+          // 2. Xử lý hóa đơn / biên lai chuyển khoản thông thường (nén chuẩn để OCR đọc nhanh)
           const inputSource = await preprocessBillImage(file);
-          const res = await Tesseract.recognize(inputSource, "vie+eng");
-          const fallbackZalo = parseZaloWorkBatchText(res.data.text || "");
+          const res = await Tesseract.recognize(inputSource, isZaloDarkAndLightFastOcrEnabled() ? "vie" : "vie+eng");
+          const fallbackZalo = !zaloCrop.isDarkModeScreen ? parseZaloWorkBatchText(res.data.text || "") : null;
           if (fallbackZalo && fallbackZalo.length > 1) {
             billZaloBatchItems = fallbackZalo;
             status.textContent = `Hoàn tất! Đã trích xuất ${fallbackZalo.length} dòng ghi chép công việc:`;
             renderBillZaloBatchList();
           } else {
-            status.textContent = "Quét hóa đơn hoàn tất! Kiểm tra các đề xuất bên dưới:";
+            status.textContent = isHabitBasedBillAutoFillEnabled()
+              ? "Đã tự động điền thông tin theo thói quen giao dịch của bạn!"
+              : "Quét hóa đơn hoàn tất! Kiểm tra các đề xuất bên dưới:";
             applyExtractedBillText(res.data.text || "");
           }
         } else {
@@ -4006,6 +4145,11 @@
         else if (minor === "Cho vay mới" || minor === "Thu hồi nợ") debtDirection = "receivable";
       }
 
+      const finalNote = document.getElementById("bill-note").value.trim() || minor;
+      if (isHabitBasedBillAutoFillEnabled() && finalNote.length >= 3 && type !== "debt") {
+        learnedRules[finalNote.toLowerCase()] = { type, major, minor };
+      }
+
       const newTx = {
         id: "tx_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
         type,
@@ -4013,7 +4157,7 @@
         minor,
         amount,
         date,
-        note: document.getElementById("bill-note").value.trim() || minor,
+        note: finalNote,
         person,
         debtDirection,
         needsReview: false
