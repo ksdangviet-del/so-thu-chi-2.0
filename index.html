@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.80";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.81";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -194,7 +194,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.80
+            v1.81
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -774,7 +774,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.80";
+    const LATEST_APP_VERSION = "v1.81";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -794,6 +794,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.81",
+        date: "23/11/2026",
+        title: "Trình bày lại thẻ Báo Cáo Tổng Quan gọn thoáng, giữ nguyên 100% chữ số & ký hiệu ₫ trên 1 dòng không bao giờ bị cắt '...'",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true, zaloDarkAndLightFastOcr: true, habitBasedBillAutoFillNoBox: true, cleanOverviewCardsNoTruncation: true },
+        changes: [
+          "Đặt số tiền 'Tiền Thực Tế Hiện Có' nằm trọn trên 1 dòng ngang riêng biệt (không bao giờ bị rớt ký hiệu '₫' xuống dòng dưới).",
+          "Chuyển phần Chi tiết kỳ của 'Gia đình', 'Công việc' và 'Tổng cộng kỳ' sang dạng thẻ ngang 2 tầng rộng rãi để hiển thị đầy đủ 100% số tiền hàng trăm triệu / hàng tỷ mà không bị cắt dấu '...'."
+        ]
+      },
       {
         version: "v1.80",
         date: "23/11/2026",
@@ -4774,9 +4784,127 @@
       const cfg = getActiveVersionConfig();
       const showSplit = Boolean(cfg.features.familyAndWorkLedgerSplit);
       const useCompactMatrix = Boolean(cfg.features.compactOverviewMatrixAndUnifiedUI);
+      const useCleanCardsNoTrunc = Boolean(cfg.features.cleanOverviewCardsNoTruncation);
 
       if (tab === "overview") {
-        if (useCompactMatrix) {
+        if (useCleanCardsNoTrunc) {
+          const workLabel = getMinorDisplayName("Công việc");
+          const includeDebtCash = isDebtCashflowIncludedInReports();
+          const famPeriodIn = s.familyIncome + (includeDebtCash ? s.debtCashIn : 0);
+          const famPeriodOut = s.familyExpense + (includeDebtCash ? s.debtCashOut : 0);
+          const allPeriodIn = s.allIncome + (includeDebtCash ? s.debtCashIn : 0);
+          const allPeriodOut = s.allExpense + (includeDebtCash ? s.debtCashOut : 0);
+
+          content.innerHTML = `
+            <!-- 1. Thẻ nổi bật trên cùng: Tiền Thực Tế Hiện Có (Lũy kế toàn sổ) -->
+            <div class="bg-gradient-to-br from-orange-50/90 via-white to-amber-50/50 p-3.5 rounded-2xl border border-orange-200 shadow-[0_2px_10px_rgba(234,88,12,0.05)] space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-orange-100/80 text-orange-800 text-[10px] font-semibold">
+                  Đối chiếu tiền mặt &amp; tài khoản
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-600 text-[10px] font-medium shrink-0">
+                  ${overallAllTime.txCount} GD
+                </span>
+              </div>
+
+              <div class="space-y-1">
+                <p class="text-xs font-medium text-slate-600">Tiền Thực Tế Hiện Có (Lũy kế toàn sổ)</p>
+                <p class="text-[22px] leading-tight font-bold ${overallAllTime.allBalance >= 0 ? "text-slate-900" : "text-rose-600"} tracking-tight whitespace-nowrap">
+                  ${overallAllTime.allBalance >= 0 ? "" : "-"}${formatVND(Math.abs(overallAllTime.allBalance))}
+                </p>
+                <div class="flex items-center justify-between flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-slate-500 pt-0.5">
+                  <span class="whitespace-nowrap">Tổng thu: <b class="font-semibold text-emerald-700">${formatVND(overallAllTime.allIncome)}</b></span>
+                  <span class="whitespace-nowrap">Tổng chi: <b class="font-semibold text-rose-600">${formatVND(overallAllTime.allExpense)}</b></span>
+                </div>
+                ${includeDebtCash && (overallAllTime.debtCashIn > 0 || overallAllTime.debtCashOut > 0) ? `
+                  <div class="flex items-center justify-between flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-sky-800 pt-0.5">
+                    <span class="whitespace-nowrap">Vay/Thu hồi nợ: <b class="font-semibold text-emerald-700">+${formatVND(overallAllTime.debtCashIn)}</b></span>
+                    <span class="whitespace-nowrap">Cho vay/Trả nợ: <b class="font-semibold text-rose-600">-${formatVND(overallAllTime.debtCashOut)}</b></span>
+                  </div>
+                ` : ""}
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-orange-200/60">
+                <div class="bg-white/95 px-2.5 py-2 rounded-xl border border-slate-200/80">
+                  <p class="text-[10px] text-slate-500">Quỹ Gia đình lũy kế</p>
+                  <p class="text-xs font-bold ${overallAllTime.familyBalance >= 0 ? "text-emerald-700" : "text-rose-600"} mt-0.5 whitespace-nowrap">${formatVND(overallAllTime.familyBalance)}</p>
+                </div>
+                <div class="bg-white/95 px-2.5 py-2 rounded-xl border border-amber-200/80">
+                  <p class="text-[10px] text-slate-500">Quỹ ${escapeHtml(workLabel)} lũy kế</p>
+                  <p class="text-xs font-bold ${overallAllTime.workBalance >= 0 ? "text-orange-600" : "text-rose-600"} mt-0.5 whitespace-nowrap">${formatVND(overallAllTime.workBalance)}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Chi tiết kỳ dạng thẻ ngang rộng rãi, hiển thị trọn vẹn 100% số tiền -->
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-[0_2px_8px_rgba(15,23,42,0.02)] overflow-hidden">
+              <div class="px-3.5 py-2 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between gap-2">
+                <span class="text-[11px] font-semibold text-slate-800">Chi tiết kỳ: ${escapeHtml(periodName)}</span>
+                <span class="text-[10px] font-medium text-slate-500 shrink-0">${s.txCount} giao dịch</span>
+              </div>
+
+              <div class="divide-y divide-slate-100">
+                <!-- Thẻ Gia đình -->
+                <div class="px-3.5 py-2.5 space-y-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-semibold text-slate-800">Gia đình &amp; Cá nhân</span>
+                    <span class="text-xs font-bold ${s.familyBalance >= 0 ? "text-slate-900" : "text-rose-600"} whitespace-nowrap">Dư: ${formatVND(s.familyBalance)}</span>
+                  </div>
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="text-slate-500 whitespace-nowrap">Thu: <b class="font-semibold text-emerald-600">${formatVND(famPeriodIn)}</b></span>
+                    <span class="text-slate-500 whitespace-nowrap">Chi: <b class="font-semibold text-rose-600">${formatVND(famPeriodOut)}</b></span>
+                  </div>
+                </div>
+
+                <!-- Thẻ Công việc -->
+                <div class="px-3.5 py-2.5 bg-amber-50/30 space-y-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-semibold text-amber-950">${escapeHtml(workLabel)}</span>
+                    <span class="text-xs font-bold ${s.workBalance >= 0 ? "text-orange-600" : "text-rose-600"} whitespace-nowrap">Dư: ${formatVND(s.workBalance)}</span>
+                  </div>
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="text-slate-500 whitespace-nowrap">Thu: <b class="font-semibold text-emerald-600">${formatVND(s.workIncome)}</b></span>
+                    <span class="text-slate-500 whitespace-nowrap">Chi: <b class="font-semibold text-rose-600">${formatVND(s.workExpense)}</b></span>
+                  </div>
+                </div>
+
+                <!-- Thẻ Tổng cộng kỳ -->
+                <div class="px-3.5 py-2.5 bg-slate-50/90 space-y-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-bold text-slate-900">Tổng cộng kỳ</span>
+                    <span class="text-[13px] font-bold ${s.allBalance >= 0 ? "text-slate-900" : "text-rose-600"} whitespace-nowrap">Dư: ${formatVND(s.allBalance)}</span>
+                  </div>
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="text-slate-600 whitespace-nowrap">Thu: <b class="font-semibold text-emerald-700">${formatVND(allPeriodIn)}</b></span>
+                    <span class="text-slate-600 whitespace-nowrap">Chi: <b class="font-semibold text-rose-700">${formatVND(allPeriodOut)}</b></span>
+                  </div>
+                </div>
+              </div>
+              ${includeDebtCash && (s.debtCashIn > 0 || s.debtCashOut > 0) ? `
+                <div class="px-3.5 py-1.5 bg-sky-50/60 border-t border-slate-100 text-[10px] text-sky-900 flex items-center justify-between gap-2">
+                  <span>Đã gồm Vay/Trả thực tế kỳ:</span>
+                  <span class="font-semibold whitespace-nowrap">+${formatVND(s.debtCashIn)} / -${formatVND(s.debtCashOut)}</span>
+                </div>
+              ` : ""}
+            </div>
+
+            <!-- 3. Thẻ Vay / Nợ thu gọn -->
+            <div class="bg-sky-50/60 px-3.5 py-2.5 rounded-2xl border border-sky-200/80 space-y-1.5">
+              <div class="flex items-center justify-between gap-2 text-[11px]">
+                <span class="font-semibold text-sky-950">Vay / Nợ (${escapeHtml(periodName)})</span>
+                <span class="font-bold ${s.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"} whitespace-nowrap">Ròng: ${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}</span>
+              </div>
+              <div class="flex items-center justify-between gap-2 text-[10px] text-slate-600">
+                <span class="whitespace-nowrap">Người nợ mình: <b class="font-semibold text-emerald-700">+${formatVND(s.receivableTotal)}</b></span>
+                <span class="whitespace-nowrap">Mình nợ: <b class="font-semibold text-rose-600">-${formatVND(s.payableTotal)}</b></span>
+              </div>
+              <div class="pt-1 border-t border-sky-200/60 flex items-center justify-between gap-2 text-[10px] text-sky-950">
+                <span>Nợ ròng lũy kế toàn sổ:</span>
+                <span class="font-semibold ${overallAllTime.netDebt >= 0 ? "text-emerald-700" : "text-rose-600"} whitespace-nowrap">${overallAllTime.netDebt >= 0 ? "+" : ""}${formatVND(overallAllTime.netDebt)}</span>
+              </div>
+            </div>
+          `;
+        } else if (useCompactMatrix) {
           const workLabel = getMinorDisplayName("Công việc");
           const includeDebtCash = isDebtCashflowIncludedInReports();
           content.innerHTML = `
