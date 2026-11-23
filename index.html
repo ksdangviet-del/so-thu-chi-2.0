@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.70";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.72";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -102,8 +102,6 @@
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
       overscroll-behavior-y: contain;
-      will-change: scroll-position;
-      transform: translateZ(0);
     }
     .app-shell {
       max-width: 480px;
@@ -186,7 +184,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.70
+            v1.72
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -447,9 +445,9 @@
     </div>
   </div>
 
-  <!-- 4. Hộp thoại Báo Cáo Phân Tích & Xuất Ảnh JPG (Căn giữa màn hình) -->
-  <div id="modal-analytics" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-center justify-center p-3">
-    <div id="analytics-dialog-card" class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[88dvh] flex flex-col">
+  <!-- 4. Hộp thoại Báo Cáo Phân Tích & Xuất Ảnh JPG -->
+  <div id="modal-analytics" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-start sm:items-center justify-center pt-12 px-2.5 pb-2.5">
+    <div id="analytics-dialog-card" class="bg-white w-full max-w-[440px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden h-[82dvh] max-h-[82dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between shrink-0">
         <h3 class="font-semibold text-sm">Báo Cáo Tài Chính &amp; Xuất Ảnh</h3>
         <button onclick="closeModal('modal-analytics')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
@@ -763,7 +761,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.71";
+    const LATEST_APP_VERSION = "v1.72";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -781,6 +779,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.72",
+        date: "23/11/2026",
+        title: "Chuyển đổi tức thì 0ms giữa Ngày / Tháng / Năm / Tất cả trên iPhone (khắc phục treo nhịp chạm và mất danh sách khi vuốt nhanh)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true },
+        changes: [
+          "Cập nhật trực tiếp trạng thái nút Ngày / Tháng / Năm / Tất cả bằng lớp CSS thay vì xóa/dựng lại nút HTML, giúp nút ăn ngay 100% từ lần chạm đầu tiên kể cả khi danh sách đang có quán tính vuốt.",
+          "Bỏ vẽ lại Icon/Header và gỡ lớp khóa đồ họa gây kẹt khung hình Safari iOS khi chuyển tab thời gian nhanh, đồng thời đặt lại scrollTop = 0 để không bao giờ mất giao dịch."
+        ]
+      },
       {
         version: "v1.71",
         date: "23/11/2026",
@@ -865,6 +873,24 @@
         features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true },
         changes: [
           "Phiên bản chuẩn nền tảng cho giao diện ngân hàng số, Delta Sync 0,2s, Quét Gmail 90 ngày, Nói AI 0ms, Ảnh Bill OCR và Báo cáo xuất ảnh JPG."
+        ]
+      },
+      {
+        version: "v1.52",
+        date: "22/11/2026",
+        title: "Giao diện Ngân hàng số chuẩn mực (Be Vietnam Pro, Icon SVG nét mảnh 2 tông màu & Ghi đè cache gốc iOS PWA)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true },
+        changes: [
+          "Phông chữ Be Vietnam Pro thanh nét (Medium 500 – SemiBold 600 – Bold 700), bộ Icon SVG nét mảnh 2 tông màu Cam – Xám than và thanh điều hướng viên thuốc nổi."
+        ]
+      },
+      {
+        version: "v1.0",
+        date: "21/11/2026",
+        title: "Phiên bản khởi đầu Sổ Thu Chi Thông Minh",
+        features: { filterLayout: "two-rows", txDateLayout: "grouped-header", summaryCardButtons: true, overviewReportTab: false, separateBalanceAndDebt: false, periodBarLayout: "pill-left", voiceEditableCard: false, keyboardMicOnly: false, alwaysShowVoiceTable: false },
+        changes: [
+          "Giao diện Cam - Trắng di động, lưu trữ bền vững 7 lớp, Nói AI 0ms, Quét Bill OCR, Quét Gmail 90 ngày và đồng bộ Google Sheets."
         ]
       }
     ];
@@ -1279,7 +1305,7 @@
             `}
           </div>
 
-          <!-- Tầng 2: Dải thẻ ngang Mục Lớn (Chỉ chọn 1 Mục Lớn để thao tác, không cuộn dài) -->
+          <!-- Tầng 2: Dải thẻ ngang Mục Lớn -->
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             ${allMajorKeys.map(mKey => {
               const isSelected = mKey === canonMajor;
@@ -1296,7 +1322,6 @@
             </button>
           </div>
 
-          <!-- Khung thêm Mục Lớn mới (thu gọn, chỉ bung khi bấm + Thêm mục lớn) -->
           ${showAddMajorForm ? `
             <div class="bg-emerald-50/80 p-3 rounded-2xl border border-emerald-200 space-y-2">
               <div class="flex items-center justify-between">
@@ -1311,10 +1336,8 @@
             </div>
           ` : ""}
 
-          <!-- Khung chi tiết duy nhất của Mục Lớn đang chọn -->
           ${canonMajor ? `
             <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
-              <!-- Tiêu đề Mục Lớn (chạm để sửa tên tại chỗ) -->
               <div class="px-3 py-2.5 bg-orange-50/60 border-b border-orange-100 flex items-center justify-between gap-2">
                 ${isEditingMajor ? `
                   <input id="inline-active-input" type="text" value="${escapeHtml(curMajVal)}" oninput="updateDraftMajorLabel('${escapeHtml(canonMajor)}', this.value)" onkeydown="if(event.key==='Enter')setInlineEditKey('')" class="flex-1 min-w-0 rounded-xl border border-orange-400 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:outline-none" />
@@ -1345,7 +1368,6 @@
                 </div>
               ` : ""}
 
-              <!-- Danh sách Mục Nhỏ dạng dòng gọn gàng, chạm dòng nào sửa dòng đó -->
               <div class="divide-y divide-slate-100">
                 ${combinedMins.map((canonMinor, minIdx) => {
                   const isBuiltInMinor = baseMins.includes(canonMinor);
@@ -1379,7 +1401,6 @@
                 }).join("")}
               </div>
 
-              <!-- Dòng thêm Mục Nhỏ thu gọn ở đáy thẻ -->
               <div class="p-2.5 bg-slate-50/70 border-t border-slate-100">
                 ${showAddMinorForm ? `
                   <div class="flex items-center gap-1.5">
@@ -1399,7 +1420,6 @@
         return;
       }
 
-      // Giao diện gốc cho v1.66 & v1.67
       body.innerHTML = `
         <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/90 space-y-1.5">
           <div class="flex items-center justify-between">
@@ -3518,6 +3538,15 @@
       }
     }
 
+    function syncPeriodTabsVisualState() {
+      document.querySelectorAll("#period-bar-mount .period-tab").forEach(btn => {
+        const isActive = btn.dataset.mode === periodMode;
+        btn.className = isActive
+          ? "period-tab py-1 rounded-full text-[11px] transition font-semibold bg-white text-orange-600 shadow-xs"
+          : "period-tab py-1 rounded-full text-[11px] transition font-medium text-white/95 hover:bg-white/15";
+      });
+    }
+
     function renderPeriodBar() {
       const mount = document.getElementById("period-bar-mount");
       const modes = [
@@ -3544,8 +3573,32 @@
       updatePeriodLabel();
     }
 
+    function updatePeriodTabsUI() {
+      document.querySelectorAll("#period-bar-mount .period-tab").forEach(btn => {
+        const isActive = btn.dataset.mode === periodMode;
+        btn.className = isActive
+          ? "period-tab py-1 rounded-full text-[11px] transition font-semibold bg-white text-orange-600 shadow-xs"
+          : "period-tab py-1 rounded-full text-[11px] transition font-medium text-white/95 hover:bg-white/15";
+      });
+      updatePeriodLabel();
+    }
+
+    function refreshPeriodDataOnly() {
+      const listEl = document.getElementById("transaction-list");
+      if (listEl) listEl.scrollTop = 0;
+      renderSummaryCards();
+      renderTransactions();
+    }
+
     function setPeriodMode(mode) {
+      if (periodMode === mode) return;
       periodMode = mode;
+      const cfg = getActiveVersionConfig();
+      if (cfg.features.zeroLagPeriodSwitch && document.querySelector("#period-bar-mount .period-tab")) {
+        updatePeriodTabsUI();
+        refreshPeriodDataOnly();
+        return;
+      }
       renderPeriodBar();
       renderAll();
     }
@@ -3555,6 +3608,11 @@
       else if (periodMode === "month") currentCursor.setMonth(currentCursor.getMonth() + delta);
       else if (periodMode === "year") currentCursor.setFullYear(currentCursor.getFullYear() + delta);
       updatePeriodLabel();
+      const cfg = getActiveVersionConfig();
+      if (cfg.features.zeroLagPeriodSwitch) {
+        refreshPeriodDataOnly();
+        return;
+      }
       renderAll();
     }
 
