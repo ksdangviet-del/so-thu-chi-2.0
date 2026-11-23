@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.82";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.83";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -203,7 +203,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.82
+            v1.83
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -783,7 +783,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.82";
+    const LATEST_APP_VERSION = "v1.83";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -803,6 +803,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.83",
+        date: "23/11/2026",
+        title: "Tự động gom cả Thu & Chi khi lọc theo thành viên (Bố, Mẹ, Cả nhà...) và tự đồng bộ Mục Lớn khi chuyển Loại Thu ↔ Chi",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true, zaloDarkAndLightFastOcr: true, habitBasedBillAutoFillNoBox: true, cleanOverviewCardsNoTruncation: true, iosGlobalBounceGuardZeroLag: true, smartLinkedFilterForMembers: true },
+        changes: [
+          "Khi chọn tên thành viên ở ô Mục lớn (VD: 'Bố (Việt Chuôi)') mà ô Loại đang để Tất cả, hệ thống tự động hiển thị đầy đủ cả Khoản Thu lẫn Khoản Chi của thành viên đó (kèm đầy đủ Mục nhỏ của cả 2 bên).",
+          "Khi đang chọn 'Bố (Việt Chuôi)' rồi chuyển ô Loại sang 'Thu' (hoặc ngược lại), ô Mục lớn tự động đổi sang 'Thu nhập Bố (Việt Chuôi)' để trả về đúng toàn bộ giao dịch Thu thay vì 0 giao dịch."
+        ]
+      },
       {
         version: "v1.82",
         date: "23/11/2026",
@@ -4511,10 +4521,18 @@
     function populateMinorFilterOptions(selectedMajor, selectedMinor = "") {
       const minorSelect = document.getElementById("filter-minor");
       if (!minorSelect) return;
+      const cfg = getActiveVersionConfig();
       const tree = getMergedCategoryTree(false);
       let minors = [];
       if (selectedMajor) {
-        minors = tree.expense[selectedMajor] || tree.income[selectedMajor] || tree.debt[selectedMajor] || [];
+        if (cfg.features.smartLinkedFilterForMembers && activeTypeFilter === "all") {
+          const counterpart = getFilterLinkedMajor(selectedMajor);
+          const m1 = tree.expense[selectedMajor] || tree.income[selectedMajor] || tree.debt[selectedMajor] || [];
+          const m2 = counterpart ? (tree.expense[counterpart] || tree.income[counterpart] || tree.debt[counterpart] || []) : [];
+          minors = [...new Set([...m1, ...m2])];
+        } else {
+          minors = tree.expense[selectedMajor] || tree.income[selectedMajor] || tree.debt[selectedMajor] || [];
+        }
       } else {
         const sets = [
           ...Object.values(tree.expense).flat(),
@@ -4527,15 +4545,52 @@
         minors.map(m => `<option value="${escapeHtml(m)}" ${m === selectedMinor ? "selected" : ""}>${escapeHtml(getMinorDisplayName(m))}</option>`).join("");
     }
 
+    function getFilterLinkedMajor(canonMajor) {
+      if (!canonMajor) return "";
+      if (LINKED_MAJOR_PAIRS[canonMajor]) return LINKED_MAJOR_PAIRS[canonMajor];
+      const stripIncomePrefix = (s) => String(s || "").replace(/^Thu\s+nhập\s+/i, "").trim();
+      const coreName = stripIncomePrefix(canonMajor);
+      const tree = getMergedCategoryTree(true);
+      const allKeys = [...new Set([...Object.keys(tree.expense || {}), ...Object.keys(tree.income || {})])];
+      return allKeys.find(k => k !== canonMajor && stripIncomePrefix(k).toLowerCase() === coreName.toLowerCase()) || "";
+    }
+
     function onFilterMajorChange() {
-      const maj = document.getElementById("filter-major")?.value || "";
+      const cfg = getActiveVersionConfig();
+      const majEl = document.getElementById("filter-major");
+      const maj = majEl?.value || "";
+      if (cfg.features.smartLinkedFilterForMembers && maj && (activeTypeFilter === "income" || activeTypeFilter === "expense")) {
+        const tree = getMergedCategoryTree(true);
+        if (!tree[activeTypeFilter]?.[maj]) {
+          const counterpart = getFilterLinkedMajor(maj);
+          if (counterpart && tree[activeTypeFilter]?.[counterpart]) {
+            majEl.value = counterpart;
+            populateMinorFilterOptions(counterpart, "");
+            renderTransactions();
+            return;
+          }
+        }
+      }
       populateMinorFilterOptions(maj, "");
       renderTransactions();
     }
 
     function setTypeFilter(t) {
+      const cfg = getActiveVersionConfig();
+      const prevMajor = document.getElementById("filter-major")?.value || "";
       activeTypeFilter = t;
       renderFilterBar();
+      if (cfg.features.smartLinkedFilterForMembers && prevMajor && (t === "income" || t === "expense")) {
+        const tree = getMergedCategoryTree(true);
+        const majEl = document.getElementById("filter-major");
+        if (majEl && !tree[t]?.[prevMajor]) {
+          const counterpart = getFilterLinkedMajor(prevMajor);
+          if (counterpart && tree[t]?.[counterpart]) {
+            majEl.value = counterpart;
+            populateMinorFilterOptions(counterpart, "");
+          }
+        }
+      }
       renderTransactions();
     }
 
@@ -4552,14 +4607,22 @@
     }
 
     function renderTransactions() {
+      const cfg = getActiveVersionConfig();
       const keyword = (document.getElementById("tx-search-input")?.value || "").trim().toLowerCase();
       const majorFilter = document.getElementById("filter-major")?.value || "";
       const minorFilter = document.getElementById("filter-minor")?.value || "";
+      const linkedMajorForAll = (cfg.features.smartLinkedFilterForMembers && activeTypeFilter === "all" && majorFilter)
+        ? getFilterLinkedMajor(majorFilter)
+        : "";
 
       const filtered = transactions.filter(tx => {
         if (!isTxInCurrentPeriod(tx)) return false;
         if (activeTypeFilter !== "all" && tx.type !== activeTypeFilter) return false;
-        if (majorFilter && tx.major !== majorFilter) return false;
+        if (majorFilter) {
+          const matchMain = tx.major === majorFilter;
+          const matchLinked = linkedMajorForAll && tx.major === linkedMajorForAll;
+          if (!matchMain && !matchLinked) return false;
+        }
         if (minorFilter && tx.minor !== minorFilter) return false;
         if (keyword) {
           const hay = `${tx.note} ${tx.major} ${getMajorDisplayName(tx.major)} ${tx.minor} ${getMinorDisplayName(tx.minor)} ${tx.person || ""} ${tx.amount}`.toLowerCase();
