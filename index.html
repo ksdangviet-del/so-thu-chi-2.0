@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.77";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.78";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -194,7 +194,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.77
+            v1.78
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -251,15 +251,15 @@
 
   <!-- ==================== CÁC HỘP THOẠI (MODALS) ==================== -->
 
-  <!-- 1. Hộp thoại Nói AI (Tự động điền Bảng Giao Dịch 0ms) -->
+  <!-- 1. Hộp thoại Nói AI (Tự động điền Bảng Giao Dịch 0ms & Nhập hàng loạt Zalo) -->
   <div id="modal-voice-ai" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
           <svg class="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
           <div>
-            <h3 class="font-semibold text-sm">Nói AI Siêu Tốc (0ms)</h3>
-            <p class="text-[11px] text-orange-100">Chạm micro bàn phím để nói hoặc gõ câu thoại</p>
+            <h3 class="font-semibold text-sm">Nói AI &amp; Dán Tin Nhắn Zalo (0ms)</h3>
+            <p class="text-[11px] text-orange-100">Nói hoặc dán đoạn ghi chép Zalo nhiều ngày / nhiều dòng</p>
           </div>
         </div>
         <button onclick="closeModal('modal-voice-ai')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
@@ -268,13 +268,13 @@
       <div class="p-3.5 space-y-3 overflow-y-auto">
         <div class="space-y-1.5">
           <div class="flex items-center justify-between">
-            <label class="text-[11px] font-semibold text-slate-600">Câu thoại của bạn:</label>
+            <label class="text-[11px] font-semibold text-slate-600">Câu thoại hoặc đoạn chat Zalo:</label>
             <div class="flex items-center gap-1.5">
               <button id="btn-web-speech" onclick="toggleWebSpeech()" class="hidden px-2 py-0.5 rounded-lg bg-orange-100 text-orange-700 text-[11px] font-semibold">Nghe trực tiếp</button>
               <button onclick="clearVoiceInput()" class="px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-[11px] font-medium">Xóa câu</button>
             </div>
           </div>
-          <textarea id="voice-text-input" rows="2" placeholder="VD: Cho bơ ăn sáng 20000, đóng họ 2 triệu, lấy họ 10 triệu..." class="w-full rounded-2xl border border-slate-200 focus:border-orange-500 focus:outline-none p-2.5 text-sm font-normal bg-slate-50/60"></textarea>
+          <textarea id="voice-text-input" rows="3" placeholder="VD: Cho bơ ăn sáng 20000... hoặc dán tin nhắn Zalo:&#10;Ngày 21/11/2026:&#10;- Thu: 200.000.000 a Tỵ tt ct TG-A TỴ K1HA&#10;- Chi: 50.000.000 tt VLXD ct TG-A TỴ K1HA" class="w-full rounded-2xl border border-slate-200 focus:border-orange-500 focus:outline-none p-2.5 text-sm font-normal bg-slate-50/60"></textarea>
 
           <div id="voice-suggestions-bar" class="pt-0.5"></div>
         </div>
@@ -351,13 +351,13 @@
     </div>
   </div>
 
-  <!-- 3. Hộp thoại Quét Ảnh Bill / Hóa Đơn -->
+  <!-- 3. Hộp thoại Quét Ảnh Bill / Hóa Đơn & Ảnh Chụp Nhóm Zalo -->
   <div id="modal-bill" class="fixed inset-0 z-50 hidden bg-slate-900/55 backdrop-blur-xs flex items-end sm:items-center justify-center p-2.5">
     <div class="bg-white w-full max-w-[460px] rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden max-h-[92dvh] flex flex-col">
       <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
-          <h3 class="font-semibold text-sm">Quét Ảnh Bill / Hóa Đơn</h3>
-          <p class="text-[11px] text-orange-100">Trích xuất đa định dạng • Hỗ trợ Chi, Thu &amp; Vay/Trả</p>
+          <h3 class="font-semibold text-sm">Quét Ảnh Bill &amp; Ảnh Chụp Nhóm Zalo</h3>
+          <p class="text-[11px] text-orange-100">Tự lọc bong bóng xanh của bạn trên ảnh Zalo • Hỗ trợ Bill CK</p>
         </div>
         <button onclick="closeModal('modal-bill')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
       </div>
@@ -387,6 +387,9 @@
         </div>
 
         <div id="bill-ocr-status" class="hidden text-xs font-medium text-orange-700 bg-orange-50 px-3 py-2 rounded-xl border border-orange-200"></div>
+
+        <!-- Vùng hiển thị danh sách hàng loạt khi quét ảnh chụp màn hình nhóm chat Zalo -->
+        <div id="bill-zalo-batch-box" class="hidden space-y-2.5"></div>
 
         <div id="bill-smart-suggestions" class="hidden space-y-2 bg-amber-50/70 p-2.5 rounded-2xl border border-amber-200/80"></div>
 
@@ -771,7 +774,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.77";
+    const LATEST_APP_VERSION = "v1.78";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -779,6 +782,8 @@
     let activeTypeFilter = "all";
     let currentAnalyticsTab = "overview";
     let nlpParsedItems = [];
+    let billZaloBatchItems = [];
+    let lastUploadedBillFile = null;
     let gmailScannedCandidates = [];
     let gmailHiddenImportedCount = 0;
     let isRecording = false;
@@ -789,6 +794,17 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.78",
+        date: "23/11/2026",
+        title: "Tự động nhập hàng loạt giao dịch Công việc từ tin nhắn & ảnh chụp màn hình nhóm chat Zalo (tự lọc bong bóng xanh của bạn) + Nạp dữ liệu mẫu toàn diện",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true },
+        changes: [
+          "Dán tin nhắn Zalo công việc nhiều ngày/nhiều dòng ('Ngày 21/11/2026: - Thu: ... - Chi: ...') vào Nói AI: tự động tách từng giao dịch theo đúng ngày, điền sẵn Bố → Công việc / Thu nhập Bố → Công việc kèm nút 'Lưu tất cả' 1 chạm.",
+          "Chụp/tải ảnh màn hình nhóm chat Zalo vào Ảnh Bill: tự động nhận diện và cắt lọc riêng vùng bong bóng xanh dương bên phải của bạn (bỏ qua tin nhắn người khác bên trái), trích xuất hàng loạt để lưu nhanh 1 chạm.",
+          "Bổ sung bộ Dữ Liệu Mẫu Toàn Diện (Gia đình, Công việc, Nợ cũ đầu kỳ, Thu hồi nợ, Cho vay mới, Đi vay mới, Trả nợ) giúp kiểm tra ngay mọi báo cáo."
+        ]
+      },
       {
         version: "v1.77",
         date: "23/11/2026",
@@ -2156,7 +2172,77 @@
       } catch (e) {}
     }
 
-    // ==================== 7. NÓI AI (NLP TIẾNG VIỆT 0MS) ====================
+    // ==================== 7. NÓI AI & BÓC TÁCH TIN NHẮN ZALO CÔNG VIỆC (NLP 0MS) ====================
+    function isZaloWorkBatchEnabled() {
+      return Boolean(getActiveVersionConfig().features.zaloWorkBatchParserAndBlueBubbleCrop);
+    }
+
+    function parseZaloWorkBatchText(rawText) {
+      if (!isZaloWorkBatchEnabled()) return null;
+      const lines = String(rawText || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      if (!lines.length) return null;
+
+      let activeDateISO = toISODate(new Date());
+      let sawDayHeader = false;
+      const items = [];
+
+      for (const line of lines) {
+        // Bỏ qua các dòng tiêu đề/giờ chat Zalo thuần túy (VD: "08:27", "T3 27/10/2026", "HIẾU KA-HOME", "SEN KA-HOME")
+        if (/^(?:[01]?\d|2[0-3]):[0-5]\d(?:\s+\d{1,2}\/\d{1,2}\/\d{4})?$/.test(line)) continue;
+        if (/^(?:T[2-7]|CN)\s+\d{1,2}\/\d{1,2}\/\d{4}$/i.test(line)) {
+          const dm = line.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+          if (dm) activeDateISO = `${dm[3]}-${String(Number(dm[2])).padStart(2, "0")}-${String(Number(dm[1])).padStart(2, "0")}`;
+          continue;
+        }
+
+        // Bắt cụm ngày dạng: "Ngày 21/11/2026:" hoặc "Ngày 27/10/2026"
+        const dateHeaderMatch = line.match(/^[-•*]?\s*Ngày\s+(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?\s*:?\s*$/i);
+        if (dateHeaderMatch) {
+          const d = String(Number(dateHeaderMatch[1])).padStart(2, "0");
+          const m = String(Number(dateHeaderMatch[2])).padStart(2, "0");
+          const rawY = dateHeaderMatch[3] || String(new Date().getFullYear());
+          const y = rawY.length === 2 ? `20${rawY}` : rawY;
+          if (Number(d) >= 1 && Number(d) <= 31 && Number(m) >= 1 && Number(m) <= 12) {
+            activeDateISO = `${y}-${m}-${d}`;
+            sawDayHeader = true;
+          }
+          continue;
+        }
+
+        // Bắt dòng giao dịch Zalo dạng: "- Thu: 200.000.000 a Tỵ tt ct TG-A TỴ K1HA" hoặc "- Chi: 50.000.000 tt VLXD..."
+        const entryMatch = line.match(/^[-•*]?\s*(Thu|Chi)\s*[:\-]\s*(.+)$/i);
+        if (entryMatch) {
+          const kindRaw = entryMatch[1].toLowerCase();
+          const rest = entryMatch[2].trim();
+          const { amount, stripped } = parseVietnameseMoney(rest);
+          if (amount > 0) {
+            const isIncome = kindRaw === "thu";
+            const cleanNote = stripped
+              .replace(/^[:\-–•\s]+/, "")
+              .replace(/\s+/g, " ")
+              .trim() || (isIncome ? "Thu công việc" : "Chi công việc");
+
+            items.push({
+              type: isIncome ? "income" : "expense",
+              major: isIncome ? "Thu nhập Bố (Hồng Việt)" : "Bố (Hồng Việt)",
+              minor: "Công việc",
+              amount,
+              date: activeDateISO,
+              note: cleanNote,
+              person: "",
+              debtDirection: "",
+              isZaloWorkItem: true
+            });
+          }
+        }
+      }
+
+      if (items.length >= 2 || (items.length === 1 && sawDayHeader)) {
+        return items;
+      }
+      return null;
+    }
+
     function parseVietnameseDate(text) {
       const now = new Date();
       let cleaned = text;
@@ -2428,17 +2514,133 @@
           }
         }
       }
-      if (!matchedLearned && matchedCustomMinor) {
-        const mergedTree = getMergedCategoryTree(true);
-        for (const tKey of ["expense", "income", "debt"]) {
-          for (const [majKey, minArr] of Object.entries(mergedTree[tKey] || {})) {
-            if (minArr.includes(matchedCustomMinor)) {
-              type = tKey;
-              if (!matchedCustomMajor) major = majKey;
-              if ((mergedTree[tKey][major] || []).includes(matchedCustomMinor)) {
-                minor = matchedCustomMinor;
+
+      if (!matchedLearned) {
+        const isGiveToMe = /^[a-zA-ZÀ-ỹ]+(?:\s+[a-zA-ZÀ-ỹ]+){0,3}\s+(?:cho|gửi|biếu|tặng|chuyển)\s+(?:tôi|mình|em|bố)(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(stripped) ||
+                           /^(?:được\s+)?(?:anh|chị|cô|chú|bác|em|bạn|ông|bà)\s+[a-zA-ZÀ-ỹ]+(?:\s+[a-zA-ZÀ-ỹ]+)?\s+(?:cho|gửi|biếu|tặng)(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(stripped);
+
+        if (/(?:vay|mượn|nợ|trả nợ|thu hồi nợ|đòi nợ|trả lại|trả bớt|trả\s+(?:cho\s+)?(?:anh|chị|cô|chú|bác|em|bạn|ông|bà))/i.test(lower)) {
+          type = "debt";
+          major = "Vay / Nợ";
+          const debtInfo = parseDebtContext(stripped);
+          minor = debtInfo.minor;
+          debtDirection = debtInfo.debtDirection;
+          person = debtInfo.person;
+        } else if (isFamilyWorkSplitEnabled() && /(?:công việc|tạm ứng|hoàn ứng|tiếp khách|công tác|ứng công|thanh toán công trình|vlxd|vlka)/i.test(lower)) {
+          const isWorkIncome = isGiveToMe || /(?:thu|nhận|hoàn ứng|khách trả|thanh toán cho mình|tt ct)/i.test(lower);
+          type = isWorkIncome ? "income" : "expense";
+          major = isWorkIncome ? "Thu nhập Bố (Hồng Việt)" : "Bố (Hồng Việt)";
+          minor = "Công việc";
+        } else if (isGiveToMe) {
+          type = "income";
+          major = "Thu nhập Bố (Hồng Việt)";
+          minor = "Thu nhập ngoài / Làm thêm";
+        } else if (/(?:lấy họ|hốt họ|thu họ)/i.test(lower)) {
+          type = "income";
+          major = "Thu nhập Bố (Hồng Việt)";
+          minor = "Lấy họ";
+        } else if (/(?:lương|thưởng|phụ cấp|bán hàng|lãi tiết kiệm|hoàn tiền|nhận tiền|thu nhập|tiền về)/i.test(lower)) {
+          type = "income";
+          const isMe = /(?:quỳnh|mẹ|vợ)/i.test(lower);
+          const isCaNha = /(?:lãi tiết kiệm|đầu tư|hoàn tiền|cả nhà)/i.test(lower);
+          if (isCaNha) {
+            major = "Thu nhập Cả nhà";
+            minor = /lãi|đầu tư/i.test(lower) ? "Lãi tiết kiệm & Đầu tư" : "Quà tặng / Hoàn tiền";
+          } else if (isMe) {
+            major = "Thu nhập Mẹ (Như Quỳnh)";
+            minor = /lương/i.test(lower) ? "Lương chính" : (/thưởng|phụ cấp/i.test(lower) ? "Thưởng & Phụ cấp" : (/bán hàng/i.test(lower) ? "Thu nhập ngoài / Bán hàng" : "Thu khác"));
+          } else {
+            major = "Thu nhập Bố (Hồng Việt)";
+            minor = /lương/i.test(lower) ? "Lương chính" : (/thưởng|phụ cấp/i.test(lower) ? "Thưởng & Phụ cấp" : (/làm thêm|ngoài/i.test(lower) ? "Thu nhập ngoài / Làm thêm" : "Thu khác"));
+          }
+        } else {
+          type = "expense";
+          if (/(?:^|[^a-zA-ZÀ-ỹ0-9_])(?:bơ|việt anh)(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(lower)) {
+            major = "Bơ (Việt Anh - 9t)";
+            if (/học phí|tiền học|trường/i.test(lower)) minor = "Tiền học & Học phí";
+            else if (/học thêm|năng khiếu|tiếng anh|vẽ|bơi|đàn/i.test(lower)) minor = "Học thêm & Năng khiếu";
+            else if (/sách|vở|bút|cặp|đồ dùng học/i.test(lower)) minor = "Sách vở & Đồ dùng học tập";
+            else if (/ăn|sữa|bánh|kẹo|sáng|trưa|tối/i.test(lower)) minor = "Ăn uống & Sữa";
+            else if (/quần|áo|giày|dép|mũ/i.test(lower)) minor = "Quần áo & Giày dép";
+            else if (/thuốc|khám|bệnh|y tế|bác sĩ/i.test(lower)) minor = "Y tế & Thuốc men";
+            else if (/đồ chơi|giải trí|công viên|xem phim/i.test(lower)) minor = "Đồ chơi & Giải trí";
+            else minor = "Chi khác";
+          } else if (/(?:^|[^a-zA-ZÀ-ỹ0-9_])(?:pu|quỳnh anh|bỉm|ăn dặm|gửi trẻ|mầm non)(?=$|[^a-zA-ZÀ-ỹ0-9_])/i.test(lower)) {
+            major = "Pu (Quỳnh Anh - 2t)";
+            if (/sữa|bỉm|tã/i.test(lower)) minor = "Sữa & Bỉm";
+            else if (/ăn dặm|bột|cháo|dinh dưỡng/i.test(lower)) minor = "Ăn dặm & Dinh dưỡng";
+            else if (/gửi trẻ|mầm non|nhà trẻ|lớp/i.test(lower)) minor = "Gửi trẻ / Mầm non";
+            else if (/quần|áo|váy|yếm|đồ dùng/i.test(lower)) minor = "Quần áo & Đồ dùng bé";
+            else if (/thuốc|khám|tiêm|y tế/i.test(lower)) minor = "Y tế & Thuốc men";
+            else if (/đồ chơi|sách tranh|gấu/i.test(lower)) minor = "Đồ chơi & Sách tranh";
+            else minor = "Chi khác";
+          } else if (/(?:quỳnh|mẹ|vợ)/i.test(lower)) {
+            major = "Mẹ (Như Quỳnh)";
+            if (/đi chợ|nấu ăn|rau|thịt|cá/i.test(lower)) minor = "Đi chợ & Nấu ăn";
+            else if (/ăn|cà phê|cafe|trà sữa/i.test(lower)) minor = "Tiền ăn & Cà phê";
+            else if (/quần|áo|váy|mỹ phẩm|son|tóc|spa|làm đẹp/i.test(lower)) minor = "Quần áo & Làm đẹp";
+            else if (/điện thoại|4g|cước/i.test(lower)) minor = "Điện thoại & 4G";
+            else if (/thuốc|khám|y tế|sức khỏe/i.test(lower)) minor = "Y tế & Sức khỏe";
+            else if (/giao lưu|bạn bè|sinh nhật/i.test(lower)) minor = "Giao lưu & Bạn bè";
+            else minor = "Chi khác";
+          } else if (/(?:đóng họ|trả lãi|xăng|gửi xe|rửa xe|sửa xe|bảo dưỡng|cà phê|cafe|nhậu|tiếp khách|4g|cắt tóc|thể thao|gym|bóng)/i.test(lower)) {
+            major = "Bố (Hồng Việt)";
+            if (/đóng họ|góp họ|tiền họ/i.test(lower)) minor = "Đóng họ";
+            else if (/trả lãi ngân hàng|lãi vay ngân hàng|lãi bank/i.test(lower)) minor = "Trả lãi ngân hàng";
+            else if (/trả lãi cá nhân|trả lãi/i.test(lower)) minor = "Trả lãi cá nhân";
+            else if (/xăng|gửi xe|vé xe/i.test(lower)) minor = "Xăng xe & Gửi xe";
+            else if (/sửa xe|bảo dưỡng|thay dầu|lốp|rửa xe/i.test(lower)) minor = "Bảo dưỡng & Sửa xe";
+            else if (/điện thoại|4g|nạp thẻ/i.test(lower)) minor = "Điện thoại & 4G";
+            else if (/quần|áo|giày|cắt tóc|cá nhân/i.test(lower)) minor = "Quần áo & Cá nhân";
+            else if (/giao lưu|tiếp khách|nhậu|công việc|đối tác/i.test(lower)) minor = "Giao lưu & Công việc";
+            else if (/thể thao|gym|bóng|chạy bộ|sức khỏe|thuốc/i.test(lower)) minor = "Thể thao & Sức khỏe";
+            else if (/giải trí|phim|game/i.test(lower)) minor = "Giải trí";
+            else minor = "Tiền ăn & Cà phê";
+          } else {
+            major = "Cả nhà";
+            if (/tiền điện|hóa đơn điện|evn|\bđiện\b/i.test(lower)) minor = "Điện";
+            else if (/tiền nước|hóa đơn nước|\bnước\b/i.test(lower)) minor = "Nước";
+            else if (/internet|wifi|mạng|truyền hình|cáp/i.test(lower)) minor = "Internet & Truyền hình";
+            else if (/thuê nhà|chung cư|phí quản lý|dịch vụ/i.test(lower)) minor = "Thuê nhà / Phí chung cư";
+            else if (/gia dụng|nồi|chảo|máy giặt|tủ lạnh|bàn ghế|đồ dùng/i.test(lower)) minor = "Mua sắm đồ gia dụng";
+            else if (/du lịch|nghỉ mát|khách sạn|vé máy bay|giải trí/i.test(lower)) minor = "Du lịch & Giải trí";
+            else if (/hiếu|hỉ|đám cưới|đám ma|ma chay|quà biếu|mừng cưới|thăm hỏi/i.test(lower)) minor = "Hiếu hỉ & Quà biếu";
+            else if (/y tế|bệnh viện|khám bệnh|thuốc/i.test(lower)) minor = "Y tế chung";
+            else if (/ăn|chợ|thực phẩm|siêu thị|gạo|thịt|rau|bún|phở|cơm/i.test(lower)) minor = "Tiền ăn & Thực phẩm";
+            else minor = "Chi khác";
+          }
+        }
+
+        if (matchedCustomMajor) {
+          const mergedTree = getMergedCategoryTree(true);
+          if (mergedTree[type]?.[matchedCustomMajor]) {
+            major = matchedCustomMajor;
+            if (!mergedTree[type][major].includes(minor)) {
+              minor = mergedTree[type][major][0] || minor;
+            }
+          } else {
+            for (const tKey of ["expense", "income", "debt"]) {
+              if (mergedTree[tKey]?.[matchedCustomMajor]) {
+                type = tKey;
+                major = matchedCustomMajor;
+                minor = mergedTree[tKey][major][0] || minor;
+                break;
               }
-              break;
+            }
+          }
+        }
+        if (matchedCustomMinor) {
+          const mergedTree = getMergedCategoryTree(true);
+          for (const tKey of ["expense", "income", "debt"]) {
+            for (const [majKey, minArr] of Object.entries(mergedTree[tKey] || {})) {
+              if (minArr.includes(matchedCustomMinor)) {
+                type = tKey;
+                if (!matchedCustomMajor) major = majKey;
+                if ((mergedTree[tKey][major] || []).includes(matchedCustomMinor)) {
+                  minor = matchedCustomMinor;
+                }
+                break;
+              }
             }
           }
         }
@@ -2492,6 +2694,15 @@
         return;
       }
 
+      // Kiểm tra mẫu tin nhắn Zalo công việc nhiều ngày / nhiều dòng trước
+      const zaloBatch = parseZaloWorkBatchText(text);
+      if (zaloBatch && zaloBatch.length > 0) {
+        nlpParsedItems = zaloBatch;
+        renderVoiceSuggestionsBar(text);
+        renderVoiceParsedCards();
+        return;
+      }
+
       const { dateISO } = parseVietnameseDate(text);
       const rawParts = text.split(/[,;]+/).map(s => s.trim()).filter(Boolean);
       const mergedClauses = [];
@@ -2529,7 +2740,17 @@
 
       bar.className = "space-y-1.5 pt-1";
       if (!text || !item) {
-        bar.innerHTML = `<p class="text-[10px] font-normal text-slate-400">Nói hoặc nhập câu thoại; nếu thiếu số tiền, đối tượng hay mục lớn/nhỏ, hệ thống sẽ gợi ý câu thoại chuẩn để chạm sửa ngay.</p>`;
+        bar.innerHTML = `<p class="text-[10px] font-normal text-slate-400">Nói câu thoại hoặc dán tin nhắn Zalo (Ngày dd/mm/yyyy: - Thu: ... - Chi: ...) để tự động bóc tách hàng loạt.</p>`;
+        return;
+      }
+
+      if (nlpParsedItems.some(it => it.isZaloWorkItem)) {
+        bar.innerHTML = `
+          <div class="flex items-center justify-between gap-2 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200/80">
+            <span class="text-[11px] font-semibold text-amber-950">Đã nhận diện mẫu Zalo Công việc (${nlpParsedItems.length} dòng)</span>
+            <span class="text-[10px] font-medium text-orange-700">Tự điền: Bố • Công việc</span>
+          </div>
+        `;
         return;
       }
 
@@ -2643,6 +2864,46 @@
       parseVoiceInputRealtime(phrase);
     }
 
+    function removeNlpItem(idx) {
+      nlpParsedItems.splice(idx, 1);
+      renderVoiceParsedCards();
+    }
+
+    function saveAllNlpItems() {
+      const validItems = nlpParsedItems.filter(it => Number(it.amount) > 0);
+      if (!validItems.length) {
+        showToast("Chưa có giao dịch hợp lệ để lưu.", "!");
+        return;
+      }
+      const newlyAdded = [];
+      for (let i = validItems.length - 1; i >= 0; i--) {
+        const item = validItems[i];
+        const cleanPerson = item.type === "debt" ? normalizePersonName(item.person) : "";
+        const newTx = {
+          id: "tx_" + Date.now() + "_" + i + "_" + Math.random().toString(36).slice(2, 5),
+          type: item.type,
+          major: item.major,
+          minor: item.minor,
+          amount: item.amount,
+          date: item.date || toISODate(new Date()),
+          note: item.note || item.minor,
+          person: cleanPerson,
+          debtDirection: item.type === "debt" ? (item.debtDirection || "receivable") : "",
+          needsReview: false
+        };
+        transactions.unshift(newTx);
+        newlyAdded.push(newTx);
+      }
+      persistLocalState();
+      renderAll();
+      autoDeltaSyncInBackground({ added: newlyAdded });
+      nlpParsedItems = [];
+      const inp = document.getElementById("voice-text-input");
+      if (inp) inp.value = "";
+      closeModal("modal-voice-ai");
+      showToast(`Đã lưu trọn bộ ${newlyAdded.length} giao dịch và tự động đẩy lên Google Sheets!`, "✓");
+    }
+
     function renderVoiceParsedCards() {
       const container = document.getElementById("voice-parsed-container");
       if (!nlpParsedItems.length) {
@@ -2650,16 +2911,32 @@
         return;
       }
 
-      container.innerHTML = nlpParsedItems.map((item, idx) => {
+      const validCount = nlpParsedItems.filter(it => Number(it.amount) > 0).length;
+      const batchHeaderHtml = (isZaloWorkBatchEnabled() && nlpParsedItems.length > 1) ? `
+        <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-200 flex items-center justify-between gap-2">
+          <div>
+            <p class="text-xs font-semibold text-emerald-950">Tìm thấy ${nlpParsedItems.length} giao dịch</p>
+            <p class="text-[10px] text-emerald-700">Kiểm tra nhanh bên dưới hoặc bấm lưu tất cả 1 chạm</p>
+          </div>
+          <button type="button" onclick="saveAllNlpItems()" class="shrink-0 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm active:scale-95 transition">
+            Lưu tất cả (${validCount})
+          </button>
+        </div>
+      ` : "";
+
+      container.innerHTML = batchHeaderHtml + nlpParsedItems.map((item, idx) => {
         const majors = getActiveMajorsForType(item.type, false);
         if (!majors.includes(item.major) && majors.length) item.major = majors[0];
         const minors = getActiveMinorsForMajor(item.type, item.major, false);
         if (!minors.includes(item.minor) && minors.length) item.minor = minors[0];
         return `
           <div class="bg-slate-50/90 p-3.5 rounded-2xl border border-slate-200/80 space-y-2.5">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-semibold text-orange-700">Bảng Giao Dịch ${nlpParsedItems.length > 1 ? `#${idx + 1}` : ""}</span>
-              <span class="text-[10px] font-normal text-slate-500">Tự động điền • Chạm để sửa</span>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-normal text-slate-500">Tự động điền • Chạm để sửa</span>
+                ${nlpParsedItems.length > 1 ? `<button type="button" onclick="removeNlpItem(${idx})" class="px-2 py-0.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 text-[10px] font-medium">Bỏ dòng</button>` : ""}
+              </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
@@ -3065,7 +3342,7 @@
       }, "!");
     }
 
-    // ==================== 9. QUÉT ẢNH BILL / HÓA ĐƠN (OCR) ====================
+    // ==================== 9. QUÉT ẢNH BILL / HÓA ĐƠN & LỌC BONG BÓNG XANH ZALO (OCR) ====================
     function cleanDuplicateCategoryFields() {
       ["modal-bill", "modal-manual-tx"].forEach(modalId => {
         const modal = document.getElementById(modalId);
@@ -3084,7 +3361,14 @@
       cleanDuplicateCategoryFields();
       const legacyBox = document.getElementById("bill-legacy-samples");
       const smartBox = document.getElementById("bill-smart-suggestions");
+      const zaloBatchBox = document.getElementById("bill-zalo-batch-box");
+      billZaloBatchItems = [];
+      lastUploadedBillFile = null;
       document.getElementById("bill-ocr-status").classList.add("hidden");
+      if (zaloBatchBox) {
+        zaloBatchBox.classList.add("hidden");
+        zaloBatchBox.innerHTML = "";
+      }
       if (smartBox) {
         smartBox.classList.add("hidden");
         smartBox.innerHTML = "";
@@ -3408,6 +3692,193 @@
       }
     }
 
+    // Tự động phát hiện và cắt lọc riêng vùng bong bóng xanh dương bên phải của bạn trên ảnh chụp màn hình nhóm chat Zalo
+    function extractZaloBlueBubbleCanvas(file) {
+      return new Promise((resolve) => {
+        if (!isZaloWorkBatchEnabled()) {
+          resolve({ isZaloChat: false, canvas: null });
+          return;
+        }
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          try {
+            const w = img.width;
+            const h = img.height;
+            const scanCanvas = document.createElement("canvas");
+            scanCanvas.width = w;
+            scanCanvas.height = h;
+            const sCtx = scanCanvas.getContext("2d");
+            sCtx.drawImage(img, 0, 0, w, h);
+
+            const imgData = sCtx.getImageData(0, 0, w, h).data;
+            let minX = w, minY = h, maxX = 0, maxY = 0;
+            let bluePixelCount = 0;
+
+            // Quét từ cột 42% sang phải (bỏ qua cột danh sách nhóm chat bên trái & tin nhắn người khác lệch trái)
+            const startX = Math.floor(w * 0.42);
+            const step = Math.max(1, Math.floor(Math.min(w, h) / 600));
+
+            for (let y = 0; y < h; y += step) {
+              for (let x = startX; x < w; x += step) {
+                const idx = (y * w + x) * 4;
+                const r = imgData[idx];
+                const g = imgData[idx + 1];
+                const b = imgData[idx + 2];
+                // Màu nền bong bóng chat Zalo của người gửi: xanh dương nhạt (B > R + 12, B >= 225, R >= 195, G >= 215)
+                const isZaloOutgoingBlue = (b - r >= 12) && (b - g >= 5) && b >= 225 && r >= 190 && g >= 210;
+                if (isZaloOutgoingBlue) {
+                  bluePixelCount++;
+                  if (x < minX) minX = x;
+                  if (y < minY) minY = y;
+                  if (x > maxX) maxX = x;
+                  if (y > maxY) maxY = y;
+                }
+              }
+            }
+
+            const boxW = maxX - minX;
+            const boxH = maxY - minY;
+            if (bluePixelCount >= 80 && boxW > w * 0.14 && boxH > 28) {
+              const pad = Math.round(Math.max(12, w * 0.015));
+              const cropX = Math.max(0, minX - pad);
+              const cropY = Math.max(0, minY - pad);
+              const cropW = Math.min(w - cropX, boxW + pad * 2);
+              const cropH = Math.min(h - cropY, boxH + pad * 2);
+
+              const scale = cropW < 900 ? 2.2 : 1.6;
+              const outCanvas = document.createElement("canvas");
+              outCanvas.width = Math.round(cropW * scale);
+              outCanvas.height = Math.round(cropH * scale);
+              const oCtx = outCanvas.getContext("2d");
+              oCtx.fillStyle = "#ffffff";
+              oCtx.fillRect(0, 0, outCanvas.width, outCanvas.height);
+              oCtx.drawImage(scanCanvas, cropX, cropY, cropW, cropH, 0, 0, outCanvas.width, outCanvas.height);
+
+              // Tăng độ tương phản chữ đen trên nền xanh dương nhạt để OCR đọc chuẩn 100%
+              const outData = oCtx.getImageData(0, 0, outCanvas.width, outCanvas.height);
+              const d = outData.data;
+              for (let i = 0; i < d.length; i += 4) {
+                const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+                const val = lum > 170 ? 255 : (lum < 105 ? 0 : Math.min(255, Math.max(0, (lum - 105) * 3.8)));
+                d[i] = val;
+                d[i + 1] = val;
+                d[i + 2] = val;
+              }
+              oCtx.putImageData(outData, 0, 0);
+              URL.revokeObjectURL(url);
+              resolve({ isZaloChat: true, canvas: outCanvas });
+              return;
+            }
+
+            URL.revokeObjectURL(url);
+            resolve({ isZaloChat: false, canvas: null });
+          } catch (err) {
+            URL.revokeObjectURL(url);
+            resolve({ isZaloChat: false, canvas: null });
+          }
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          resolve({ isZaloChat: false, canvas: null });
+        };
+        img.src = url;
+      });
+    }
+
+    function renderBillZaloBatchList() {
+      const box = document.getElementById("bill-zalo-batch-box");
+      const resBox = document.getElementById("bill-result-box");
+      const smartBox = document.getElementById("bill-smart-suggestions");
+      if (!box) return;
+
+      if (!billZaloBatchItems.length) {
+        box.classList.add("hidden");
+        box.innerHTML = "";
+        return;
+      }
+
+      if (resBox) resBox.classList.add("hidden");
+      if (smartBox) smartBox.classList.add("hidden");
+
+      const validCount = billZaloBatchItems.filter(it => Number(it.amount) > 0).length;
+      box.classList.remove("hidden");
+      box.innerHTML = `
+        <div class="bg-emerald-50/90 p-3 rounded-2xl border border-emerald-200 space-y-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold text-emerald-950">Đã lọc đúng bong bóng xanh của bạn (${billZaloBatchItems.length} dòng)</p>
+              <p class="text-[10px] text-emerald-700">Đã tự động bỏ qua tin nhắn người khác trong nhóm • Tự điền Bố • Công việc</p>
+            </div>
+            <button type="button" onclick="saveAllBillZaloBatchItems()" class="shrink-0 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm active:scale-95 transition">
+              Lưu tất cả (${validCount})
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          ${billZaloBatchItems.map((it, idx) => `
+            <div class="bg-slate-50/95 p-3 rounded-2xl border border-slate-200/90 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold ${it.type === "income" ? "bg-emerald-100 text-emerald-800" : "bg-orange-100 text-orange-800"}">
+                  #${idx + 1} • ${it.type === "income" ? "Khoản Thu (Công việc)" : "Khoản Chi (Công việc)"}
+                </span>
+                <button type="button" onclick="billZaloBatchItems.splice(${idx}, 1); renderBillZaloBatchList();" class="px-2 py-0.5 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-rose-600 text-[10px]">
+                  Bỏ dòng
+                </button>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] font-medium text-slate-500 mb-0.5">Số tiền (₫)</label>
+                  <input type="text" inputmode="numeric" value="${formatNumberOnly(it.amount)}" oninput="formatCurrencyInput(this); billZaloBatchItems[${idx}].amount = parseFormattedNumber(this.value);" class="w-full min-h-[38px] rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-orange-600" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-medium text-slate-500 mb-0.5">Ngày giao dịch</label>
+                  <input type="date" value="${it.date}" onchange="billZaloBatchItems[${idx}].date = this.value;" class="w-full min-h-[38px] rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] font-medium text-slate-500 mb-0.5">Nội dung (${escapeHtml(getMajorDisplayName(it.major))} • ${escapeHtml(getMinorDisplayName(it.minor))})</label>
+                <input type="text" value="${escapeHtml(it.note)}" oninput="billZaloBatchItems[${idx}].note = this.value;" class="w-full min-h-[38px] rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800" />
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function saveAllBillZaloBatchItems() {
+      const valid = billZaloBatchItems.filter(it => Number(it.amount) > 0);
+      if (!valid.length) {
+        showToast("Chưa có giao dịch hợp lệ để lưu.", "!");
+        return;
+      }
+      const newlyAdded = [];
+      for (let i = valid.length - 1; i >= 0; i--) {
+        const it = valid[i];
+        const newTx = {
+          id: "tx_" + Date.now() + "_" + i + "_" + Math.random().toString(36).slice(2, 5),
+          type: it.type,
+          major: it.major,
+          minor: it.minor,
+          amount: it.amount,
+          date: it.date || toISODate(new Date()),
+          note: it.note || it.minor,
+          person: "",
+          debtDirection: "",
+          needsReview: false
+        };
+        transactions.unshift(newTx);
+        newlyAdded.push(newTx);
+      }
+      persistLocalState();
+      renderAll();
+      autoDeltaSyncInBackground({ added: newlyAdded });
+      billZaloBatchItems = [];
+      closeModal("modal-bill");
+      showToast(`Đã lưu ${newlyAdded.length} giao dịch công việc từ ảnh Zalo và tự động đẩy lên Google Sheets!`, "✓");
+    }
+
     function preprocessBillImage(file) {
       return new Promise((resolve) => {
         const img = new Image();
@@ -3464,16 +3935,44 @@
     async function handleBillImageUpload(event) {
       const file = event.target.files?.[0];
       if (!file) return;
+      lastUploadedBillFile = file;
+      billZaloBatchItems = [];
+      const zaloBatchBox = document.getElementById("bill-zalo-batch-box");
+      if (zaloBatchBox) zaloBatchBox.classList.add("hidden");
+
       const status = document.getElementById("bill-ocr-status");
-      status.textContent = "Đang khử nhiễu nền & quét chữ trên ảnh hóa đơn...";
+      status.textContent = "Đang phân tích ảnh & nhận diện nội dung...";
       status.classList.remove("hidden");
       try {
         await ensureTesseractLoaded();
         if (window.Tesseract) {
+          // 1. Kiểm tra nếu là ảnh chụp màn hình nhóm Zalo: cắt lọc riêng bong bóng xanh dương bên phải của bạn
+          const zaloCrop = await extractZaloBlueBubbleCanvas(file);
+          if (zaloCrop.isZaloChat && zaloCrop.canvas) {
+            status.textContent = "Phát hiện ảnh nhóm chat Zalo! Đang trích xuất riêng tin nhắn bong bóng xanh của bạn...";
+            const zaloRes = await Tesseract.recognize(zaloCrop.canvas, "vie+eng");
+            const zaloItems = parseZaloWorkBatchText(zaloRes.data.text || "");
+            if (zaloItems && zaloItems.length > 0) {
+              billZaloBatchItems = zaloItems;
+              status.textContent = `Hoàn tất! Đã trích xuất ${zaloItems.length} dòng từ bong bóng xanh của bạn:`;
+              renderBillZaloBatchList();
+              event.target.value = "";
+              return;
+            }
+          }
+
+          // 2. Xử lý hóa đơn / biên lai chuyển khoản thông thường
           const inputSource = await preprocessBillImage(file);
           const res = await Tesseract.recognize(inputSource, "vie+eng");
-          status.textContent = "Quét hóa đơn hoàn tất! Kiểm tra các đề xuất bên dưới:";
-          applyExtractedBillText(res.data.text || "");
+          const fallbackZalo = parseZaloWorkBatchText(res.data.text || "");
+          if (fallbackZalo && fallbackZalo.length > 1) {
+            billZaloBatchItems = fallbackZalo;
+            status.textContent = `Hoàn tất! Đã trích xuất ${fallbackZalo.length} dòng ghi chép công việc:`;
+            renderBillZaloBatchList();
+          } else {
+            status.textContent = "Quét hóa đơn hoàn tất! Kiểm tra các đề xuất bên dưới:";
+            applyExtractedBillText(res.data.text || "");
+          }
         } else {
           status.textContent = "Không tải được bộ OCR, bạn có thể nhập trực tiếp bên dưới.";
           applyExtractedBillText(file.name.replace(/\.[^.]+$/, ""));
@@ -4245,7 +4744,6 @@
               <span class="px-2 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-semibold">${s.txCount} giao dịch</span>
             </div>
 
-            <!-- Khối 1: Quỹ Gia Đình & Cá Nhân -->
             <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold text-slate-800">1. Quỹ Gia Đình &amp; Cá Nhân</span>
@@ -4267,7 +4765,6 @@
               </div>
             </div>
 
-            <!-- Khối 2: Quỹ Công Việc -->
             <div class="bg-amber-50/60 p-3 rounded-2xl border border-amber-200/90 space-y-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold text-amber-950">2. Quỹ ${escapeHtml(workLabel)}</span>
@@ -4289,7 +4786,6 @@
               </div>
             </div>
 
-            <!-- Khối 3: Tổng Tiền Thực Tế & Công Nợ -->
             <div class="bg-sky-50/60 p-3 rounded-2xl border border-sky-200/80 space-y-2">
               <div class="bg-white p-2.5 rounded-xl border border-sky-200 flex items-center justify-between">
                 <div>
@@ -4563,7 +5059,6 @@
       let nextY = 134;
 
       if (useCompactMatrix) {
-        // Khối 1: Tiền Thực Tế Hiện Có (Lũy kế toàn sổ)
         ctx.fillStyle = "#ffffff";
         ctx.beginPath();
         ctx.roundRect(32, nextY, canvas.width - 64, 128, 20);
@@ -4588,7 +5083,6 @@
 
         nextY += 146;
 
-        // Khối 2: Bảng đối chiếu gọn 3 dòng × 3 cột theo kỳ
         ctx.fillStyle = "#ffffff";
         ctx.beginPath();
         ctx.roundRect(32, nextY, canvas.width - 64, 196, 20);
@@ -4604,7 +5098,6 @@
         ctx.font = "600 15px 'Be Vietnam Pro', sans-serif";
         ctx.fillText(`Vay/Nợ ròng kỳ: ${s.netDebt >= 0 ? "+" : ""}${formatVND(s.netDebt)}`, 460, nextY + 34);
 
-        // Header bảng
         ctx.fillStyle = "#64748b";
         ctx.font = "600 14px 'Be Vietnam Pro', sans-serif";
         ctx.fillText("PHÂN QUỸ", 50, nextY + 68);
@@ -4612,7 +5105,6 @@
         ctx.fillText("TỔNG CHI", 405, nextY + 68);
         ctx.fillText("SỐ DƯ", 575, nextY + 68);
 
-        // Dòng Gia đình
         ctx.fillStyle = "#334155";
         ctx.font = "600 15px 'Be Vietnam Pro', sans-serif";
         ctx.fillText("Gia đình", 50, nextY + 102);
@@ -4623,7 +5115,6 @@
         ctx.fillStyle = "#0f172a";
         ctx.fillText(formatVND(s.familyBalance), 575, nextY + 102);
 
-        // Dòng Công việc
         ctx.fillStyle = "#92400e";
         ctx.fillText(getMinorDisplayName("Công việc"), 50, nextY + 136);
         ctx.fillStyle = "#059669";
@@ -4633,7 +5124,6 @@
         ctx.fillStyle = "#ea580c";
         ctx.fillText(formatVND(s.workBalance), 575, nextY + 136);
 
-        // Dòng Tổng kỳ
         ctx.strokeStyle = "#e2e8f0";
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -5702,10 +6192,13 @@ function scanGmailTransactions_() {
           })()
         },
         {
-          name: "Nói AI Thu: 'Hôm qua Hà Chéc cho tôi 20000'",
+          name: "Mẫu Zalo Công việc nhiều ngày: Ngày 21/11/2026 & 12/11/2026",
           pass: (() => {
-            const r = classifySingleClause("Hôm qua Hà Chéc cho tôi 20000", "2026-11-21");
-            return r.type === "income" && r.major === "Thu nhập Bố (Hồng Việt)" && r.amount === 20000;
+            const sampleZalo = "Ngày 21/11/2026:\n- Thu: 200.000.000 a Tỵ tt ct TG-A TỴ K1HA\n- Chi: 50.000.000 tt VLXD ct TG-A TỴ K1HA\nNgày 12/11/2026:\n- Chi: 70.000.000 @Pham Quyen ứng công thợ";
+            const items = parseZaloWorkBatchText(sampleZalo);
+            return Array.isArray(items) && items.length === 3 &&
+              items[0].type === "income" && items[0].minor === "Công việc" && items[0].date === "2026-11-21" && items[0].amount === 200000000 &&
+              items[2].type === "expense" && items[2].minor === "Công việc" && items[2].date === "2026-11-12" && items[2].amount === 70000000;
           })()
         }
       ];
@@ -5720,18 +6213,65 @@ function scanGmailTransactions_() {
       `).join("");
     }
 
-    function seedDemoData() {
-      const today = toISODate(new Date());
-      transactions = [
-        { id: "demo_1", type: "income", major: "Thu nhập Bố (Hồng Việt)", minor: "Lương chính", amount: 25000000, date: today, note: "Lương tháng 11", person: "", debtDirection: "", needsReview: false },
-        { id: "demo_2", type: "expense", major: "Bơ (Việt Anh - 9t)", minor: "Ăn uống & Sữa", amount: 20000, date: today, note: "Cho Bơ ăn sáng", person: "", debtDirection: "", needsReview: false },
-        { id: "demo_3", type: "expense", major: "Pu (Quỳnh Anh - 2t)", minor: "Sữa & Bỉm", amount: 545000, date: today, note: "Mua sữa Meiji cho Pu", person: "", debtDirection: "", needsReview: false },
-        { id: "demo_4", type: "debt", major: "Vay / Nợ", minor: "Đi vay mới", amount: 5000000, date: today, note: "Chị Phí cho vay 5 triệu", person: "Chị Phí", debtDirection: "payable", needsReview: false }
+    function buildComprehensiveSampleTransactions(baseDate = new Date()) {
+      const y = baseDate.getFullYear();
+      const m = String(baseDate.getMonth() + 1).padStart(2, "0");
+      const dToday = String(baseDate.getDate()).padStart(2, "0");
+      const todayISO = `${y}-${m}-${dToday}`;
+      const day21ISO = `${y}-${m}-21`;
+      const day15ISO = `${y}-${m}-15`;
+      const day12ISO = `${y}-${m}-12`;
+      const day05ISO = `${y}-${m}-05`;
+      const prevMonthDate = new Date(y, baseDate.getMonth() - 1, 27);
+      const prevMonth27ISO = toISODate(prevMonthDate);
+
+      return [
+        // 1. Thu nhập Gia đình
+        { id: "sample_inc_bo", type: "income", major: "Thu nhập Bố (Hồng Việt)", minor: "Lương chính", amount: 25000000, date: day05ISO, note: "Lương chính tháng này", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_inc_me", type: "income", major: "Thu nhập Mẹ (Như Quỳnh)", minor: "Lương chính", amount: 15000000, date: day05ISO, note: "Lương Mẹ Như Quỳnh", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_inc_ho", type: "income", major: "Thu nhập Bố (Hồng Việt)", minor: "Lấy họ", amount: 10000000, date: day15ISO, note: "Lấy họ bát 1", person: "", debtDirection: "", needsReview: false },
+
+        // 2. Chi tiêu Gia đình (Cả nhà, Bố, Mẹ, Bơ, Pu)
+        { id: "sample_exp_canha", type: "expense", major: "Cả nhà", minor: "Tiền ăn & Thực phẩm", amount: 1250000, date: todayISO, note: "Đi siêu thị mua thực phẩm cả tuần", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_exp_dien", type: "expense", major: "Cả nhà", minor: "Điện", amount: 1480000, date: day15ISO, note: "Thanh toán tiền điện EVN", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_exp_bo_ho", type: "expense", major: "Bố (Hồng Việt)", minor: "Đóng họ", amount: 2000000, date: day15ISO, note: "Đóng họ định kỳ", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_exp_bo_cf", type: "expense", major: "Bố (Hồng Việt)", minor: "Tiền ăn & Cà phê", amount: 45000, date: todayISO, note: "Ăn sáng phở bò & cà phê", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_exp_me", type: "expense", major: "Mẹ (Như Quỳnh)", minor: "Đi chợ & Nấu ăn", amount: 320000, date: day21ISO, note: "Đi chợ mua rau thịt hoa quả", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_exp_bo_con", type: "expense", major: "Bơ (Việt Anh - 9t)", minor: "Tiền học & Học phí", amount: 1850000, date: day12ISO, note: "Đóng học phí & tiếng Anh cho Bơ", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_exp_pu_con", type: "expense", major: "Pu (Quỳnh Anh - 2t)", minor: "Sữa & Bỉm", amount: 545000, date: day21ISO, note: "Mua sữa Meiji & bỉm cho Pu", person: "", debtDirection: "", needsReview: false },
+
+        // 3. Thu & Chi Công việc (theo đúng mẫu Zalo bạn gửi)
+        { id: "sample_work_inc_1", type: "income", major: "Thu nhập Bố (Hồng Việt)", minor: "Công việc", amount: 200000000, date: day21ISO, note: "a Tỵ tt ct TG-A TỴ K1HA", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_work_exp_1", type: "expense", major: "Bố (Hồng Việt)", minor: "Công việc", amount: 50000000, date: day21ISO, note: "tt VLXD ct TG-A TỴ K1HA", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_work_exp_2", type: "expense", major: "Bố (Hồng Việt)", minor: "Công việc", amount: 50000000, date: day21ISO, note: "tt Thạch cao Đặng Thương", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_work_exp_3", type: "expense", major: "Bố (Hồng Việt)", minor: "Công việc", amount: 50000000, date: day21ISO, note: "tt E Tộc CK", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_work_exp_4", type: "expense", major: "Bố (Hồng Việt)", minor: "Công việc", amount: 70000000, date: day12ISO, note: "@Pham Quyen ứng công thợ", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_work_inc_prev", type: "income", major: "Thu nhập Bố (Hồng Việt)", minor: "Công việc", amount: 200000000, date: prevMonth27ISO, note: "chị Phiên tt ct TG-ANH TỴ K1HA", person: "", debtDirection: "", needsReview: false },
+        { id: "sample_work_exp_prev", type: "expense", major: "Bố (Hồng Việt)", minor: "Công việc", amount: 50000000, date: prevMonth27ISO, note: "tt VLKA ct TG-ANH TỴ K1HA", person: "", debtDirection: "", needsReview: false },
+
+        // 4. Đầy đủ 5 trường hợp Vay / Nợ (Nợ cũ đầu kỳ, Thu hồi nợ, Cho vay mới, Đi vay mới, Trả nợ)
+        { id: "sample_debt_old", type: "debt", major: "Vay / Nợ", minor: "Nợ cũ đầu kỳ", amount: 30000000, date: day05ISO, note: "Nợ cũ đầu kỳ Cô Hà (không tính vào tiền thực tế)", person: "Cô Hà", debtDirection: "receivable", needsReview: false },
+        { id: "sample_debt_collect", type: "debt", major: "Vay / Nợ", minor: "Thu hồi nợ", amount: 10000000, date: day21ISO, note: "Cô Hà trả bớt nợ cũ", person: "Cô Hà", debtDirection: "receivable", needsReview: false },
+        { id: "sample_debt_lent", type: "debt", major: "Vay / Nợ", minor: "Cho vay mới", amount: 5000000, date: day15ISO, note: "Cho Tuyên Còm vay", person: "Tuyên Còm", debtDirection: "receivable", needsReview: false },
+        { id: "sample_debt_borrow", type: "debt", major: "Vay / Nợ", minor: "Đi vay mới", amount: 15000000, date: day12ISO, note: "Vay tạm Chị Phí", person: "Chị Phí", debtDirection: "payable", needsReview: false },
+        { id: "sample_debt_repay", type: "debt", major: "Vay / Nợ", minor: "Trả nợ", amount: 5000000, date: todayISO, note: "Trả bớt nợ Chị Phí", person: "Chị Phí", debtDirection: "payable", needsReview: false }
       ];
+    }
+
+    function seedDemoData() {
+      const sampleList = buildComprehensiveSampleTransactions(currentCursor);
+      const existingIds = new Set(transactions.map(t => t.id));
+      let addedCount = 0;
+      sampleList.forEach(item => {
+        if (!existingIds.has(item.id)) {
+          transactions.unshift(item);
+          addedCount++;
+        }
+      });
       persistLocalState();
       renderAll();
       closeModal("modal-settings");
-      showToast("Đã nạp dữ liệu mẫu gia đình!", "✓");
+      showToast(`Đã nạp ${addedCount} giao dịch mẫu đầy đủ tất cả trường hợp (Gia đình, Công việc, Nợ cũ, Thu hồi nợ, Cho vay, Đi vay, Trả nợ)!`, "✓");
     }
 
     function confirmClearAllData() {
@@ -5888,6 +6428,10 @@ function scanGmailTransactions_() {
       }
 
       const { url } = await SevenLayerStorage.load();
+      if (!url && transactions.length === 0) {
+        transactions = buildComprehensiveSampleTransactions(currentCursor);
+        persistLocalState();
+      }
       updateSyncStatusUI(url);
       renderAll();
       window.addEventListener("resize", syncTransactionScrollState);
