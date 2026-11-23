@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.81";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.82";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -107,11 +107,20 @@
     }
     .ios-smooth-scroll {
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
       touch-action: pan-y;
     }
     .ios-no-bounce-short {
       overflow-y: hidden !important;
       touch-action: manipulation;
+    }
+    html.ios-zero-lag-scroll .ios-no-bounce-short {
+      overflow-y: auto !important;
+      touch-action: pan-y !important;
+    }
+    html.ios-zero-lag-scroll .backdrop-blur-xs {
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
     }
     .app-shell {
       max-width: 480px;
@@ -194,7 +203,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.81
+            v1.82
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -265,7 +274,7 @@
         <button onclick="closeModal('modal-voice-ai')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
       </div>
 
-      <div class="p-3.5 space-y-3 overflow-y-auto">
+      <div class="p-3.5 space-y-3 overflow-y-auto ios-smooth-scroll">
         <div class="space-y-1.5">
           <div class="flex items-center justify-between">
             <label class="text-[11px] font-semibold text-slate-600">Câu thoại hoặc đoạn chat Zalo:</label>
@@ -292,7 +301,7 @@
         <button onclick="closeModal('modal-manual-tx')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
       </div>
 
-      <div class="p-3.5 space-y-3 overflow-y-auto">
+      <div class="p-3.5 space-y-3 overflow-y-auto ios-smooth-scroll">
         <input type="hidden" id="edit-tx-id" value="">
         <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
           <button type="button" data-tab="expense" onclick="switchManualTab('expense')" class="manual-tab py-2 rounded-xl text-xs font-semibold bg-orange-600 text-white shadow-xs transition">Khoản Chi</button>
@@ -362,7 +371,7 @@
         <button onclick="closeModal('modal-bill')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-semibold">✕</button>
       </div>
 
-      <div class="p-3.5 space-y-3 overflow-y-auto">
+      <div class="p-3.5 space-y-3 overflow-y-auto ios-smooth-scroll">
         <div class="grid grid-cols-2 gap-2">
           <label class="cursor-pointer py-2.5 px-3 rounded-2xl bg-orange-600 text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
@@ -774,7 +783,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.81";
+    const LATEST_APP_VERSION = "v1.82";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -794,6 +803,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.82",
+        date: "23/11/2026",
+        title: "Khắc phục triệt để tình trạng đơ & khựng vuốt trên iPhone / Safari iOS cho Lịch sử giao dịch, Báo cáo tài chính và tất cả Bảng giao dịch",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true, smartShortListScrollLock: true, familyAndWorkLedgerSplit: true, compactOverviewMatrixAndUnifiedUI: true, debtCashflowInReportsAndRealBalance: true, zaloWorkBatchParserAndBlueBubbleCrop: true, zaloDarkAndLightFastOcr: true, habitBasedBillAutoFillNoBox: true, cleanOverviewCardsNoTruncation: true, iosGlobalBounceGuardZeroLag: true },
+        changes: [
+          "Áp dụng cơ chế chống chạm biên 1px chuẩn iOS WebKit (attachIosBounceGuard) cho Lịch sử giao dịch, Báo cáo tài chính và toàn bộ Bảng giao dịch (Nói AI, Nhập tay, Ảnh Bill, Quản lý danh mục) để Safari iOS không bao giờ khóa khung hình khi vuốt chạm đỉnh/đáy.",
+          "Gỡ bỏ lớp chặn vuốt danh sách ngắn và tắt hiệu ứng làm mờ nền nặng GPU trên hộp thoại để mọi thao tác cuộn và bấm nút đều phản hồi tức thì 0ms."
+        ]
+      },
       {
         version: "v1.81",
         date: "23/11/2026",
@@ -4287,7 +4306,7 @@
       const listEl = document.getElementById("transaction-list");
       if (!listEl) return;
       const cfg = getActiveVersionConfig();
-      if (!cfg.features.smartShortListScrollLock) {
+      if (cfg.features.iosGlobalBounceGuardZeroLag || !cfg.features.smartShortListScrollLock) {
         listEl.classList.remove("ios-no-bounce-short");
         return;
       }
@@ -4296,6 +4315,28 @@
       if (!needsScroll && listEl.scrollTop !== 0) {
         listEl.scrollTop = 0;
       }
+    }
+
+    function attachIosBounceGuard(el) {
+      if (!el || el.dataset.iosBounceGuarded === "1") return;
+      el.dataset.iosBounceGuarded = "1";
+      el.addEventListener("touchstart", () => {
+        const cfg = getActiveVersionConfig();
+        if (!cfg.features.iosGlobalBounceGuardZeroLag) return;
+        const top = el.scrollTop;
+        const totalScroll = el.scrollHeight;
+        const currentScroll = top + el.offsetHeight;
+        if (totalScroll <= el.offsetHeight) return;
+        if (top <= 0) {
+          el.scrollTop = 1;
+        } else if (currentScroll >= totalScroll) {
+          el.scrollTop = Math.max(1, top - 1);
+        }
+      }, { passive: true });
+    }
+
+    function initAllIosBounceGuards() {
+      document.querySelectorAll(".ios-smooth-scroll, .overflow-y-auto").forEach(attachIosBounceGuard);
     }
 
     function refreshPeriodDataOnly() {
@@ -6661,6 +6702,7 @@ function scanGmailTransactions_() {
       generateAppIcons();
       const cfg = getActiveVersionConfig();
       document.documentElement.classList.toggle("unified-banking-modals", Boolean(cfg.features.compactOverviewMatrixAndUnifiedUI));
+      document.documentElement.classList.toggle("ios-zero-lag-scroll", Boolean(cfg.features.iosGlobalBounceGuardZeroLag));
       const brandTrigger = document.getElementById("header-brand-trigger");
       if (brandTrigger) {
         brandTrigger.classList.toggle("cursor-pointer", isCustomNamingEnabled());
@@ -6671,6 +6713,7 @@ function scanGmailTransactions_() {
       renderSummaryCards();
       renderFilterBar();
       renderTransactions();
+      initAllIosBounceGuards();
     }
 
     async function initApp() {
