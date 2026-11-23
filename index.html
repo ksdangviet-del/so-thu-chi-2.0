@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var ver = localStorage.getItem("stc_active_version_v1") || "v1.72";
+        var ver = localStorage.getItem("stc_active_version_v1") || "v1.73";
         var oldNoLarge = ["v1.0","v1.1","v1.2","v1.3","v1.4","v1.5","v1.6","v1.7","v1.8","v1.9","v1.10","v1.11","v1.12","v1.13","v1.14","v1.15","v1.16","v1.17","v1.18","v1.19","v1.20","v1.21","v1.22","v1.23","v1.24","v1.25","v1.26","v1.27","v1.28","v1.29","v1.30","v1.31","v1.32","v1.33"];
         if (oldNoLarge.indexOf(ver) === -1) {
           document.documentElement.classList.add("larger-typography");
@@ -184,7 +184,7 @@
         <!-- Cụm nút tách bạch cân đối ngang hàng: Phiên bản, Gmail (90 ngày), Đồng bộ, Cài đặt -->
         <div id="header-actions-mount" class="flex items-center gap-1.5 shrink-0">
           <button id="btn-version" onclick="openVersionModal()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium backdrop-blur-sm transition">
-            v1.72
+            v1.73
           </button>
           <button onclick="scanGmail90Days()" title="Quét Gmail 90 ngày" class="px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-[11px] font-medium flex items-center gap-1 transition">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -761,7 +761,7 @@
     let showAddMajorForm = false;
     let showAddMinorForm = false;
     let draftCustomLabels = null;
-    const LATEST_APP_VERSION = "v1.72";
+    const LATEST_APP_VERSION = "v1.73";
     let activeAppVersion = LATEST_APP_VERSION;
     let collapsedDates = {};
     let periodMode = "month";
@@ -779,6 +779,16 @@
     let exportedJpgFileName = "Bao_Cao_Thu_Chi.jpg";
 
     const BUILTIN_VERSIONS = [
+      {
+        version: "v1.73",
+        date: "23/11/2026",
+        title: "Tự động liên kết 2 chiều tên & Mục Lớn mới giữa Khoản Chi và Khoản Thu (đổi 1 bên tự cập nhật bên còn lại)",
+        features: { filterLayout: "single-row", txDateLayout: "inside-card", summaryCardButtons: false, overviewReportTab: true, separateBalanceAndDebt: true, periodBarLayout: "balanced-grid", voiceEditableCard: true, keyboardMicOnly: true, alwaysShowVoiceTable: true, smartVoiceSuggestions: true, refinedVoicePhrases: true, clearVoiceOnOpen: true, noSaveSuccessPopup: true, smartDebtRepaymentTracking: true, smartBillScannerV2: true, billOcrPreprocessV2: true, billPreferExpenseFirst: true, manualDockLabelText: "Nhập tay", gmailSmartReviewModal: true, gmailMomoShopeeFix: true, centeredSettingsModal: true, centeredAnalyticsModal: true, hideSettingsOnMobile: true, removeClearAllButton: true, orangeNotchHeader: true, largerTypography: true, shortHeaderTitle: true, highlightedSummaryCards: true, largerTouchControls: true, iosCustomTouchFields: true, fastAutoUpdateAndLazyOcr: true, snugNotchAndFixedSearchScroll: true, periodBoundAnalyticsAndTighterNotch: true, lockedFullViewportNoBottomOrange: true, zeroJitterBootAndFullBottomCover: true, cleanBankingDesignV2: true, overwriteBaseCachePwa: true, iconStyle: "white-orange-v1", safeTwoWaySheetsSync: true, detailedReportByMajorAndMinor: true, hideZeroReportItemsAndJpgShare: true, incrementalDeltaAutoSync: true, backwardSafeDeltaPayload: true, gmailDedupHideImported: true, gmailLegacyMatchAndShopeeExpenseFix: true, gmailSkipButtonAndCleanParser: true, compactSyncStatusBeacon: true, customCategoryNaming: true, flexibleCategoryManager: true, compactCategoryUI: true, fixedTopCategoryModal: true, deltaSyncRenamedCategories: true, fixedTopAnalyticsModal: true, zeroLagPeriodSwitch: true, linkedIncomeExpenseCategories: true },
+        changes: [
+          "Liên kết thông minh 2 chiều giữa Khoản Chi và Khoản Thu: khi đổi tên 'Bố (Hồng Việt)' → 'Bố (Việt Chuôi)' (hoặc đổi bên 'Thu nhập Bố'), hệ thống tự động đổi luôn tên tương ứng ở tab còn lại.",
+          "Khi bấm '+ Thêm mục lớn' mới (VD: thêm 'Bơ' hoặc 'Ông Bà'), tự động tạo đồng bộ Mục Lớn cho cả Khoản Chi và Khoản Thu để không phải thao tác 2 lần."
+        ]
+      },
       {
         version: "v1.72",
         date: "23/11/2026",
@@ -912,6 +922,34 @@
       return Boolean(getActiveVersionConfig().features.compactCategoryUI);
     }
 
+    function isLinkedIncomeExpenseEnabled() {
+      return Boolean(getActiveVersionConfig().features.linkedIncomeExpenseCategories);
+    }
+
+    const LINKED_MAJOR_PAIRS = {
+      "Bố (Hồng Việt)": "Thu nhập Bố (Hồng Việt)",
+      "Thu nhập Bố (Hồng Việt)": "Bố (Hồng Việt)",
+      "Mẹ (Như Quỳnh)": "Thu nhập Mẹ (Như Quỳnh)",
+      "Thu nhập Mẹ (Như Quỳnh)": "Mẹ (Như Quỳnh)",
+      "Cả nhà": "Thu nhập Cả nhà",
+      "Thu nhập Cả nhà": "Cả nhà"
+    };
+
+    function getLinkedCounterpartMajor(tab, canonMajor) {
+      if (!isLinkedIncomeExpenseEnabled()) return "";
+      if (tab !== "expense" && tab !== "income") return "";
+      const oppositeTab = tab === "expense" ? "income" : "expense";
+      if (LINKED_MAJOR_PAIRS[canonMajor]) return LINKED_MAJOR_PAIRS[canonMajor];
+
+      const stripIncomePrefix = (s) => String(s || "").replace(/^Thu\s+nhập\s+/i, "").trim();
+      const coreName = stripIncomePrefix(canonMajor);
+      const customOppKeys = Object.keys(draftCustomLabels?.customTree?.[oppositeTab] || customLabels.customTree?.[oppositeTab] || {});
+      const baseOppKeys = Object.keys(CATEGORY_TREE[oppositeTab] || {});
+      const allOppKeys = [...new Set([...baseOppKeys, ...customOppKeys])];
+
+      return allOppKeys.find(k => stripIncomePrefix(k).toLowerCase() === coreName.toLowerCase()) || "";
+    }
+
     function getMergedCategoryTree(includeHidden = false) {
       const merged = { expense: {}, income: {}, debt: {} };
       const hiddenMajSet = new Set(isFlexibleCategoryEnabled() ? (customLabels.hiddenMajors || []) : []);
@@ -1041,9 +1079,9 @@
         titleEl.textContent = flexEnabled ? "Quản Lý Loại, Mục Lớn & Mục Nhỏ" : "Đổi Tên Loại, Mục Lớn & Mục Nhỏ";
       }
       if (subEl) {
-        subEl.textContent = compactEnabled
-          ? "Chạm mục cần sửa • Giữ nguyên đề xuất & lịch sử cũ"
-          : "Giữ nguyên toàn bộ đề xuất thông minh & lịch sử giao dịch";
+        subEl.textContent = isLinkedIncomeExpenseEnabled()
+          ? "Đổi tên hoặc thêm mục tự đồng bộ 2 chiều Thu & Chi"
+          : (compactEnabled ? "Chạm mục cần sửa • Giữ nguyên đề xuất & lịch sử cũ" : "Giữ nguyên toàn bộ đề xuất thông minh & lịch sử giao dịch");
       }
       if (noteEl) {
         noteEl.classList.toggle("hidden", compactEnabled);
@@ -1132,6 +1170,26 @@
       } else {
         draftCustomLabels.majors[canonMajor] = val;
       }
+
+      if (isLinkedIncomeExpenseEnabled()) {
+        const counterpart = getLinkedCounterpartMajor(currentCustomLabelTab, canonMajor);
+        if (counterpart) {
+          if (!trimmed || trimmed === canonMajor) {
+            delete draftCustomLabels.majors[counterpart];
+          } else {
+            const coreWithoutIncomePrefix = trimmed.replace(/^Thu\s+nhập\s+/i, "").trim();
+            if (counterpart.startsWith("Thu nhập ")) {
+              const syncedIncomeName = `Thu nhập ${coreWithoutIncomePrefix}`;
+              if (syncedIncomeName === counterpart) delete draftCustomLabels.majors[counterpart];
+              else draftCustomLabels.majors[counterpart] = syncedIncomeName;
+            } else {
+              if (coreWithoutIncomePrefix === counterpart) delete draftCustomLabels.majors[counterpart];
+              else draftCustomLabels.majors[counterpart] = coreWithoutIncomePrefix;
+            }
+          }
+        }
+      }
+
       const pillSpan = document.querySelector(`[data-pill-major="${CSS.escape(canonMajor)}"]`);
       if (pillSpan) pillSpan.textContent = trimmed || canonMajor;
     }
@@ -1210,6 +1268,18 @@
       draftCustomLabels.customTree[tab][rawName] = [defaultFirstMinor];
       const kw = (kwInput?.value || "").trim();
       if (kw) draftCustomLabels.customKeywords[rawName] = kw;
+
+      if (isLinkedIncomeExpenseEnabled() && (tab === "expense" || tab === "income")) {
+        const coreName = rawName.replace(/^Thu\s+nhập\s+/i, "").trim();
+        const counterpartTab = tab === "expense" ? "income" : "expense";
+        const counterpartName = counterpartTab === "income" ? `Thu nhập ${coreName}` : coreName;
+        const counterpartFirstMinor = counterpartTab === "income" ? "Thu khác" : "Chi khác";
+        if (!CATEGORY_TREE[counterpartTab]?.[counterpartName] && !draftCustomLabels.customTree[counterpartTab]?.[counterpartName]) {
+          draftCustomLabels.customTree[counterpartTab][counterpartName] = [counterpartFirstMinor];
+          if (kw) draftCustomLabels.customKeywords[counterpartName] = kw;
+        }
+      }
+
       selectedCustomMajorKey = rawName;
       showAddMajorForm = false;
       renderCustomLabelsEditor();
@@ -1218,6 +1288,15 @@
     function removeDraftCustomMajor(canonMajor) {
       if (!draftCustomLabels) return;
       const tab = currentCustomLabelTab;
+      if (isLinkedIncomeExpenseEnabled() && (tab === "expense" || tab === "income")) {
+        const counterpart = getLinkedCounterpartMajor(tab, canonMajor);
+        const counterpartTab = tab === "expense" ? "income" : "expense";
+        if (counterpart && draftCustomLabels.customTree[counterpartTab]?.[counterpart]) {
+          delete draftCustomLabels.customTree[counterpartTab][counterpart];
+          delete draftCustomLabels.majors[counterpart];
+          delete draftCustomLabels.customKeywords[counterpart];
+        }
+      }
       delete draftCustomLabels.customTree[tab][canonMajor];
       delete draftCustomLabels.majors[canonMajor];
       delete draftCustomLabels.customKeywords[canonMajor];
@@ -1285,6 +1364,8 @@
         const extraMins = customMajorsObj[canonMajor] || [];
         const combinedMins = [...new Set([...baseMins, ...extraMins])];
         const curKw = draftCustomLabels.customKeywords?.[canonMajor] || "";
+        const linkedCounterpart = getLinkedCounterpartMajor(tab, canonMajor);
+        const linkedCounterpartDisp = linkedCounterpart ? (draftCustomLabels.majors[linkedCounterpart] || linkedCounterpart) : "";
 
         const isEditingType = editingInlineKey === "type";
         const isEditingMajor = editingInlineKey === "major";
@@ -1325,10 +1406,10 @@
           ${showAddMajorForm ? `
             <div class="bg-emerald-50/80 p-3 rounded-2xl border border-emerald-200 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-semibold text-emerald-950">+ Thêm Mục Lớn Mới</span>
+                <span class="text-[11px] font-semibold text-emerald-950">+ Thêm Mục Lớn Mới${isLinkedIncomeExpenseEnabled() && (tab === "expense" || tab === "income") ? " (Tự thêm cho cả Thu & Chi)" : ""}</span>
                 <button type="button" onclick="showAddMajorForm = false; renderCustomLabelsEditor();" class="text-[11px] text-slate-500">Đóng</button>
               </div>
-              <input id="new-custom-major-name" type="text" placeholder="VD: Ông Bà, Xe Ô Tô, Nhà Cửa..." class="w-full min-h-[38px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-500" />
+              <input id="new-custom-major-name" type="text" placeholder="VD: Bơ (Việt Anh - 9t), Ông Bà, Xe Ô Tô..." class="w-full min-h-[38px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-500" />
               <input id="new-custom-major-kw" type="text" placeholder="Từ khóa Nói AI (tùy chọn): VD: ông nội, bà ngoại..." class="w-full min-h-[36px] rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-[11px] font-normal text-slate-700 focus:outline-none focus:border-emerald-500" />
               <button type="button" onclick="addDraftCustomMajor()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-2xs">
                 Xác nhận thêm
@@ -1348,7 +1429,7 @@
                       <span class="text-xs font-semibold text-slate-900 truncate">${escapeHtml(curMajVal)}</span>
                       <svg class="w-3.5 h-3.5 text-orange-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                     </div>
-                    <p class="text-[10px] text-slate-400 truncate">Chạm tên để đổi • Gốc: ${escapeHtml(canonMajor)}</p>
+                    <p class="text-[10px] text-slate-400 truncate">${linkedCounterpart ? `Liên kết 2 chiều ↔ ${escapeHtml(linkedCounterpartDisp)}` : `Chạm tên để đổi • Gốc: ${escapeHtml(canonMajor)}`}</p>
                   </div>
                   ${isBuiltInMajor ? `
                     <button type="button" onclick="toggleDraftMajorHidden('${escapeHtml(canonMajor)}')" class="shrink-0 px-2.5 py-1 rounded-xl border text-[11px] font-medium transition ${isMajorHidden ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-white border-slate-200 text-slate-600 hover:text-rose-600"}">
@@ -3536,15 +3617,6 @@
           </div>
         `;
       }
-    }
-
-    function syncPeriodTabsVisualState() {
-      document.querySelectorAll("#period-bar-mount .period-tab").forEach(btn => {
-        const isActive = btn.dataset.mode === periodMode;
-        btn.className = isActive
-          ? "period-tab py-1 rounded-full text-[11px] transition font-semibold bg-white text-orange-600 shadow-xs"
-          : "period-tab py-1 rounded-full text-[11px] transition font-medium text-white/95 hover:bg-white/15";
-      });
     }
 
     function renderPeriodBar() {
